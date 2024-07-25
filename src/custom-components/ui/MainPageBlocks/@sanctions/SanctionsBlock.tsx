@@ -4,6 +4,9 @@ import './style.scss';
 import {TbCookieOff} from "react-icons/tb";
 import {ThemeContext} from "@/context/ThemeContext";
 import {motion} from "framer-motion";
+import {SANCTION_BLOCK_DATA} from "@/constants/.blocks.data";
+
+
 
 function SanctionsBlock(props) {
   const {theme} = useContext(ThemeContext);
@@ -26,58 +29,24 @@ function SanctionsBlock(props) {
           <span>Штрафні санкції</span>
         </motion.h1>
         <ul className={`sanctions-block__content-wrapper__text-blocks-wrapper`}>
-          <motion.li
-            initial={{x: -50, opacity: 0}}
-            whileInView={{x: 0, opacity: 1}}
-            transition={{duration: 1, delay: 0.25}}
-            viewport={{once: true}}
-            className={`text-blocks-wrapper__text-block text-block-i-1`}>
-            <h3 className={'text-blocks-wrapper__text-block__subtitle-box'}>
-              Невідповідність вимогам
-            </h3>
-            <span>
-              Команда отримує технічну поразку, якщо не усуне невідповідність робота вимогам за 3 хвилини.
-            </span>
-          </motion.li>
-          <motion.li
-            initial={{x: 50, opacity: 0}}
-            whileInView={{x: 0, opacity: 1}}
-            transition={{duration: 1, delay: 0.25}}
-            viewport={{once: true}}
-            className={`text-blocks-wrapper__text-block text-block-i-2`}>
-            <h3 className={'text-blocks-wrapper__text-block__subtitle-box'}>
-              Запізнення на матч
-            </h3>
-            <span>
-              Команда, яка не з'явилася на матч, отримує технічну поразку.
-            </span>
-          </motion.li>
-          <motion.li
-            initial={{x: -50, opacity: 0}}
-            whileInView={{x: 0, opacity: 1}}
-            transition={{duration: 1, delay: 0.5}}
-            viewport={{once: true}}
-            className={`text-blocks-wrapper__text-block text-block-i-3`}>
-            <h3 className={'text-blocks-wrapper__text-block__subtitle-box'}>
-              Втручання в матч
-            </h3>
-            <span>
-              Учасникам заборонено торкатися роботів, поля та поверхні під час раунду.
-            </span>
-          </motion.li>
-          <motion.li
-            initial={{x: 50, opacity: 0}}
-            whileInView={{x: 0, opacity: 1}}
-            transition={{duration: 1, delay: 0.5}}
-            viewport={{once: true}}
-            className={`text-blocks-wrapper__text-block text-block-i-4`}>
-            <h3 className={'text-blocks-wrapper__text-block__subtitle-box'}>
-              Затримка старту
-            </h3>
-            <span>
-              Затримка старту раунду без дозволу судді може призвести до штрафних санкцій.
-            </span>
-          </motion.li>
+
+          {SANCTION_BLOCK_DATA.map(({title, body}, index) => (
+            <motion.li
+              initial={{x: index % 2 == 0 ? -50 : 50, opacity: 0}}
+              whileInView={{x: 0, opacity: 1}}
+              transition={{duration: 1, delay: index < 2 ? 0.25 : 0.5}}
+              viewport={{once: true}}
+              className={`text-blocks-wrapper__text-block text-block-i-${++index}`}
+              key={title}
+            >
+              <h3 className={'text-blocks-wrapper__text-block__subtitle-box'}>
+                {title}
+              </h3>
+              <span>
+                {body}
+              </span>
+            </motion.li>
+          ))}
         </ul>
       </div>
     </section>
