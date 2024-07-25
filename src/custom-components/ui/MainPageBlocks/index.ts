@@ -1,5 +1,3 @@
-import Header from "@/custom-components/ui/Header/Header";
-import Footer from "@/custom-components/ui/Footer/Footer";
 import LetsViewMoreAboutSumoBlock from "@/custom-components/ui/MainPageBlocks/@letsviewmore/LetsViewMoreAboutSumoBlock";
 import TimeToRepair from "@/custom-components/ui/MainPageBlocks/@timetorepair/TimeToRepair";
 import MembersBlock from "@/custom-components/ui/MainPageBlocks/@members/MembersBlock";
@@ -11,8 +9,6 @@ import CarouselBlock from "@/custom-components/ui/MainPageBlocks/@carousel/Carou
 import IntroductionBlock from "@/custom-components/ui/MainPageBlocks/@introduction/Introduction.block";
 
 export {
-  Header,
-  Footer,
   LetsViewMoreAboutSumoBlock,
   TimeToRepair,
   MembersBlock,

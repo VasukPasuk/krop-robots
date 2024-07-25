@@ -1,34 +1,33 @@
-'use client'
-import React, {useEffect, useRef, useState} from 'react';
-import './RobotSumoFullInfoBlock.style.scss';
-import {PARAGRAPHS} from "../../../../constants/.names";
+import React from 'react';
+import './style.scss';
+import {PARAGRAPHS} from "@/constants/.names";
 
-function RobotSumoFullInfoBlock(props) {
-  const containerRef = useRef(null);
-  const [scrollPercentage, setScrollPercentage] = useState(0);
-  
-  useEffect(() => {
-    const updateScrollPercentage = () => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const scrolled = scrollTop / (documentHeight - windowHeight) * 100;
-      setScrollPercentage(scrolled);
-    };
-    
-    window.addEventListener('scroll', updateScrollPercentage);
-    
-    return () => {
-      window.removeEventListener('scroll', updateScrollPercentage);
-    };
-  }, []);
+function Page() {
+  // const containerRef = useRef(null);
+  // const [scrollPercentage, setScrollPercentage] = useState(0);
+  //
+  // useEffect(() => {
+  //   const updateScrollPercentage = () => {
+  //     const windowHeight = window.innerHeight;
+  //     const documentHeight = document.documentElement.scrollHeight;
+  //     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  //     const scrolled = scrollTop / (documentHeight - windowHeight) * 100;
+  //     setScrollPercentage(scrolled);
+  //   };
+  //
+  //   window.addEventListener('scroll', updateScrollPercentage);
+  //
+  //   return () => {
+  //     window.removeEventListener('scroll', updateScrollPercentage);
+  //   };
+  // }, []);
   
   return (
     <section id="robot-sumo-full-info-block">
-      <div ref={containerRef} className={`robot-sumo-full-info-block__text-block`}>
-        <div id="reading-progress-bar">
-          <div id="current-progress-bar" style={{width: `${scrollPercentage}%`}}/>
-        </div>
+      <div className={`robot-sumo-full-info-block__text-block`}>
+        {/*<div id="reading-progress-bar">*/}
+        {/*  <div id="current-progress-bar" style={{width: `${scrollPercentage}%`}}/>*/}
+        {/*</div>*/}
         <div className={`paragraph-box-1 p-b-item-1`}>
           <div id={PARAGRAPHS[0].anchorId}/>
           <h1>
@@ -563,4 +562,4 @@ function RobotSumoFullInfoBlock(props) {
   );
 }
 
-export default RobotSumoFullInfoBlock;
+export default Page;

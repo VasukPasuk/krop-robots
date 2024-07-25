@@ -5,16 +5,17 @@ import {TbCookieOff} from "react-icons/tb";
 import {ThemeContext} from "@/context/ThemeContext";
 import {motion} from "framer-motion";
 import {SANCTION_BLOCK_DATA} from "@/constants/.blocks.data";
+import Image from "next/image";
 
 
 
-function SanctionsBlock(props) {
+function SanctionsBlock() {
   const {theme} = useContext(ThemeContext);
   return (
     <section className={`sanctions-block`}>
       {theme === "dark" && (
         <>
-          <img src="ban-hammer.png" alt="ban-hammer"/>)
+          <Image fill src="/ban-hammer.png" alt="ban-hammer"/>)
           <div className="ban-hammer-img__darkening-block"/>
         </>
       )}
@@ -29,7 +30,6 @@ function SanctionsBlock(props) {
           <span>Штрафні санкції</span>
         </motion.h1>
         <ul className={`sanctions-block__content-wrapper__text-blocks-wrapper`}>
-
           {SANCTION_BLOCK_DATA.map(({title, body}, index) => (
             <motion.li
               initial={{x: index % 2 == 0 ? -50 : 50, opacity: 0}}

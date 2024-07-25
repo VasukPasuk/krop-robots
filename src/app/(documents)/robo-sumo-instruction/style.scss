@@ -1,0 +1,77 @@
+@import "../../../styles/_colors";
+@import "../../../styles/_dynamic-variables";
+@import "../../../styles/_mixins";
+@import "../../../styles/_static-variables";
+
+#robot-sumo-full-info-block {
+  color: var(--global-simple-text-color);
+  width: 100%;
+  //height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background: var(--body-bg-color);
+  line-height: 1.5rem;
+  padding: 0 $lg-sides-offset;
+
+  @media screen and (width <= 768px) {
+    padding: 0 $md-sides-offset;
+  }
+  @media screen and (width <= 480px) {
+    padding: 0 $sm-sides-offset;
+  }
+  .robot-sumo-full-info-block__text-block {
+    position: relative;
+    width: 80%;
+    margin-top: calc($header-height + $progress-bar-height);
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    @media screen and (width <= 800px){
+      width: 100%;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    //#reading-progress-bar {
+    //  position: fixed;
+    //  top: 64px;
+    //  left: 0;
+    //  width: 100%;
+    //  height: $progress-bar-height;
+    //  background: $progress-bar-bg-color;
+    //  #current-progress-bar {
+    //    width: 0;
+    //    height: 100%;
+    //    background: $progress-bar-upper-color;
+    //  }
+    //}
+  }
+  .anchor-wrapper {
+    position: fixed;
+    height: calc(100vh - $header-height);
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    padding: 1rem;
+    gap: 0.325rem;
+    width: 20%;
+    border-left: 2px solid transparentize($bg-gray-600, 0.5);
+    @media screen and (width <= 800px){
+      display: none;
+    }
+    a {
+      color: var(--global-simple-text-color);
+    }
+  }
+}
