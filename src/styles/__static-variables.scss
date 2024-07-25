@@ -1,0 +1,57 @@
+@import './_colors.scss';
+
+$logo-size: 64px;
+
+$gb-font-size: 16px;
+
+$desktop-padding-left-right: 8rem;
+$mobile-padding-left-right: 2rem;
+
+/* [body variables] */
+
+$body-bg-color: rgb(0, 0, 0);
+
+/* [thumber variables] */
+
+/* [darkening-stage variables] */
+$sanctions-block-image-darkening: 0.8;
+$repairing-block-image-darkening: 0.5;
+
+/* [header variables] */
+$header-height: 64px;
+$header-bg-color: #FF7A2F;
+$header-link-color: rgb(0, 0, 0);
+$header-gap: 1rem;
+$header-padding-left: 2rem;
+$header-padding-right: 1rem;
+
+
+
+
+
+
+/* [right-menu variables] */
+$right-menu-width: 25%;
+$right-menu-color: #f1f1f1;
+/* [carousel variables] */
+$circle-size: 12.5px;
+$active-circle-scale: 1.2;
+$circles-gap: 0.5rem;
+$circle-color: $bg-gray-600;
+$circle-active-color: $bg-gray-500;
+$tag-icon-color: #FF5B37;
+
+/* [footer variables] */
+$footer-bg-color: rgb(25, 15, 19);
+
+/* [robot-sumo-full-block variables] */
+
+$progress-bar-bg-color: #996600;
+$progress-bar-height: 6px;
+$progress-bar-upper-color: #00ff00;
+
+
+
+$lg-sides-offset: 4rem;
+$md-sides-offset: 3rem;
+$sm-sides-offset: 2rem;

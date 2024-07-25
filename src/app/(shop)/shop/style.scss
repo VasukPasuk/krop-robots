@@ -1,0 +1,10 @@
+@import '@/styles/__dynamic-variables';
+@import '@/styles/__static-variables';
+@import '@/styles/__colors';
+@import '@/styles/__mixins';
+
+#main-page {
+  background: $bg-gray-300;
+  margin-top: $header-height;
+  overflow-y: auto;
+}

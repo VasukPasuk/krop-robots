@@ -1,0 +1,92 @@
+@import "src/styles/__colors";
+@import "src/styles/__dynamic-variables";
+@import "src/styles/__mixins";
+@import "src/styles/__static-variables";
+
+.sumo-zones-block {
+  display: flex;
+  flex-direction: column;
+  color: black;
+  margin-top: 1rem;
+  padding: calc($desktop-padding-left-right - 2rem);
+  gap: 3rem;
+  @media screen and (width <= 800px) {
+    padding: 2rem $md-sides-offset;
+  }
+  @media screen and (width <= 600px) {
+    padding: 2rem $sm-sides-offset;
+  }
+  .sumo-zones-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    span {
+      padding: 0 1.25rem;
+      //background: #FF5C00;
+      font-weight: 700;
+      border-radius: 4px;
+      font-size: 2.25rem;
+      //animation: title-pulsation 2s linear infinite;
+      color: var(--zones-block-main-title-color);
+    }
+  }
+  .sumo-zones-cards-wrapper {
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(2, 1fr);
+    gap: 2rem;
+    @media screen and (max-width: 680px) {
+      grid-template: repeat(6, 1fr) / 100%;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+
+    .sumo-zones-card {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: start;
+      text-align: left;
+      border-radius: 8px;
+      background: transparent;
+      padding: 1rem 0;
+      transition: transform 0.5s ease;
+      //box-shadow: var(--zones-block-shadow-color);
+      gap: 2rem;
+      height: 100%;
+      @media screen and (width <= 680px) {
+        gap: 2rem;
+        height: auto;
+      }
+      .card-icon-box {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        padding: 0.5rem;
+        border-radius: 25%;
+        border: 2px solid var(--zones-block-icon-color);
+        border-top: none;
+        border-bottom: none;
+        svg {
+          font-size: 2.5rem;
+          color: var(--zones-block-icon-color);
+        }
+      }
+      .main-text-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        color: var(--zones-block-text-color);
+        .main-text-box__title-text-box {
+          font-weight: 700;
+          font-size: 1.5rem;
+          color: var(--zones-block-title-color);
+          border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+        .main-text-box__sub-text-box {
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+

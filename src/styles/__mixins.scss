@@ -1,0 +1,75 @@
+@import './__colors.scss';
+@import './__static-variables.scss';
+@import './__dynamic-variables.scss';
+
+@mixin top__and__bottom__darkening($darkening-number) {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, $darkening-number));
+    z-index: 5;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, $darkening-number));
+    z-index: 5;
+  }
+}
+
+@mixin full__darkening {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.99), rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0.79), rgba(0, 0, 0, 0.69), rgba(0, 0, 0, 0.75));
+    z-index: 100;
+  }
+}
+
+@mixin sumo-stages-number-and-title-colors($color) {
+  .number-box__circle {
+    border: 2px solid $color;
+    color: $color;
+  }
+  .sumo-stages-block__text-container__text-block__text-box {
+    .sumo-stages-block__text-container__text-block__text-box__subtitle-box {
+      color: $color;
+      font-size: 1.75rem;
+    }
+  }
+}
+
+
+@mixin shadow-text-block($main-color) {
+  .text-blocks-wrapper__text-block__subtitle-box {
+    color: $main-color;
+  }
+  box-shadow: 0 0 10px 5px $main-color;
+}
+
+@mixin sumo-stages-tags-style($main-color) {
+  .number-box__circle {
+    color: $main-color;
+    border: 2px solid $main-color;
+  }
+  .sumo-stages-block__text-container__text-block__text-box {
+    .sumo-stages-block__text-container__text-block__text-box__subtitle-box {
+      font-size: 1.5rem;
+      color: $main-color;
+    }
+    .sumo-stages-block__text-container__text-block__text-box__main-text-box {
+      color: $bg-gray-100;
+    }
+  }
+}

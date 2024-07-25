@@ -1,0 +1,61 @@
+@import "src/styles/__colors";
+@import "src/styles/__dynamic-variables";
+@import "src/styles/__mixins";
+@import "src/styles/__static-variables";
+
+#introduction-block {
+  height: calc(100dvh + $header-height);
+  width: 100%;
+  position: relative;
+  display: flex;
+  margin-top: calc($header-height);
+  transform: translateY(-$header-height);
+  .image-slogan-block {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    h1, h3 {
+      color: whitesmoke;
+      z-index: 105;
+      display: flex;
+      text-align: center;
+    }
+    h1 {
+      font-family: Tomorrow, sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.5rem, 9.5vw, 4rem);
+    }
+    h3 {
+      font-weight: 500;
+      font-size: clamp(1rem, 5vw, 2rem);
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      user-select: none;
+    }
+  }
+}
+.bg-blur-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  z-index: 100;
+  transition: background 1s ease, filter 1s ease;
+  &[data-blur-mode="light-blur"] {
+    background: linear-gradient(0deg, rgba(0, 0, 155, 0.5), rgba(0, 0, 155, 0.5), rgba(0, 0, 155, 0.3), rgba(0, 0, 155, 0.4), rgba(0, 0, 155, 0.5));
+    filter: blur(15px);
+  }
+}

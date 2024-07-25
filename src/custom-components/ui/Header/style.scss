@@ -1,0 +1,198 @@
+@import '@/styles/_dynamic-variables';
+@import '@/styles/__static-variables.scss';
+@import '@/styles/__colors.scss';
+@import '@/styles/__mixins.scss';
+
+#header {
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: $header-padding-left;
+  background: var(--header-bg-main-color);
+  z-index: 150;
+  width: 100%;
+  height: $header-height;
+  color: var(--header-text-color);
+  transition: 1s ease background;
+  padding-right: $header-padding-right;
+  backdrop-filter: blur(10px);
+  @media screen and (max-width: 680px) {
+    padding: 0 2rem 0 1.5rem;
+  }
+  @media screen and (max-width: 480px) {
+    padding: 0 1rem 0 1.25rem;
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      height: 64px;
+      width: 64px;
+      @media screen and (width <= 768px) {
+        height: 48px;
+        width: 48px;
+      }
+    }
+
+    & > img {
+      width: 64px;
+      height: 64px;
+      @media screen and (width <= 768px) {
+        height: 40px;
+        width: 40px;
+      }
+    }
+  }
+
+  .tools-container {
+    //position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    .tools-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: $header-gap;
+
+      // Nav link row will be transformed to dropdown list with hamburger menu trigger
+      @media screen and (width <= 800px) {
+        display: none;
+      }
+      //  position: absolute;
+      //  flex-direction: column;
+      //  left: 0;
+      //  width: 100%;
+      //  top: $header-height;
+      //  gap: 0;
+      //  &::before {
+      //    position: absolute;
+      //    content: "";
+      //    left: 0;
+      //    top: 0;
+      //    width: 100%;
+      //    height: 100%;
+      //    background: rgba(0,0,0,0.75);
+      //  }
+      //  &[data-menu-visible="true"] {
+      //    display: flex;
+      //  }
+      //}
+
+      .header-link {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        color: var(--header-text-color);
+        transition: 1s ease color, .25s ease transform;
+        overflow: hidden;
+        @media screen and (width <= 800px) {
+          padding: 1rem 0;
+          width: 100%;
+        }
+
+
+        @media screen and (width > 800px) {
+          &::before {
+            position: absolute;
+            content: '';
+            bottom: -5%;
+            width: 100%;
+            height: 2px;
+            background: var(--header-text-color);
+            right: 100%;
+            transition: 0.5s ease right;
+          }
+        }
+
+
+        &:hover::before {
+          right: 0;
+        }
+
+        //&:hover {
+        //  transform: translateY(-25%);
+        //}
+      }
+    }
+
+
+    #settings-icon {
+      font-size: 2rem;
+      cursor: pointer;
+      transition: 1s ease color;
+
+      &:hover {
+        animation: gear-rotation 5s linear infinite;
+        color: var(--header-settings-hover-color);
+      }
+    }
+  }
+
+  .hamburger-menu {
+    display: none;
+    font-size: 1.75rem;
+    transition: color 0.5s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--header-hamburger-menu-hover-color);
+    }
+
+    @media screen and (width <= 800px) {
+      display: block;
+    }
+  }
+}
+
+.tools-drawer {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  top: $header-height;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  &[data-visible-drawer="true"] {
+    @media screen and (width<= 800px) {
+      display: flex;
+    }
+  }
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: white;
+    padding: 1rem 0;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+
+@keyframes gear-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

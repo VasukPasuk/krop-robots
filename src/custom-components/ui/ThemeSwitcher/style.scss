@@ -1,0 +1,63 @@
+@import '@/styles/_dynamic-variables';
+@import '@/styles/__static-variables.scss';
+@import '@/styles/__colors.scss';
+@import '@/styles/__mixins.scss';
+
+#theme-changer {
+  position: relative;
+  border-radius: 100px;
+  width: 6rem;
+  padding: 0.4rem;
+  background: white;
+  height: 2rem;
+  transition: 1s ease all;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (width <= 320px) {
+    width: 4rem;
+  }
+  .theme-changer__circle {
+    transition: 1s ease all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    border-radius: 100px;
+    color: white;
+    width: fit-content;
+    padding: 0.2rem;
+
+    .theme-icon {
+      font-size: 1.25rem;
+      transition: 1s ease all;
+    }
+  }
+  &[data-theme="light"] {
+    background: white;
+    .theme-changer__circle {
+      background: black;
+      .theme-icon {
+        color: white;
+      }
+      transform: translate(114%);
+      @media screen and (width <= 320px) {
+        transform: translate(100%);
+      }
+    }
+  }
+  &[data-theme="dark"] {
+    background: black;
+    .theme-changer__circle {
+      background: white;
+      .theme-icon {
+        color: black;
+      }
+      transform: translate(-115%);
+      @media screen and (width <= 320px) {
+        transform: translate(-100%);
+      }
+    }
+  }
+}
