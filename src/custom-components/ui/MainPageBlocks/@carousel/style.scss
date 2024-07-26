@@ -52,8 +52,8 @@ $left-side-end-index: 7;
       width: 100%;
       height: 85%;
       border-radius: 0.5rem;
-      overflow: hidden;
       user-select: none;
+      transition: 1s ease transform;
       img {
         object-fit: cover;
         object-position: center;
@@ -61,7 +61,6 @@ $left-side-end-index: 7;
         flex-shrink: 0;
         width: 100%;
         height: 100%;
-        user-select: none;
       }
     }
     .swiper-control-footer {
@@ -83,7 +82,7 @@ $left-side-end-index: 7;
         background: rgba(0,0,0,0.75);
         border-radius: 0.25rem;
         svg {
-          font-size: 2rem;
+          font-size: 1.25rem;
         }
         &:hover {
           display: flex;

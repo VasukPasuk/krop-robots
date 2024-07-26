@@ -1,9 +1,10 @@
-// src/CarouselBlock.js
 'use client'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './style.scss';
 import {FaArrowLeft, FaArrowRight, FaBookReader, FaBriefcase, FaRobot} from "react-icons/fa";
-import {AnimatePresence, motion} from "framer-motion";
+import {CAROUSEL_LENGTH, IMAGE_SWITCHING_DURATION} from "@/constants/.names";
+import {motion} from "framer-motion";
+
 
 const TAGS_DATA = [
   {
@@ -20,31 +21,31 @@ const TAGS_DATA = [
   }
 ]
 
-const images = [
-  '/slider-image1.jpg',
-  '/slider-image2.jpg',
-  '/slider-image3.jpg',
-  '/slider-image4.jpg',
-  '/slider-image5.jpg',
-];
 
 function CarouselBlock() {
+
   const [currentImage, setCurrentImage] = useState(0);
-
-  const nextImage = () => {
-    setCurrentImage((currentImage + 1) % images.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImage((currentImage - 1 + images.length) % images.length);
-  };
-
+  console.log(currentImage)
+  const increaseImageNumberHandler = () => {
+    setCurrentImage(prev => (prev + 1))
+  }
+  const decreaseImageNumberHandler = () => {
+    setCurrentImage(prev => (prev - 1))
+  }
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentImage(cur_img => cur_img === (CAROUSEL_LENGTH - 1) ? 0 : cur_img + 1)
+  //   }, [IMAGE_SWITCHING_DURATION])
+  //   return () => {
+  //     clearInterval(interval)
+  //   }
+  // }, [currentImage]);
   return (
     <section id="public-organization-description">
       <div className="description__title-box">
         <motion.h1
           initial={{x: -50, opacity: 0}}
-          whileInView={{x: 0, opacity: 1}}
+          whileInView={{ x: 0, opacity: 1}}
           transition={{duration: 1, delay: 0.25}}
           viewport={{once: true}}
         >
@@ -54,7 +55,7 @@ function CarouselBlock() {
       <div className="description__content-box">
         <motion.p
           initial={{x: -50, opacity: 0}}
-          whileInView={{x: 0, opacity: 1}}
+          whileInView={{ x: 0, opacity: 1}}
           transition={{duration: 1, delay: 0.5}}
           viewport={{once: true}}
           className="paragraph-description"
@@ -80,37 +81,33 @@ function CarouselBlock() {
         </motion.p>
       </div>
       <div id="carousel-images-container">
-        <div className="images-track">
-          <AnimatePresence initial={false}>
-            <motion.img
-              key={images[currentImage]}
-              src={images[currentImage]}
-              alt={`slider image ${currentImage + 1}`}
-              className="swiper-image"
-              initial={{opacity: 0, x: -100}}
-              animate={{opacity: 1, x: 0}}
-              exit={{opacity: 0, x: 100}}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20
-              }}
-            />
-          </AnimatePresence>
-
+        <div
+          className="images-track"
+          style={{
+            transform: `translate(-${currentImage * 100}%)`
+          }}
+        >
+          {[...new Array(CAROUSEL_LENGTH)].map((_, i) => (
+            <img loading={"lazy"} src={`/slider-image${++i}.jpg`} alt={`slider image ${++i}`} key={i}/>
+          ))}
         </div>
         <div className="swiper-control-footer">
-          <div className="switch-image-button switch-to-left-button" onClick={prevImage}>
+          <div
+            className="switch-image-button"
+            onClick={decreaseImageNumberHandler}
+          >
             <FaArrowLeft/>
           </div>
-          <div className="switch-image-button switch-to-right-button" onClick={nextImage}>
+          <div
+            className="switch-image-button"
+            onClick={increaseImageNumberHandler}
+          >
             <FaArrowRight/>
           </div>
         </div>
-
       </div>
     </section>
-  );
+  )
 }
 
 export default CarouselBlock;

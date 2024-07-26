@@ -15,7 +15,7 @@ interface PROPS {
   children: Readonly<React.ReactNode>;
 }
 
-export default function RootLayout({children}:PROPS) {
+export default function RootLayout({children}: PROPS) {
   return (
     <html lang="ua" data-theme="light">
     <Head>
@@ -26,8 +26,8 @@ export default function RootLayout({children}:PROPS) {
     <ThemeProvider>
       <body className={inter.className}>
       {children}
-        </body>
-      </ThemeProvider>
+      </body>
+    </ThemeProvider>
     </html>
   );
 }
