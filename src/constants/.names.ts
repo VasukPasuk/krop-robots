@@ -59,7 +59,34 @@ const FOLLOW_LINKS = {
 const REGISTER_ROBOT_SUMO_LINK = "https://forms.gle/visNrfF53YPETeLJ9";
 
 
+const HEADER_LINK = [
+  {
+    href: "/shop",
+    content: "Krop Robots Shop"
+  },
+  {
+    href: "/news",
+    content: "Новини"
+  },
+  {
+    href: "/directions",
+    content: "Напрями"
+  },
+  {
+    href: "/about",
+    content: "Про нас"
+  },
+  {
+    href: "/contacts",
+    content: "Контакти"
+  },
+]
+
+
+
+
 export {
+  HEADER_LINK,
   PARAGRAPHS,
   HEADER_LINKS,
   CAROUSEL_LENGTH,

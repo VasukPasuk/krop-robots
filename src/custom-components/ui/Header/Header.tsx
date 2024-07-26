@@ -7,30 +7,8 @@ import {AiFillSetting} from "react-icons/ai";
 import Logo from "@/custom-components/logo/Logo";
 import Image from "next/image";
 import ThemeSwitcher from "@/custom-components/ui/ThemeSwitcher/ThemeSwitcher";
+import {HEADER_LINK} from "@/constants/.names";
 
-
-const HEADER_LINK = [
-  {
-    href: "/shop",
-    content: "Krop Robots Shop"
-  },
-  {
-    href: "/news",
-    content: "Новини"
-  },
-  {
-    href: "/directions",
-    content: "Напрями"
-  },
-  {
-    href: "/about",
-    content: "Про нас"
-  },
-  {
-    href: "/contacts",
-    content: "Контакти"
-  },
-]
 
 function Header() {
   const [visible, setVisible] = useState<boolean>(false)

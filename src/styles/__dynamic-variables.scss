@@ -5,8 +5,10 @@
 /* [DYNAMIC LIGHT-DARK-THEME variables] */
 
 :root {
+  --drawer-bg-color: rgba(255, 255, 255, 0.2);
+
   /* [global dynamic variables] */
-  --global-simple-text-color: white;
+  --global-simple-text-color: #f2f2f2;
 
   /* [header dynamic variables] */
   --header-bg-main-color: #FF7A2F;
@@ -15,12 +17,12 @@
   --header-settings-hover-color: #{$bg-yellow-800};
 
   /* [body dynamic variables] */
-  --body-bg-color: black;
+  --body-bg-color: #070707;
 
 // linear-gradient(90deg, #{$bg-blue-950} ,rgb(0,0,0,1), #{$bg-gray-900})
 
   /* [carousel block variables] */
---carousel-block-tag-text-color: white;
+  --carousel-block-tag-text-color: white;
 
 
   /* [zones block variables] */
@@ -67,6 +69,8 @@
 }
 
 html[data-theme="light"] {
+  --drawer-bg-color: rgba(0, 0, 0, 0.3);
+
   /* [global dynamic variables] */
   --global-simple-text-color: #{$bg-gray-700};
 

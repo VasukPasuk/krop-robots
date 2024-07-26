@@ -6,7 +6,7 @@
 #theme-changer {
   position: relative;
   border-radius: 100px;
-  width: 6rem;
+  width: 4rem;
   padding: 0.4rem;
   background: white;
   height: 2rem;
@@ -15,9 +15,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (width <= 320px) {
-    width: 4rem;
-  }
   .theme-changer__circle {
     transition: 1s ease all;
     display: flex;
@@ -41,10 +38,7 @@
       .theme-icon {
         color: white;
       }
-      transform: translate(114%);
-      @media screen and (width <= 320px) {
-        transform: translate(100%);
-      }
+      transform: translate(55%);
     }
   }
   &[data-theme="dark"] {
@@ -54,10 +48,7 @@
       .theme-icon {
         color: black;
       }
-      transform: translate(-115%);
-      @media screen and (width <= 320px) {
-        transform: translate(-100%);
-      }
+      transform: translate(-55%);
     }
   }
 }
