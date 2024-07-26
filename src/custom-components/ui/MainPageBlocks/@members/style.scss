@@ -84,11 +84,14 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 0.5rem;
+
         .member-data-info__photo-box__photo {
           border-radius: 2rem;
-          object-position: 50% 20%;
+          object-position: center;
           object-fit: cover;
           border: 8px solid rgb(75, 85, 99, 0.375);
+          height: 200px;
+          width: 160px;
         }
       }
       .member-data-info__name {
