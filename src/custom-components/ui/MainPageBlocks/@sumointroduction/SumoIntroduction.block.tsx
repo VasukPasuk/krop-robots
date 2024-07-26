@@ -16,22 +16,18 @@ function SumoIntroductionBlock(props) {
             viewport={{once: true}}
             transition={{ease: "easeOut", duration: 0.75, delay: 0.25}}
           >
-            <h1 className={`sumo-introduction-title s-i-title1`}>
-              Сумо
-            </h1>
+            Сумо
           </motion.h1>
-          
+
           <motion.h2
             initial={{x: -50, opacity: 0}}
             whileInView={{x: 0, opacity: 1}}
             viewport={{once: true}}
             transition={{ease: "easeOut", duration: 0.75, delay: 0.5}}
           >
-            <h2 className={`sumo-introduction-title s-i-title2`}>
-              Автономні роботи
-            </h2>
+            Автономні роботи
           </motion.h2>
-        
+
         </div>
         <motion.div
           initial={{x: -50, opacity: 0}}
@@ -44,7 +40,7 @@ function SumoIntroductionBlock(props) {
             робота-противника за межі чорної лінії рингу.
           </div>
         </motion.div>
-      
+
       </div>
       <div className="sumo-introduction-block-img-wrapper">
         <motion.div
@@ -65,7 +61,7 @@ function SumoIntroductionBlock(props) {
                 <>
                   <img src="./robot-fighting-white-bg-black-figure-removebg-preview.png" alt="robot fight image"/>
                 </>
-            )}
+              )}
           </div>
         </motion.div>
       </div>

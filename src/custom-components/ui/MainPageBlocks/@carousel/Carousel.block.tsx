@@ -1,8 +1,8 @@
 'use client'
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './style.scss';
 import {FaArrowLeft, FaArrowRight, FaBookReader, FaBriefcase, FaRobot} from "react-icons/fa";
-import {CAROUSEL_LENGTH, IMAGE_SWITCHING_DURATION} from "@/constants/.names";
+import {CAROUSEL_LENGTH} from "@/constants/.names";
 import {motion} from "framer-motion";
 
 
@@ -25,12 +25,11 @@ const TAGS_DATA = [
 function CarouselBlock() {
 
   const [currentImage, setCurrentImage] = useState(0);
-  console.log(currentImage)
   const increaseImageNumberHandler = () => {
-    setCurrentImage(prev => (prev + 1))
+    setCurrentImage(prev => currentImage === (CAROUSEL_LENGTH - 1) ? 0 : (prev + 1))
   }
   const decreaseImageNumberHandler = () => {
-    setCurrentImage(prev => (prev - 1))
+    setCurrentImage(prev => currentImage === 0 ? (CAROUSEL_LENGTH - 1) : (prev - 1))
   }
   // useEffect(() => {
   //   const interval = setInterval(() => {
@@ -45,7 +44,7 @@ function CarouselBlock() {
       <div className="description__title-box">
         <motion.h1
           initial={{x: -50, opacity: 0}}
-          whileInView={{ x: 0, opacity: 1}}
+          whileInView={{x: 0, opacity: 1}}
           transition={{duration: 1, delay: 0.25}}
           viewport={{once: true}}
         >
@@ -55,7 +54,7 @@ function CarouselBlock() {
       <div className="description__content-box">
         <motion.p
           initial={{x: -50, opacity: 0}}
-          whileInView={{ x: 0, opacity: 1}}
+          whileInView={{x: 0, opacity: 1}}
           transition={{duration: 1, delay: 0.5}}
           viewport={{once: true}}
           className="paragraph-description"

@@ -7,21 +7,14 @@
 $left-side-end-index: 7;
 
 #public-organization-description {
-  padding: 3rem $lg-sides-offset;
-  max-height: 90dvh;
+  padding: 3rem var(--page-sides-offset);
+  //min-height: 90dvh;
   width: 100%;
   position: relative;
   display: grid;
-  grid-template: repeat(12, 1fr) / repeat(12, 1fr);
+  grid-template: auto auto / repeat(12, 1fr);
   gap: 2rem;
   line-height: 1.5rem;
-  @media screen and (width <= 800px) {
-    padding: 2rem $md-sides-offset;
-    max-height: 200dvh;
-  }
-  @media screen and (width <= 600px) {
-    padding: 2rem $sm-sides-offset;
-  }
   .description__title-box {
     grid-column: 1 / #{$left-side-end-index};
     grid-row: 1 / 2;

@@ -10,12 +10,10 @@
   margin-top: 1rem;
   padding: calc($desktop-padding-left-right - 2rem);
   gap: 3rem;
-  @media screen and (width <= 800px) {
-    padding: 2rem $md-sides-offset;
+  @media screen and (width <= 1000px) {
+    padding: 2rem var(--page-sides-offset);
   }
-  @media screen and (width <= 600px) {
-    padding: 2rem $sm-sides-offset;
-  }
+
   .sumo-zones-title {
     display: flex;
     justify-content: center;
@@ -32,10 +30,10 @@
   }
   .sumo-zones-cards-wrapper {
     display: grid;
-    grid-template: repeat(3, 1fr) / repeat(2, 1fr);
+    grid-template: auto auto / repeat(2, 1fr);
     gap: 2rem;
     @media screen and (max-width: 680px) {
-      grid-template: repeat(6, 1fr) / 100%;
+      grid-template: auto / 100%;
       padding: 1rem 0;
       gap: 1rem;
     }

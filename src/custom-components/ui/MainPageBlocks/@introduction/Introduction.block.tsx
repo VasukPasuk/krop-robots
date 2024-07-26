@@ -14,7 +14,8 @@ function IntroductionBlock() {
             <h1>KROP_ROBOTS</h1>
           </AppearAnimationWrapper>
           <AppearAnimationWrapper h={3} delay={0.75} duration={1}>
-            <h3>Дивовижна STEM-освіта <br/> без обмежень</h3>
+            <span>Дивовижна STEM-освіта</span>
+            <span>без обмежень</span>
           </AppearAnimationWrapper>
           <img src="./main-preview-photo.JPG" alt=""/>
           <div
