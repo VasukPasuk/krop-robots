@@ -1,29 +1,31 @@
+@import "mixins";
+
 $page-sides-offset-all: 4rem;
-$page-sides-offset-1320: 3.5rem;
-$page-sides-offset-920: 3rem;
-$page-sides-offset-720: 2rem;
+$page-sides-offset-1200: 3.5rem;
+$page-sides-offset-922: 3rem;
+$page-sides-offset-768: 2rem;
 $page-sides-offset-420: 1rem;
 $page-sides-offset-360: 0.5rem;
 $page-sides-offset-320: 0.25rem;
 
 :root {
-  --page-sides-offset: $page-sides-offset-all;
-  @media screen and (width <= 1320px) {
-    --page-sides-offset: #{$page-sides-offset-1320};
+  --page-sides-offset: #{$page-sides-offset-all};
+  @include media-1200 {
+    --page-sides-offset: #{$page-sides-offset-1200};
   }
-  @media screen and (width <= 920px) {
-    --page-sides-offset: #{$page-sides-offset-920};
+  @include media-992 {
+    --page-sides-offset: #{$page-sides-offset-922};
   }
-  @media screen and (width <= 720px) {
-    --page-sides-offset: #{$page-sides-offset-720};
+  @include media-768 {
+    --page-sides-offset: #{$page-sides-offset-768};
   }
-  @media screen and (width <= 420px) {
+  @include media-420 {
     --page-sides-offset: #{$page-sides-offset-420};
   }
-  @media screen and (width <= 360px) {
+  @include media-360 {
     --page-sides-offset: #{$page-sides-offset-360};
   }
-  @media screen and (width <= 360px) {
+  @include media-320 {
     --page-sides-offset: #{$page-sides-offset-320};
   }
 }

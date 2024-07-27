@@ -90,10 +90,10 @@ $left-side-end-index: 7;
         }
       }
     }
-
   }
 
-  @media screen and (width <= 950px) {
+  @include media-992 {
+
     .description__title-box {
       grid-column: 1 / 13;
       grid-row: 1 / 2;
@@ -107,5 +107,7 @@ $left-side-end-index: 7;
       grid-row: 3 / 13;
     }
   }
+  @include media-360 {
+    gap: 1rem;
+  }
 }
-

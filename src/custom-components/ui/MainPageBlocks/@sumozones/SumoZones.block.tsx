@@ -46,9 +46,14 @@ function SumoZonesBlock(props) {
   return (
     <section className={`sumo-zones-block`}>
       <div className={`sumo-zones-title`}>
-        <span>
+        <motion.h1
+          initial={{opacity: 0}}
+          whileInView={{opacity: 1}}
+          viewport={{once: true}}
+          transition={{ease: "easeIn", duration: 0.25}}
+        >
           Зони змагання
-        </span>
+        </motion.h1>
       </div>
       <ul className={`sumo-zones-cards-wrapper`}>
         {CARDS_DATA.map((data, index) => (

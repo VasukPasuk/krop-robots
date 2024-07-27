@@ -47,6 +47,7 @@ function CarouselBlock() {
           whileInView={{x: 0, opacity: 1}}
           transition={{duration: 1, delay: 0.25}}
           viewport={{once: true}}
+          className="description__title"
         >
           Lorem ipsum dolor sit amet
         </motion.h1>
