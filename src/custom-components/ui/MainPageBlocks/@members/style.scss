@@ -1,7 +1,6 @@
-@import "src/styles/__colors";
-@import "src/styles/__dynamic-variables";
-@import "src/styles/__mixins";
-@import "src/styles/__static-variables";
+@import "../../../../styles/colors";
+@import "../../../../styles/mixins";
+@import "../../../../styles/static-variables";
 
 #members-block {
   position: relative;
@@ -16,6 +15,7 @@
   @media screen and (width <= 960px) {
     padding: 4rem 0;
   }
+
   #members-block-bg-image {
     z-index: 2;
     position: absolute;
@@ -25,6 +25,7 @@
     height: 100%;
     object-fit: cover;
   }
+
   .members-block-bg-image__shadow-box {
     z-index: 3;
     position: absolute;
@@ -32,13 +33,15 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
   }
+
   .members-swiper-bullets-box {
     z-index: 5;
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+
     .swiper-bullet {
       width: 0.7rem;
       height: 0.75rem;
@@ -46,6 +49,7 @@
       background: rgba(107, 114, 128, 0.65);
       cursor: pointer;
       transition: 0.5s ease background;
+
       &[data-is-active="true"] {
         background: $bg-blue-400;
       }
@@ -63,6 +67,7 @@
   height: 100%;
   overflow: hidden;
   color: $bg-gray-200;
+
   .members-swiper-bar {
     width: 100%;
     height: 100%;
@@ -70,6 +75,7 @@
     grid-template: 100% / repeat(5, 100%);
     transition: 1s ease transform;
     transform: translate(-200%);
+
     .member-swiper-card {
       display: flex;
       flex-direction: column;
@@ -79,6 +85,7 @@
       @media screen and (width <= 960px) {
         padding: 0;
       }
+
       .member-data-info__photo-box {
         display: flex;
         justify-content: center;
@@ -94,14 +101,17 @@
           width: 160px;
         }
       }
+
       .member-data-info__name {
         font-size: 1.35rem;
         font-weight: 700;
         margin-bottom: 0.25rem;
       }
+
       .member-data-info__occupation {
         font-size: 0.9rem;
       }
+
       .member-data-info__quote-box {
         padding: 0 4rem;
         text-align: center;
@@ -113,11 +123,13 @@
         @media screen and (width <= 960px) {
           padding: 0 1rem;
         }
+
         .member-data-info__quote__quote-icon {
           color: $bg-gray-500;
           font-size: 1.5rem;
           margin: 0 0.25rem;
         }
+
         .member-data-info__quote {
           text-align: center;
           font-style: italic;

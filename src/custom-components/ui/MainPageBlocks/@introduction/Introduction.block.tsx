@@ -5,7 +5,7 @@ import {motion} from "framer-motion";
 import {ThemeContext} from "@/context/ThemeContext";
 
 function IntroductionBlock() {
-  const { theme } = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
   return (
     <>
       <section id={`introduction-block`}>
@@ -25,7 +25,7 @@ function IntroductionBlock() {
         </div>
       </section>
     </>
-  
+
   );
 }
 
@@ -37,7 +37,7 @@ function AppearAnimationWrapper(props) {
         initial={{x: -50, opacity: 0}}
         whileInView={{x: 0, opacity: 1}}
         viewport={{once: true}}
-        transition={{ ease: "easeOut", duration: duration, delay: delay }}
+        transition={{ease: "easeOut", duration: duration, delay: delay}}
       >
         {children}
       </motion.h3>
@@ -48,7 +48,7 @@ function AppearAnimationWrapper(props) {
       initial={{x: -50, opacity: 0}}
       whileInView={{x: 0, opacity: 1}}
       viewport={{once: true}}
-      transition={{ ease: "easeOut", duration: duration, delay: delay }}
+      transition={{ease: "easeOut", duration: duration, delay: delay}}
     >
       {children}
     </motion.h1>

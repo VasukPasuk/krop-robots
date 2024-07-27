@@ -1,7 +1,6 @@
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
-import "./globals.scss";
-import "@/styles/__media-variables.scss";
+import "@/styles/globals.scss";
 import React from "react";
 import {ThemeProvider} from "@/context/ThemeContext";
 import Head from "next/head";

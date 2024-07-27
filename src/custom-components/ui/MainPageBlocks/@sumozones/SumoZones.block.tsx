@@ -2,10 +2,10 @@
 import React from 'react';
 import './style.scss';
 import {motion} from "framer-motion";
-import {IoCheckmark, IoPeopleSharp, IoMegaphone, IoShieldCheckmark} from "react-icons/io5";
-import { FaHandsHelping, FaCode } from "react-icons/fa";
+import {IoMegaphone, IoPeopleSharp, IoShieldCheckmark} from "react-icons/io5";
+import {FaCode, FaHandsHelping} from "react-icons/fa";
 
-import { AiOutlineFieldTime } from "react-icons/ai";
+import {AiOutlineFieldTime} from "react-icons/ai";
 
 const CARDS_DATA = [
   {
@@ -14,13 +14,14 @@ const CARDS_DATA = [
     title: 'Обмеження'
   },
   {
-    text: <> Піт-зони [Зони для підготовки] <br/> Зона карантину [Зона для перевірки та розміщення роботів] <br/> Зона проведення матчів.</>,
-    icon: <IoMegaphone />,
+    text: <> Піт-зони [Зони для підготовки] <br/> Зона карантину [Зона для перевірки та розміщення роботів] <br/> Зона
+      проведення матчів.</>,
+    icon: <IoMegaphone/>,
     title: 'Категорії зон'
   },
   {
     text: "Зона інспекції, де учасники передають суддям своїх роботів на перевірку відповідності останніх вимог змагань(конструктивні, габаритні, вагові) та залишають їх у цій зоні до початку проведення матча.",
-    icon: <IoShieldCheckmark />,
+    icon: <IoShieldCheckmark/>,
     title: 'Зона карантину'
   },
   {
@@ -41,7 +42,7 @@ const CARDS_DATA = [
 ]
 
 function SumoZonesBlock(props) {
-  
+
   return (
     <section className={`sumo-zones-block`}>
       <div className={`sumo-zones-title`}>
@@ -55,7 +56,7 @@ function SumoZonesBlock(props) {
             initial={{y: -25, opacity: 0}}
             whileInView={{y: 0, opacity: 1}}
             viewport={{once: true}}
-            transition={{ ease: "easeOut", duration: 0.5, delay: 0.25*(++index) }}
+            transition={{ease: "easeOut", duration: 0.5, delay: 0.25 * (++index)}}
             key={index}
           >
             <li className={`sumo-zones-card zone-card${++index}`}>
@@ -70,10 +71,10 @@ function SumoZonesBlock(props) {
                   {data.text}
                 </div>
               </div>
-            
+
             </li>
           </motion.li>
-        
+
         ))}
       </ul>
     </section>

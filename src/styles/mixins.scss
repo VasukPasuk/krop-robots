@@ -1,6 +1,5 @@
-@import './__colors.scss';
-@import './__static-variables.scss';
-@import './__dynamic-variables.scss';
+@import 'colors';
+@import 'static-variables';
 
 @mixin top__and__bottom__darkening($darkening-number) {
   &::before {

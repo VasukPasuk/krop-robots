@@ -1,7 +1,6 @@
-@import "src/styles/__colors";
-@import "src/styles/__dynamic-variables";
-@import "src/styles/__mixins";
-@import "src/styles/__static-variables";
+@import "../../../../styles/colors";
+@import "../../../../styles/mixins";
+@import "../../../../styles/static-variables";
 
 
 $left-side-end-index: 7;
@@ -15,6 +14,7 @@ $left-side-end-index: 7;
   grid-template: auto auto / repeat(12, 1fr);
   gap: 2rem;
   line-height: 1.5rem;
+
   .description__title-box {
     grid-column: 1 / #{$left-side-end-index};
     grid-row: 1 / 2;
@@ -38,6 +38,7 @@ $left-side-end-index: 7;
     grid-column: #{$left-side-end-index} / 13;
     grid-row: 1 / 13;
     overflow: hidden;
+
     .images-track {
       position: relative;
       display: flex;
@@ -47,6 +48,7 @@ $left-side-end-index: 7;
       border-radius: 0.5rem;
       user-select: none;
       transition: 1s ease transform;
+
       img {
         object-fit: cover;
         object-position: center;
@@ -56,6 +58,7 @@ $left-side-end-index: 7;
         height: 100%;
       }
     }
+
     .swiper-control-footer {
       display: flex;
       flex-direction: row;
@@ -65,6 +68,7 @@ $left-side-end-index: 7;
       height: 100%;
       gap: 1rem;
       padding-top: 0.5rem;
+
       .switch-image-button {
         display: flex;
         justify-content: center;
@@ -72,14 +76,16 @@ $left-side-end-index: 7;
         padding: 0.25rem 0.5rem;
         cursor: pointer;
         color: white;
-        background: rgba(0,0,0,0.75);
+        background: rgba(0, 0, 0, 0.75);
         border-radius: 0.25rem;
+
         svg {
           font-size: 1.25rem;
         }
+
         &:hover {
           display: flex;
-          background: rgba(0,0,0,0.25);
+          background: rgba(0, 0, 0, 0.25);
           backdrop-filter: blur(5px);
         }
       }

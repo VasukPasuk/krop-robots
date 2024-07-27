@@ -1,7 +1,7 @@
-@import '@/styles/__dynamic-variables';
-@import '@/styles/__static-variables';
-@import '@/styles/__colors';
-@import '@/styles/__mixins';
+@import '@/styles/dynamic-variables';
+@import '@/styles/static-variables';
+@import '@/styles/colors';
+@import '@/styles/mixins';
 
 #main-page {
   background: $bg-gray-300;

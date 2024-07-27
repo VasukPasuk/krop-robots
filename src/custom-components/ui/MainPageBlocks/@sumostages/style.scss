@@ -1,7 +1,6 @@
-@import "src/styles/__colors";
-@import "src/styles/__dynamic-variables";
-@import "src/styles/__mixins";
-@import "src/styles/__static-variables";
+@import "../../../../styles/colors";
+@import "../../../../styles/mixins";
+@import "../../../../styles/static-variables";
 
 .sumo-stages-block {
   position: relative;
@@ -13,23 +12,26 @@
   padding: 2rem 0 6rem $desktop-padding-left-right;
   background: var(--sumo-stages-block-bg-color);
   transition: 1s ease background;
-  @media screen and (width <= 480px){
+  @media screen and (width <= 480px) {
     padding: 1rem 0 $mobile-padding-left-right 2rem;
   }
+
   .sumo-stages-block__title-box {
     position: relative;
     width: 100%;
     padding: 3rem 0;
     letter-spacing: 2px;
     font-size: 2.75rem;
-    @media screen and (width <= 480px){
+    @media screen and (width <= 480px) {
       padding: 2rem 0 2rem;
       font-size: 2rem;
     }
+
     #stages-title {
       position: relative;
       color: var(--sumo-stages-block-title-accent-color);
     }
+
     #stages-title::before {
       position: absolute;
       content: '';
@@ -51,9 +53,11 @@
     @media screen and (width < 768px) {
       grid-template: repeat(3, 1fr) / 100%;
     }
+
     .sumo-stages-block__text-container__text-block {
       display: flex;
       flex-direction: row;
+
       .number-box__circle {
         display: flex;
         justify-content: center;
@@ -64,6 +68,7 @@
         font-size: 1.43225rem;
         border: 2px solid white;
       }
+
       .sumo-stages-block__text-container__text-block__text-box {
         display: flex;
         flex-direction: column;
@@ -71,12 +76,15 @@
         gap: 0.5rem;
       }
     }
+
     .text-container__text-block-1 {
-       @include sumo-stages-tags-style(var(--sumo-stages-block-first-column-accent-color));
-     }
+      @include sumo-stages-tags-style(var(--sumo-stages-block-first-column-accent-color));
+    }
+
     .text-container__text-block-2 {
       @include sumo-stages-tags-style(var(--sumo-stages-block-second-column-accent-color));
     }
+
     .text-container__text-block-3 {
       @include sumo-stages-tags-style(var(--sumo-stages-block-third-column-accent-color));
     }

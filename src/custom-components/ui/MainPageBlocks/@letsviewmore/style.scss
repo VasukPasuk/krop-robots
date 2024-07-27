@@ -1,7 +1,6 @@
-@import "src/styles/__colors";
-@import "src/styles/__dynamic-variables";
-@import "src/styles/__mixins";
-@import "src/styles/__static-variables";
+@import "../../../../styles/colors";
+@import "../../../../styles/mixins";
+@import "../../../../styles/static-variables";
 
 #view-more-about-sumo-block {
   display: flex;
@@ -11,6 +10,7 @@
     flex-direction: column;
   }
   overflow: hidden;
+
   .decoration-circle-and-image--container {
     position: relative;
     display: flex;
@@ -21,6 +21,7 @@
     @media screen and (width <= 1000px) {
       width: 100%;
     }
+
     .decoration-circle-image {
       position: absolute;
       border-radius: 100%;
@@ -35,6 +36,7 @@
           height: 70vw;
         }
       }
+
       &:nth-child(1) {
         width: 70vw;
         height: 70vw;

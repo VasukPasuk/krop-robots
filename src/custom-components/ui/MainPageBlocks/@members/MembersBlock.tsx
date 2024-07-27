@@ -1,8 +1,9 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import './style.scss';
-import { ImQuotesLeft,  ImQuotesRight} from "react-icons/im";
+import {ImQuotesLeft, ImQuotesRight} from "react-icons/im";
 import Image from "next/image";
+
 const MEMBERS_DATA = [
   {
     name: 'Сніжана',
@@ -63,12 +64,13 @@ function MembersBlock(props) {
       <div className="members-swiper-container">
         <ul
           className="members-swiper-bar"
-          style={{transform: `translate(-${(currentMember - 1)*100}%)`}}
+          style={{transform: `translate(-${(currentMember - 1) * 100}%)`}}
         >
           {MEMBERS_DATA.map(({name, occupation, photoSrc, quote}, index) => (
             <li key={++index} className={`member-swiper-card member-swiper-card-item-${++index}`}>
               <div className="member-data-info__photo-box">
-                <Image className="member-data-info__photo-box__photo" src={`/${photoSrc}`} alt={"member image"} width={120} height={120}/>
+                <Image className="member-data-info__photo-box__photo" src={`/${photoSrc}`} alt={"member image"}
+                       width={120} height={120}/>
               </div>
               <div className="member-data-info__name">
                 {name}
@@ -96,7 +98,7 @@ function MembersBlock(props) {
             className={`swiper-bullet swiper-bullets-item-${++index}`}
             onClick={bulletHandler}
           >
-          
+
           </li>
         ))}
       </ul>

@@ -26,7 +26,7 @@ function SumoStagesBlock(props) {
           initial={{x: -50, opacity: 0}}
           whileInView={{x: 0, opacity: 1}}
           viewport={{once: true}}
-          transition={{ ease: "easeOut", duration: 0.5, delay: 0.25 }}
+          transition={{ease: "easeOut", duration: 0.5, delay: 0.25}}
         >
           <span id={`stages-title`}>
             Етапи змагань
@@ -39,10 +39,11 @@ function SumoStagesBlock(props) {
             initial={{x: -50, opacity: 0}}
             whileInView={{x: 0, opacity: 1}}
             viewport={{once: true}}
-            transition={{ ease: "easeOut", duration: 0.5, delay: index*0.5 }}
+            transition={{ease: "easeOut", duration: 0.5, delay: index * 0.5}}
             key={index}
           >
-            <li className={`sumo-stages-block__text-container__text-block text-container__text-block-${++index}`} key={data.subTitleText}>
+            <li className={`sumo-stages-block__text-container__text-block text-container__text-block-${++index}`}
+                key={data.subTitleText}>
               <div className={`sumo-stages-block__text-container__text-block__number-box`}>
                 <div className={`number-box__circle`}>{index}</div>
               </div>

@@ -8,7 +8,6 @@ import {SANCTION_BLOCK_DATA} from "@/constants/.blocks.data";
 import Image from "next/image";
 
 
-
 function SanctionsBlock() {
   const {theme} = useContext(ThemeContext);
   return (

@@ -1,0 +1,65 @@
+@import "colors";
+
+:root {
+  --drawer-bg-color: rgba(255, 255, 255, 0.2);
+
+  /* [global dynamic variables] */
+  --global-simple-text-color: #f2f2f2;
+
+  /* [header dynamic variables] */
+  --header-bg-main-color: #FF7A2F;
+  --header-text-color: rgb(0, 0, 0);
+  --header-hamburger-menu-hover-color: #{$bg-gray-800};
+  --header-settings-hover-color: #{$bg-yellow-800};
+
+  /* [body dynamic variables] */
+  --body-bg-color: #070707;
+
+  // linear-gradient(90deg, #{$bg-blue-950} ,rgb(0,0,0,1), #{$bg-gray-900})
+
+  /* [carousel block variables] */
+  --carousel-block-tag-text-color: white;
+
+
+  /* [zones block variables] */
+  --zones-block-main-title-color: #{$bg-blue-400};
+  --zones-block-icon-color: #{$bg-gray-400};
+  --zones-block-title-color: #{$bg-blue-300};
+  --zones-block-text-color: white;
+  --zones-block-shadow-color: 0 0 5px 5px black;
+
+  /* [scroll-to-top-button variables] */
+  --scroll-to-top-button-bg-color: white;
+  --scroll-to-top-button-arrow-color: black;
+
+  /* [sumo stages block variables] */
+  --sumo-stages-block-bg-color: transparent;
+  --sumo-stages-block-title-accent-color: #48A8E2;
+  --sumo-stages-block-first-column-accent-color: greenyellow;
+  --sumo-stages-block-second-column-accent-color: #D7455E;
+  --sumo-stages-block-third-column-accent-color: #FF5C00;
+  --sumo-stages-block-simple-text-color: white;
+
+  /* [footer variables] */
+  --footer-bg-color: rgb(25, 15, 19);
+
+  /* [time-to-repair block variables] */
+  --time-to-repair-block-bg-color: transparent;
+
+  /* [sanctions block variables] */
+  --sanctions-block-main-title-color: #99AA99;
+  --sanctions-block-first-card-accent-color: #F2B42D;
+  --sanctions-block-second-card-accent-color: #D7455E;
+  --sanctions-block-third-card-accent-color: #DD785E;
+  --sanctions-block-fourth-card-accent-color: #48A8E2;
+  --sanctions-block-simple-text-color: white;
+
+  /* [sanctions block variables] */
+  --view-more-block-first-decoration-circle-color: #FFD159;
+  --view-more-block-second-decoration-circle-color: #FFC329;
+
+  --view-more-block-button-hover-bg-color: #10AF00;
+  --view-more-block-button-bg-color: #70FF00;
+
+  --view-more-block-button-text-color: #000;
+}

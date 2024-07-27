@@ -1,7 +1,6 @@
-@import "src/styles/__colors";
-@import "src/styles/__dynamic-variables";
-@import "src/styles/__mixins";
-@import "src/styles/__static-variables";
+@import "../../../../styles/colors";
+@import "../../../../styles/mixins";
+@import "../../../../styles/static-variables";
 
 .time-to-repair-block {
   display: grid;
@@ -13,6 +12,7 @@
     margin-top: 2rem;
     padding-top: 1rem;
   }
+
   .time-to-repair-block__text-block {
     container-type: inline-size;
     position: relative;
@@ -57,6 +57,7 @@
         font-size: 2rem;
       }
     }
+
     .time-to-repair-block__text-block__text-box {
       width: 75%;
       display: flex;
@@ -64,18 +65,21 @@
       gap: 0.5rem;
       border-left: 1px solid $bg-gray-400;
       color: lightgrey;
+
       li {
         padding: 0.5rem 1.25rem;
       }
 
     }
   }
+
   .time-to-repair-block__img-block {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+
     .robot-repairing-image {
       position: relative;
       width: 100%;
@@ -84,11 +88,13 @@
       object-fit: cover;
       transition: 1s ease transform;
     }
+
     &:hover {
       .robot-repairing-image {
         transform: scale(1.1);
       }
     }
+
     @include top__and__bottom__darkening($repairing-block-image-darkening);
   }
 }

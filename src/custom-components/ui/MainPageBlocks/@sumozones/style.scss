@@ -1,7 +1,6 @@
-@import "src/styles/__colors";
-@import "src/styles/__dynamic-variables";
-@import "src/styles/__mixins";
-@import "src/styles/__static-variables";
+@import "../../../../styles/colors";
+@import "../../../../styles/mixins";
+@import "../../../../styles/static-variables";
 
 .sumo-zones-block {
   display: flex;
@@ -18,6 +17,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     span {
       padding: 0 1.25rem;
       //background: #FF5C00;
@@ -28,6 +28,7 @@
       color: var(--zones-block-main-title-color);
     }
   }
+
   .sumo-zones-cards-wrapper {
     display: grid;
     grid-template: auto auto / repeat(2, 1fr);
@@ -55,6 +56,7 @@
         gap: 2rem;
         height: auto;
       }
+
       .card-icon-box {
         display: flex;
         justify-content: center;
@@ -64,22 +66,26 @@
         border: 2px solid var(--zones-block-icon-color);
         border-top: none;
         border-bottom: none;
+
         svg {
           font-size: 2.5rem;
           color: var(--zones-block-icon-color);
         }
       }
+
       .main-text-box {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
         color: var(--zones-block-text-color);
+
         .main-text-box__title-text-box {
           font-weight: 700;
           font-size: 1.5rem;
           color: var(--zones-block-title-color);
-          border-bottom: 2px solid rgba(0,0,0,0.1);
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1);
         }
+
         .main-text-box__sub-text-box {
           font-weight: 400;
         }

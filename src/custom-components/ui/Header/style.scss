@@ -1,7 +1,6 @@
-@import '@/styles/_dynamic-variables';
-@import '@/styles/__static-variables.scss';
-@import '@/styles/__colors.scss';
-@import '@/styles/__mixins.scss';
+@import '@/styles/static-variables';
+@import '@/styles/colors';
+@import '@/styles/mixins';
 
 #header {
   position: fixed;
