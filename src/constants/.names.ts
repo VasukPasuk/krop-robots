@@ -62,7 +62,7 @@ const REGISTER_ROBOT_SUMO_LINK = "https://forms.gle/visNrfF53YPETeLJ9";
 const HEADER_LINK = [
   {
     href: "/shop",
-    content: "Krop Robots Shop"
+    content: "Товари та послуги"
   },
   {
     href: "/news",
