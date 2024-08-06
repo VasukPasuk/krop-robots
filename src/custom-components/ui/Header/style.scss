@@ -157,7 +157,8 @@
   align-items: center;
   top: $header-height;
   left: 0;
-  width: 100%;
+  width: 45%;
+  height: 100%;
   z-index: 100;
   background: var(--drawer-bg-color);
   backdrop-filter: blur(10px);
