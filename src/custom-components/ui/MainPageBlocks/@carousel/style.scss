@@ -27,7 +27,6 @@ $left-side-end-index: 7;
     flex-direction: column;
     gap: 1rem;
     grid-column: 1 / #{$left-side-end-index};
-    background: rgba(0,0,0,0.1);
     align-self: start;
   }
 
