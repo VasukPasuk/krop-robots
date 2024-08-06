@@ -62,7 +62,11 @@ const REGISTER_ROBOT_SUMO_LINK = "https://forms.gle/visNrfF53YPETeLJ9";
 const HEADER_LINK = [
   {
     href: "/shop",
-    content: "Товари та послуги"
+    content: "Товари"
+  },
+  {
+    href: "/services",
+    content: "Послуги"
   },
   {
     href: "/news",

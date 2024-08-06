@@ -162,7 +162,6 @@
   z-index: 100;
   background: var(--drawer-bg-color);
   backdrop-filter: blur(10px);
-
   &[data-visible-drawer="true"] {
     @media screen and (width<= 800px) {
       display: flex;
@@ -176,7 +175,8 @@
     width: 100%;
     color: white;
     padding: 1rem 0;
-
+    transition: .25s ease background;
+    font-size: 1.25rem;
     &:hover {
       background: rgba(255, 255, 255, 0.1);
     }
