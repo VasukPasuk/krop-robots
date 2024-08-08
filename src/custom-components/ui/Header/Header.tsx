@@ -10,14 +10,16 @@ import ThemeSwitcher from "@/custom-components/ui/ThemeSwitcher/ThemeSwitcher";
 import {HEADER_LINK} from "@/constants/.names";
 
 
-function Header() {
+interface IHeaderProps {
+  className?: string,
+}
+
+function Header(props: IHeaderProps) {
   const [visible, setVisible] = useState<boolean>(false)
   return (
     <>
       <header
-        id="header"
-        // data-set-pos={currentPath === 'robot-sumo-full' ? 'fixed' : 'none'}
-        // style={{background: (scrollPosition < 500 && theme === "light" && ['', 'home'].includes(currentPath)) ? 'transparent' : ''}}
+        {...props}
       >
         <Link
           href="/"
