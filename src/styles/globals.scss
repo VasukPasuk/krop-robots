@@ -98,31 +98,31 @@ body {
   background: var(--body-bg-color);
   transition: .5s ease-in-out background;
 
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  @media screen and (max-width: 480px) {
-    ::-webkit-scrollbar {
-      width: 1px;
-    }
-  }
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    transition: background 0.5s ease;
-    background: $bg-gray-700;
-    border-radius: 12px;
-  }
-
-  ::-webkit-scrollbar-track-piece {
-    background: $bg-gray-800;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: $bg-gray-600;
-  }
+  //::-webkit-scrollbar {
+  //  width: 6px;
+  //}
+  //@media screen and (max-width: 480px) {
+  //  ::-webkit-scrollbar {
+  //    width: 1px;
+  //  }
+  //}
+  //::-webkit-scrollbar-track {
+  //  background: #f1f1f1;
+  //}
+  //
+  //::-webkit-scrollbar-thumb {
+  //  transition: background 0.5s ease;
+  //  background: $bg-gray-700;
+  //  border-radius: 12px;
+  //}
+  //
+  //::-webkit-scrollbar-track-piece {
+  //  background: $bg-gray-800;
+  //}
+  //
+  //::-webkit-scrollbar-thumb:hover {
+  //  background: $bg-gray-600;
+  //}
 }
 
 a {

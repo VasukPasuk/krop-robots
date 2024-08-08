@@ -8,7 +8,7 @@ export default function Layout({children}: Readonly<{ children: React.ReactNode 
   return (
     <>
       <CssBaseline />
-      <Header className="bg-blue-700"/>
+      <Header className="bg-blue-700 dark:bg-yellow-600"/>
       <main className="mt-[64px] flex flex-col min-h-[90dvh]">
         {children}
       </main>

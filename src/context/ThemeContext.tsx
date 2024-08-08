@@ -1,7 +1,7 @@
 'use client'
-import {createContext, FC, useState, ReactNode, useEffect} from "react";
+import React, {createContext, FC, useState, ReactNode, useEffect} from "react";
 import {TTheme, TThemeContext} from "@/types";
-
+import {ToastContainer} from "react-toastify";
 
 export const ThemeContext = createContext<TThemeContext | undefined>(undefined);
 
@@ -24,6 +24,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   return (
     <ThemeContext.Provider value={value}>
       {children}
+      <ToastContainer theme={theme} position="bottom-left"/>
     </ThemeContext.Provider>
   );
 };

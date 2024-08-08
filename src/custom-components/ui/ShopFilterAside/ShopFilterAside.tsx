@@ -43,7 +43,9 @@ function ShopFilterAside() {
                   name={name}
                   checked={checkbox === name}
                   value={name}
-                  defaultChecked={name === "All"}/>
+                  defaultChecked={name === "All"}
+                  key={name}
+                />
               } label={label}/>
           ))}
         </div>

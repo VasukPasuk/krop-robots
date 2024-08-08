@@ -6,7 +6,7 @@ import {ThemeProvider} from "@/context/ThemeContext";
 import Head from "next/head";
 import {AppRouterCacheProvider} from "@mui/material-nextjs/v13-appRouter";
 import {StyledEngineProvider} from "@mui/material";
-
+import "react-toastify/scss/main.scss"
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
