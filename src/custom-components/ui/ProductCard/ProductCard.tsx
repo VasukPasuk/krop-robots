@@ -1,7 +1,9 @@
+"use client"
 import React from 'react';
 import {Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 import {IoCart} from "react-icons/io5";
 import Image from "next/image";
+import {toast} from "react-toastify";
 
 interface IProductCardProps {
   children?: React.ReactNode
@@ -9,11 +11,14 @@ interface IProductCardProps {
 
 function ProductCard(props: IProductCardProps) {
   const {} = props;
+  const onAddToCartHandler = () => {
+    toast.success("Товар додано до Вашого кошика.")
+  }
   return (
     <Card className="flex flex-col justify-between pt-1 pb-1 min-h-64 hover:shadow-xl">
       <CardContent className="flex flex-row h-full">
         <div className="w-[80%] bg-amber-400 relative rounded overflow-hidden">
-          <Image fill alt={"Product image"} src={"/ProductTestImage.webp"}/>
+          <Image fill alt={"Product image"} src={"/ProductTestImage.webp"} className="hover:scale-110 transition duration-700" />
         </div>
         <div className="container w-full flex flex-col pl-3">
           <Typography variant="h5" className="text-neutral-900 text-[1.45rem] font-bold">
@@ -25,7 +30,7 @@ function ProductCard(props: IProductCardProps) {
         </div>
       </CardContent>
       <CardActions className="flex justify-end">
-        <Button size="small" variant="text">
+        <Button size="small" variant="text" onClick={onAddToCartHandler}>
           <IoCart size={24}/>
         </Button>
       </CardActions>
