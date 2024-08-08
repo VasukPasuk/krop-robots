@@ -4,6 +4,8 @@ import "@/styles/globals.scss";
 import React from "react";
 import {ThemeProvider} from "@/context/ThemeContext";
 import Head from "next/head";
+import {AppRouterCacheProvider} from "@mui/material-nextjs/v13-appRouter";
+import {StyledEngineProvider} from "@mui/material";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -19,11 +21,15 @@ interface PROPS {
 export default function RootLayout({children}: PROPS) {
   return (
     <html lang="ua" data-theme="light">
-    <ThemeProvider>
-      <body className={inter.className}>
-      {children}
-      </body>
-    </ThemeProvider>
+      <AppRouterCacheProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider>
+            <body className={inter.className}>
+            {children}
+            </body>
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </AppRouterCacheProvider>
     </html>
   );
 }
