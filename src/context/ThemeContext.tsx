@@ -1,5 +1,5 @@
 'use client'
-import { createContext, FC, useState, ReactNode } from "react";
+import {createContext, FC, useState, ReactNode, useEffect} from "react";
 import {TTheme, TThemeContext} from "@/types";
 
 
@@ -16,6 +16,10 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
     theme,
     setTheme,
   };
+
+  useEffect(() => {
+    document.documentElement.setAttribute("class", theme)
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={value}>

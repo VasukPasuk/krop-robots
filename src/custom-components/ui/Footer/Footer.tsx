@@ -5,10 +5,15 @@ import {FaMapLocationDot} from "react-icons/fa6";
 import {LuArrowBigDownDash} from "react-icons/lu";
 import {FOLLOW_LINKS} from "@/constants/.names";
 
+interface IFooterProps {
+  className?: string
+}
 
-function Footer() {
+
+
+function Footer({className = undefined}: IFooterProps) {
   return (
-    <footer>
+    <footer className={className}>
       <div className={`footer-top`}>
         <div className={`footer__location-container`}>
           <div className={`footer__location-block-title footer-block-title`}>
