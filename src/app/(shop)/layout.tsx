@@ -7,7 +7,7 @@ export default function Layout({children}: Readonly<{ children: React.ReactNode}
     <>
       <Header className="bg-blue-700 dark:bg-yellow-600"/>
         {children}
-      <Footer className={"mt-6"}/>
+      <Footer/>
     </>
   );
 }
