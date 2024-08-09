@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 import {IoCart} from "react-icons/io5";
 import Image from "next/image";
@@ -15,7 +15,8 @@ function ProductCard(props: IProductCardProps) {
 
   const router = useRouter()
 
-  const onAddToCartHandler = () => {
+  const onAddToCartHandler = (e:React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
     toast.success("Товар додано до Вашого кошика.")
   }
 
@@ -39,7 +40,7 @@ function ProductCard(props: IProductCardProps) {
         </div>
       </CardContent>
       <CardActions className="flex justify-end">
-        <Button size="small" variant="text" onClick={onAddToCartHandler}>
+        <Button  size="small" variant="text" onClick={onAddToCartHandler}>
           <IoCart size={24}/>
         </Button>
       </CardActions>

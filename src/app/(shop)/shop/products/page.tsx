@@ -8,7 +8,7 @@ function Page() {
   return (
     <>
       <ShopUpperBar/>
-      <div className="container mt-[48px] h-full flex flex-row  max-w-[1600px] mx-auto">
+      <div className="container mt-[64px] h-full flex flex-row  max-w-[1600px] mx-auto">
         <ShopFilterAside/>
         <div className="container flex flex-col">
           <div className="container h-full grid grid-cols-3 grid-rows-3 gap-6 pb-6 pt-6">
