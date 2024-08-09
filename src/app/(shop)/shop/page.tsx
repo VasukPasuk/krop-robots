@@ -20,7 +20,7 @@ function ShopMainPage() {
   }
 
   const onClickButtonHandler = () => {
-    router.push("/products")
+    router.push("/shop/products")
   }
 
   return (
