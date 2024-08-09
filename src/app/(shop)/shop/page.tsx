@@ -24,7 +24,7 @@ function ShopMainPage() {
   }
 
   return (
-    <div className="flex mt-16 min-h-[88dvh] w-full">
+    <div className="flex mt-16 min-h-dvh w-full">
       <div className="flex relative flex-row max-w-screen-xl items-center justify-center mx-auto w-full ">
         <div className="flex flex-col items-start justify-center h-full z-50 w-3/4 gap-y-8">
           <motion.h5 {...animateParams(0.5)} className="text-5xl font-extrabold">
