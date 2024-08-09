@@ -5,7 +5,7 @@ import React from "react";
 import {ThemeProvider} from "@/context/ThemeContext";
 import Head from "next/head";
 import {AppRouterCacheProvider} from "@mui/material-nextjs/v13-appRouter";
-import {StyledEngineProvider} from "@mui/material";
+import {CssBaseline, StyledEngineProvider} from "@mui/material";
 import "react-toastify/scss/main.scss"
 const inter = Inter({subsets: ["latin"]});
 
@@ -24,6 +24,7 @@ export default function RootLayout({children}: PROPS) {
       <AppRouterCacheProvider>
         <StyledEngineProvider injectFirst>
           <ThemeProvider>
+            <CssBaseline />
             <body className={inter.className}>
             {children}
             </body>
