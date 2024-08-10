@@ -1,17 +1,19 @@
 "use client"
-import React, {useCallback} from 'react';
+import React from 'react';
 import {Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 import {IoCart} from "react-icons/io5";
 import Image from "next/image";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
+import {Product} from "@prisma/client";
 
 interface IProductCardProps {
   children?: React.ReactNode
+  product: Partial<Product>
 }
 
 function ProductCard(props: IProductCardProps) {
-  const {} = props;
+  const {product: {category_name, name}} = props;
 
   const router = useRouter()
 
@@ -32,10 +34,10 @@ function ProductCard(props: IProductCardProps) {
         </div>
         <div className="container w-full flex flex-col pl-3">
           <Typography variant="h5" className="text-neutral-900 text-[1.45rem] font-bold">
-            Назва
+            {name}
           </Typography>
           <Typography variant="h6" className="text-neutral-600 text-[.95rem]">
-            Аксесуар
+            {category_name}
           </Typography>
         </div>
       </CardContent>

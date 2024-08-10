@@ -5,6 +5,22 @@ const CategoriesCheckBoxData = [
   {name: "Toys", label: "Іграшки"}
 ]
 
+const CategoriesCheckBoxDataObj = {
+  "All": {
+    label: "Всі"
+  },
+  "Accessories": {
+    label: "Аксесуари"
+  },
+  "Puzzles": {
+    label: "Головоломки"
+  },
+  "Toys": {
+    label: "Іграшки"
+  }
+}
+
 export {
-  CategoriesCheckBoxData
+  CategoriesCheckBoxData,
+  CategoriesCheckBoxDataObj
 }

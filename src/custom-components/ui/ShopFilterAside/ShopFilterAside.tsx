@@ -1,7 +1,8 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Checkbox, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
-import {CategoriesCheckBoxData} from "@/constants";
+import {CategoriesCheckBoxData, CategoriesCheckBoxDataObj} from "@/constants";
+import {usePathname, useRouter} from "next/navigation";
 
 interface IShopFilterAsideProps {
   children?: React.ReactNode
@@ -25,11 +26,17 @@ const initialState: IInitialState = {
 
 function ShopFilterAside() {
   const [checkbox, setCheckbox] = useState<keyof IInitialState>("All");
-
+  const router = useRouter()
+  const pathname = usePathname()
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckbox(prev => event.target.name as keyof IInitialState);
+    const categoryName = event.target.value;
+    setCheckbox(prev => categoryName as keyof IInitialState);
+    if (categoryName != "All") {
+      router.push(`/shop/products/?category=${CategoriesCheckBoxDataObj[categoryName].label}`)
+    } else {
+      router.push(`/shop/products`)
+    }
   };
-
   return (
     <aside className="w-[320px] flex flex-col justify-start items-center pt-4">
       <FormGroup>
