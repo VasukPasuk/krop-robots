@@ -15,7 +15,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
   } catch (e) {
     return NextResponse.error()
   }
-
   return NextResponse.json(
     categories
   )
