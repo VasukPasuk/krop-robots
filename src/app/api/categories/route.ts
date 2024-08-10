@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return NextResponse.error()
   }
 
-  return NextResponse.json({
-    categories: categories
-  })
+  return NextResponse.json(
+    categories
+  )
 }

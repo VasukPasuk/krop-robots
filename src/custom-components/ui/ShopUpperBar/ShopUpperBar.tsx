@@ -16,7 +16,7 @@ function ShopUpperBar() {
   const handleClose = () => setOpen(false);
   return (
     <>
-      <nav className="h-[48px] z-50 w-full flex flex-row items-center justify-between fixed shadow bg-white pl-4 pr-4">
+      <nav className="mt-16 h-[48px] z-50 w-full flex flex-row items-center justify-between fixed shadow bg-white pl-4 pr-4">
         <div>
 
         </div>
