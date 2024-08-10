@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import ProductCard from "@/custom-components/ui/ProductCard/ProductCard";
 import {Product} from "@prisma/client";
 import {useRouter, useSearchParams, usePathname} from "next/navigation";
@@ -35,14 +35,20 @@ function ProductsList(props: IProductsListProps) {
   const totalPagesCount = Math.ceil(products.length / MAX_ITEMS_IN_STORE_TO_VIEW)
   return (
     <>
-      <div className="container h-full grid grid-cols-3 grid-rows-3 gap-6 pb-6 pt-6">
-        {products.slice((params.page - 1) * 9, 9 * params.page).map((product, i) => (
-          <ProductCard key={i} product={product}/>
-        ))}
-      </div>
-      <div className="container flex items-center justify-center">
-        <Pagination count={totalPagesCount} onChange={(event, page) => router.push(`/shop/products/?category=${params.category}&page=${page}`)} size={"large"} shape={"rounded"}/>
-      </div>
+      <Suspense>
+        <div className="container h-full grid grid-cols-3 grid-rows-3 gap-6 pb-6 pt-6">
+          {products.slice((params.page - 1) * 9, 9 * params.page).map((product, i) => (
+            <ProductCard key={i} product={product}/>
+          ))}
+        </div>
+        <div className="container flex items-center justify-center">
+          <Pagination
+            count={totalPagesCount}
+            onChange={(event, page) => router.push(`/shop/products/?category=${params.category}&page=${page}`)}
+            size={"large"} shape={"rounded"}
+          />
+        </div>
+      </Suspense>
     </>
   )
 }
