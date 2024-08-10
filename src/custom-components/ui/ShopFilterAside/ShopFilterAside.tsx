@@ -19,7 +19,7 @@ function ShopFilterAside() {
     refetchOnWindowFocus: false,
     queryFn: async () => {
       return await (await fetch("/api/categories")).json() as Category[];
-    }
+    },
   })
 
   if (isLoading) {
@@ -58,7 +58,7 @@ function FilterList({data}:{data: Category[]}) {
     const categoryName = event.target.value;
     setCurrentCategory(categoryName)
     if (categoryName !== "Всі") {
-      router.push(`/shop/products/?category=${CategoriesCheckBoxDataObj[categoryName].label}`);
+      router.push(`/shop/products/?category=${categoryName}`);
     } else {
       router.push(`/shop/products`);
     }
