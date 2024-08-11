@@ -2,14 +2,12 @@ import React from 'react';
 
 type LayoutProps = Readonly<{
   children: React.ReactNode,
-  product: React.ReactNode
 }>
 
-function Layout({children, product}: LayoutProps) {
+function Layout({children}: LayoutProps) {
   return (
     <>
       {children}
-      {product}
     </>
   )
 }
