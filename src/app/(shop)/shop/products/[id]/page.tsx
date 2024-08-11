@@ -10,9 +10,7 @@ function ProductPage({params}: { params: { id: string } }) {
   const id = params.id
   return (
     <>
-      <ShopUpperBar>
-
-      </ShopUpperBar>
+      <ShopUpperBar/>
       <section className="container max-w-[1200px] flex flex-row mx-auto mt-[112px] px-6 py-8 gap-x-8">
         <div className="rounded overflow-hidden">
           <Image className="hover:scale-110 transition-transform duration-700" width={400} height={400} alt={"Product image"}

@@ -7,7 +7,7 @@ import CartItem from "@/custom-components/ui/CartItem/CartItem";
 import CartModal from "@/custom-components/ui/CartModal/CartModal";
 
 interface IShopUpperBarProps {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 function ShopUpperBar({children}: IShopUpperBarProps) {
