@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import {Checkbox, CircularProgress, FormControlLabel, FormGroup, FormLabel} from "@mui/material";
-import { CategoriesCheckBoxData, CategoriesCheckBoxDataObj } from "@/constants";
+import {BASIC_CATEGORIES, CategoriesCheckBoxData, CategoriesCheckBoxDataObj} from "@/constants";
 import { usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import {Category} from "@prisma/client";
@@ -49,7 +49,7 @@ export default ShopFilterAside;
 
 
 function FilterList({data}:{data: Category[]}) {
-  const [currentCategory, setCurrentCategory] = useState<string | "Всі">("Всі")
+  const [currentCategory, setCurrentCategory] = useState<string | BASIC_CATEGORIES.All>(BASIC_CATEGORIES.All)
   const [categories, setCategories] = useState<Category[]>(data || [])
   const router = useRouter();
   const pathname = usePathname();
@@ -57,7 +57,7 @@ function FilterList({data}:{data: Category[]}) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>{
     const categoryName = event.target.value;
     setCurrentCategory(categoryName)
-    if (categoryName !== "Всі") {
+    if (categoryName !== BASIC_CATEGORIES.All) {
       router.push(`/shop/products/?category=${categoryName}`);
     } else {
       router.push(`/shop/products`);
@@ -71,9 +71,9 @@ function FilterList({data}:{data: Category[]}) {
           control={
             <Checkbox
               onChange={handleChange}
-              name={"Всі"}
-              checked={currentCategory == "Всі"}
-              value={"Всі"}
+              name={BASIC_CATEGORIES.All}
+              checked={currentCategory == BASIC_CATEGORIES.All}
+              value={BASIC_CATEGORIES.All}
               defaultChecked
             />
           }

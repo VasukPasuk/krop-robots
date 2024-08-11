@@ -7,6 +7,8 @@ import ProductsList from "@/app/(shop)/shop/products/ProductsList";
 import {Category} from "@prisma/client";
 import {InferGetServerSidePropsType} from "next";
 import {axiosInstance} from "@/services/axios/axiosInstance";
+import {SearchInput} from "@/app/(shop)/shop/products/Search";
+import CategoryTabs from "@/custom-components/ui/CategoryTabs/CategoryTabs";
 
 
 
@@ -14,10 +16,14 @@ import {axiosInstance} from "@/services/axios/axiosInstance";
 function Page() {
   return (
     <>
-      <ShopUpperBar/>
-      <div className="container mt-[112px] h-full flex flex-row  max-w-[1600px] mx-auto mb-8">
-        <ShopFilterAside/>
-        <div className="container flex flex-col">
+      <ShopUpperBar>
+        <div className="w-full flex flex-row items-center justify-center">
+          <SearchInput/>
+        </div>
+      </ShopUpperBar>
+      <div className="mt-[112px] h-full flex flex-row  max-w-[1300px] mx-auto mb-8">
+        <div className="w-full flex flex-col">
+          <CategoryTabs/>
           <ProductsList products={DATA}/>
         </div>
       </div>

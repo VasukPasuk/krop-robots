@@ -20,6 +20,11 @@ const CategoriesCheckBoxDataObj = {
   }
 }
 
+
+export enum BASIC_CATEGORIES {
+  "All" = "Всі"
+}
+
 export {
   CategoriesCheckBoxData,
   CategoriesCheckBoxDataObj
