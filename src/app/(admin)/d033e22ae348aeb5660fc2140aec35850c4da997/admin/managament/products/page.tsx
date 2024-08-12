@@ -1,10 +1,10 @@
 import React from 'react';
 
 interface IPageProps {
-  children: React.ReactNode
+
 }
 
-function Page({}: IPageProps) {
+function Page(props: IPageProps) {
   return (
     <div>
 
