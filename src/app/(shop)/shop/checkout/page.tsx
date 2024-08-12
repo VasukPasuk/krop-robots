@@ -32,9 +32,12 @@ function OrderPage() {
       second_surname: "",
     },
     resolver: zodResolver(schema),
-  });
+  })
 
-  const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log(data)
+  }
+
 
   return (
     <form
@@ -92,13 +95,13 @@ function OrderPage() {
           {label: "Прізвище", field: "first_surname"},
           {label: "Ім'я", field: "name"},
           {label: "По-батькові", field: "second_surname"},
-        ].map(({ field, label }) => (
+        ].map(({field, label}) => (
           <Controller
             key={field}
             name={field as keyof FormData}
             control={control}
-            rules={{ required: true }}
-            render={({ field: controllerField }) => (
+            rules={{required: true}}
+            render={({field: controllerField}) => (
               <TextField
                 helperText={errors[field as keyof FormData]?.message}
                 error={!!errors[field as keyof FormData]}
@@ -111,9 +114,9 @@ function OrderPage() {
               />
             )}
           />
-        ));
+        ))}
       </Paper>
-      <Paper className="col-span-4 p-4 flex flex-col gap-y-8" elevation={3} >
+      <Paper className="col-span-4 p-4 flex flex-col gap-y-8" elevation={3}>
         <Typography variant="h6">Деталі</Typography>
         {!cartItems.length && (
           <div className={"flex items-center justify-center py-8 text-center"}>
