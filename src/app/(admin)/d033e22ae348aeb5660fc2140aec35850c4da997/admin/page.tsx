@@ -1,11 +1,6 @@
 import React from 'react';
 
-interface IAdminPageProps {
-  children: React.ReactNode
-}
-
-function AdminPage(props: IAdminPageProps) {
-  const {} = props;
+function AdminPage() {
   return (
     <div>
       Стартова сторінка

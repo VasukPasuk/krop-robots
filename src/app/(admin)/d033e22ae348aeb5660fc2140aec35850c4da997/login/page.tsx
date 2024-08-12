@@ -5,9 +5,7 @@ import {Button, Paper, TextField, Typography} from "@mui/material";
 import * as zod from "zod"
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-interface IPageProps {
-  children: React.ReactNode
-}
+
 
 
 const schema = zod.object({
@@ -17,7 +15,7 @@ const schema = zod.object({
 
 type FormData = zod.infer<typeof schema>;
 
-function Page({}: IPageProps) {
+function Page() {
   const {control, handleSubmit, formState: {errors}} = useForm<FormData>({
     resolver: zodResolver(schema),
   });

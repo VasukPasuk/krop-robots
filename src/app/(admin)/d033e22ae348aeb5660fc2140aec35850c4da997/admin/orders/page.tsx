@@ -1,10 +1,6 @@
 import React from 'react';
 
-interface IPageProps {
-
-}
-
-function Page(props: IPageProps) {
+function Page() {
   return (
     <>
       1
