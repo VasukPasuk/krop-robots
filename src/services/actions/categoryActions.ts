@@ -12,7 +12,7 @@ export async function createCategory(name: string) {
       }
     })
     if (!newCategory) throw new Error("Category already exists")
-    revalidatePath(URLS.ADMIN_ROOT_URL + "/admin/managament/categories")
+    revalidatePath("/d033e22ae348aeb5660fc2140aec35850c4da997/admin/managament/categories")
     return newCategory
   } catch (e) {
     return "Error"
@@ -26,7 +26,7 @@ export async function deleteCategory(name: string) {
         name: name,
       }
     })
-    revalidatePath(URLS.ADMIN_ROOT_URL + "/admin/managament/categories", "page")
+    revalidatePath("/d033e22ae348aeb5660fc2140aec35850c4da997/admin/managament/categories")
   } catch (e) {
     return "Error"
   }
