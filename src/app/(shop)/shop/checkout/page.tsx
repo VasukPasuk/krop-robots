@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Paper, TextField, Typography} from "@mui/material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import * as z from "zod";
@@ -22,7 +22,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function OrderPage() {
-  const [cartItems, setCartItems] = useState<any>(localStorage.getItem("cartItems") || [])
+  const [cartItems, setCartItems] = useState<any>([])
   const {control, handleSubmit, formState: {errors}} = useForm<FormData>({
     defaultValues: {
       phone_number: "+380",
@@ -38,7 +38,10 @@ function OrderPage() {
     console.log(data)
   }
 
-
+  useEffect(() => {
+    const items = localStorage.getItem("cartItems")
+    setCartItems(items);
+  }, []);
   return (
     <form
       className="max-w-[1300px] min-h-dvh mx-auto mt-16 p-8 grid grid-cols-12 auto-rows-min gap-8"
