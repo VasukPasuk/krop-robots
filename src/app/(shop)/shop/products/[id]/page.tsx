@@ -1,19 +1,21 @@
 import React from 'react';
 import Image from "next/image";
-import {Button, Typography} from "@mui/material";
+import {Button, Paper, Typography} from "@mui/material";
 import ShopUpperBar from "@/custom-components/ui/ShopUpperBar/ShopUpperBar";
-
+import CartButton from "@/custom-components/ui/CartButton";
 
 const SIZES = {}
 
 function ProductPage({params}: { params: { id: string } }) {
+
   const id = params.id
   return (
     <>
       <ShopUpperBar/>
       <section className="container max-w-[1200px] flex flex-row mx-auto mt-[112px] px-6 py-8 gap-x-8">
         <div className="rounded overflow-hidden">
-          <Image className="hover:scale-110 transition-transform duration-700" width={400} height={400} alt={"Product image"}
+          <Image className="hover:scale-110 transition-transform duration-700" width={400} height={400}
+                 alt={"Product image"}
                  src={"/ProductTestImage.webp"}></Image>
         </div>
         <div>
@@ -33,23 +35,23 @@ function ProductPage({params}: { params: { id: string } }) {
           </div>
           <div className="w-full mt-4">
             <Typography variant="h6" className="text-neutral-600 text-lg">
-              Доступні розміри (мм.):
+              Розмір / вага (мм. / кг.):
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
               <Button variant="contained" color={"info"} size={"small"}>
-                56x76x94
+                56x76x94 / 0.5
               </Button>
               <Button variant="outlined" color={"info"} size={"small"}>
-                56x76x94
+                56x76x94 / 0.5
               </Button>
               <Button variant="outlined" color={"info"} size={"small"}>
-                56x76x94
+                56x76x94 / 0.5
               </Button>
               <Button variant="outlined" color={"info"} size={"small"}>
-                56x76x94
+                56x76x94 / 0.5
               </Button>
               <Button variant="outlined" color={"info"} size={"small"}>
-                56x76x94
+                56x76x94 / 0.5
               </Button>
             </div>
           </div>
@@ -59,16 +61,27 @@ function ProductPage({params}: { params: { id: string } }) {
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
               <Button variant="contained" color={"info"} size={"small"}>
-                56x76x94
+                PLH
               </Button>
               <Button variant="outlined" color={"info"} size={"small"}>
-                56x76x94
+                CoPET
               </Button>
             </div>
           </div>
-          <Typography variant="h6" className="text-neutral-600 text-base mt-4">
+          <div className="w-full mt-4">
+            <Typography variant="h6" className="text-neutral-600 text-lg">
+              Кольори:
+            </Typography>
+            <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
+              <Paper className="w-6 h-6" variant={"outlined"}>
 
-          </Typography>
+              </Paper>
+            </div>
+          </div>
+          <div className="w-full mt-8 flex flex-row justify-end gap-x-4">
+            <CartButton cart={"add"} variant={"contained"}/>
+            <CartButton cart={"remove"} variant={"contained"} color={"warning"}/>
+          </div>
         </div>
       </section>
     </>

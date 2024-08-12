@@ -28,24 +28,96 @@ model User {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
-  name          String   @unique
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  id            Int       @id @default(autoincrement())
+  name          String    @unique
   price         Int
   weight        Int?
-  category      Category @relation(fields: [category_name], references: [name], onDelete: Cascade)
+  category      Category  @relation(fields: [category_name], references: [name], onDelete: Cascade)
   category_name String
+  variants      Variant[]
+
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  OrderItems OrderItems[]
 
   @@map("products")
 }
 
+model Variant {
+  id     Int @id @default(autoincrement())
+  height Int
+  width  Int
+  length Int
+  weight Int
+  price  Int
+  image_name String @unique
+
+  Product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id Int
+
+  OrderItems OrderItems[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("variants")
+}
+
 model Category {
-  id         Int       @default(autoincrement())
-  name       String    @id @unique
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  Product    Product[]
+  id      Int       @default(autoincrement())
+  name    String    @id @unique
+  Product Product[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("categories")
+}
+
+model Order {
+  id Int @default(autoincrement())
+
+  name           String
+  first_surname  String
+  second_surname String
+  phone_number   String @unique
+  email          String @unique
+
+  amount Int
+  price  Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItems {
+  id Int @unique @default(autoincrement())
+
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id Int
+
+  variant    Variant @relation(fields: [variant_id], references: [id], onDelete: Cascade)
+  variant_id Int
+
+  color      Color  @relation(fields: [color_name], references: [name], onDelete: Cascade)
+  color_name String
+
+  amount Int
+  price  Int
+
+  @@map("order_items")
+}
+
+model Color {
+  id   Int    @default(autoincrement())
+  name String @id @unique
+  hex  String @unique
+
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  OrderItems OrderItems[]
+
+  @@map("colors")
 }

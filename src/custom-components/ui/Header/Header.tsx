@@ -12,21 +12,23 @@ import {HEADER_LINK} from "@/constants/.names";
 
 interface IHeaderProps {
   className?: string,
+  srcLogo?: string
 }
 
-function Header(props: IHeaderProps) {
+function Header({srcLogo,...rest}: IHeaderProps) {
   const [visible, setVisible] = useState<boolean>(false)
   return (
     <>
       <header
-        {...props}
+        {...rest}
       >
         <Link
           href="/"
-          className={`logo-container`}
+          className={`logo-container w-[160px] h-[64px] relative`}
+
         >
-          <Logo/>
-          <Image src="/text_white.png" width={100} height={50} alt="krop_robots logo-text"/>
+          {/*<Logo/>*/}
+          <Image fill src={`${ !srcLogo ? '/logo_white.png' : srcLogo }`}  alt="krop_robots logo-text"/>
         </Link>
         <div className={`tools-container`}>
           <div
