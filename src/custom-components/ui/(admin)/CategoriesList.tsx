@@ -1,6 +1,6 @@
 "use client"
 import * as React from 'react';
-import {useState} from "react";
+import {Suspense, useState} from "react";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {Category} from "@prisma/client";
 import usePaginationSearchParams from "@/hooks/usePaginationSearchParams";
@@ -156,7 +156,9 @@ export default function CategoriesList() {
   return (
     <>
       <CategoriesListHead/>
-      <CategoriesListBody categories={data}/>
+      <Suspense fallback={<CircularProgress/>}>
+        <CategoriesListBody categories={data}/>
+      </Suspense>
     </>
   );
 }
