@@ -9,8 +9,9 @@ interface IAdminHeaderProps {
 function AdminHeader(props: IAdminHeaderProps) {
   const {} = props;
   return (
-    <header className="flex items-center justify-end px-8">
-      <Image width={112} height={64} src="/logo-.png" alt={"logo"} />
+    <header className="flex items-center justify-between px-8 h-16 bg-blue-600 fixed w-full z-50">
+      <Image width={160} height={64} src="/logo_white.png" alt={"logo"} />
+      <div/>
     </header>
   )
 }

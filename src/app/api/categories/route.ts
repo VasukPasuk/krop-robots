@@ -19,3 +19,31 @@ export async function GET(req: NextRequest, res: NextResponse) {
     categories
   )
 }
+
+type RequestBody = {
+  name: string;
+}
+
+export async function POST(req: NextRequest, res: NextResponse) {
+  try {
+    const data = req.body as unknown as string
+    const result = await prisma.category.create({
+      data: {
+        name: JSON.parse(data),
+      }
+    })
+    return Response.json({message: 'Something went wrong'});
+  } catch (e) {
+    return Response.json({message: 'Something went wrong'});
+  }
+}
+
+
+export async function DELETE(req: NextRequest, res: NextResponse) {
+  try {
+    const result = await prisma.category.deleteMany()
+    return Response.json(result)
+  } catch (e) {
+    return Response.json({message: 'Something went wrong'});
+  }
+}

@@ -25,6 +25,10 @@ export enum BASIC_CATEGORIES {
   "All" = "Всі"
 }
 
+export enum URLS {
+  ADMIN_ROOT_URL = "/d033e22ae348aeb5660fc2140aec35850c4da997"
+}
+
 export {
   CategoriesCheckBoxData,
   CategoriesCheckBoxDataObj

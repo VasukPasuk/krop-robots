@@ -28,13 +28,15 @@ model User {
 }
 
 model Product {
-  id            Int       @id @default(autoincrement())
-  name          String    @unique
+  id            Int      @id @default(autoincrement())
+  name          String   @unique
   price         Int
   weight        Int?
-  category      Category  @relation(fields: [category_name], references: [name], onDelete: Cascade)
+  category      Category @relation(fields: [category_name], references: [name], onDelete: Cascade)
   category_name String
-  variants      Variant[]
+  image_name    String   @unique
+
+  variants Variant[]
 
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
@@ -50,7 +52,6 @@ model Variant {
   length Int
   weight Int
   price  Int
-  image_name String @unique
 
   Product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
   product_id Int

@@ -8,7 +8,7 @@ function AdminPage(props: IAdminPageProps) {
   const {} = props;
   return (
     <div>
-      Hehehehe
+      Стартова сторінка
     </div>
   )
 }

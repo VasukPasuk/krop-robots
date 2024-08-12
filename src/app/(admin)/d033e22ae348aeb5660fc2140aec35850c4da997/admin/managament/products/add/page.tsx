@@ -7,7 +7,7 @@ interface IPageProps {
 function Page({}: IPageProps) {
   return (
     <div>
-
+      Add
     </div>
   )
 }
