@@ -30,8 +30,6 @@ model User {
 model Product {
   id            Int      @id @default(autoincrement())
   name          String   @unique
-  price         Int
-  weight        Int?
   category      Category @relation(fields: [category_name], references: [name], onDelete: Cascade)
   category_name String
   image_name    String   @unique

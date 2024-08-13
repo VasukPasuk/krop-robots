@@ -1,1 +1,19 @@
 "use server"
+
+import {Product} from "@prisma/client";
+import prisma from "../../../prisma/prisma-client";
+
+export async function getAllProducts(limit?: number, skip?: number): Promise<Product[]> {
+  try {
+    const total = await prisma.product.findMany({
+      take: limit || 9,
+      skip: skip || 0,
+    })
+    if (!total) {
+      return []
+    }
+    return total
+  } catch (error) {
+    return error
+  }
+}

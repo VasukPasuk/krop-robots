@@ -8,7 +8,7 @@ import {Button, Card, CircularProgress, IconButton, Input, Modal, Skeleton, Text
 import {MdEdit} from "react-icons/md";
 import {IoMdTrash} from "react-icons/io";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {createCategory, deleteCategory} from "@/services/actions/categoryActions";
+import {createCategory, deleteCategory, getCategories} from "@/services/actions/categoryActions";
 import {useRouter} from "next/navigation";
 
 
@@ -135,7 +135,7 @@ export default function CategoriesList() {
   } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      return await (await fetch("/api/categories")).json();
+      return await getCategories();
     }
   })
 

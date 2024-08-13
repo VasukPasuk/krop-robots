@@ -61,7 +61,7 @@ function ProductPage({params}: { params: { id: string } }) {
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
               <Button variant="contained" color={"info"} size={"small"}>
-                PLH
+                PLA
               </Button>
               <Button variant="outlined" color={"info"} size={"small"}>
                 CoPET

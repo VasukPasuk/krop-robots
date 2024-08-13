@@ -6,14 +6,15 @@ import {useRouter, useSearchParams, usePathname} from "next/navigation";
 import {Pagination} from "@mui/material";
 import {MAX_ITEMS_IN_STORE_TO_VIEW} from '@/constants/index';
 import {BASIC_CATEGORIES} from "@/constants";
+import {getAllProducts} from "@/services/actions/productActions";
 
 interface IProductsListProps {
-  products: Partial<Product>[]
+
 }
 
 function ProductsList(props: IProductsListProps) {
   const [page, setPage] = useState<number>(1)
-  const [products, setProducts] = useState<Partial<Product>[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams();
@@ -23,18 +24,25 @@ function ProductsList(props: IProductsListProps) {
   }
   useEffect(() => {
     setProducts(prevState => {
-      if (params.category === BASIC_CATEGORIES.All) return props.products
-      return props.products.filter(product => product.category_name === params.category)
+      if (params.category === BASIC_CATEGORIES.All) return products
+      return products.filter(product => product.category_name === params.category)
     })
     setPage(1)
   }, [params.category]);
 
+  useEffect(() => {
+    const setAllProducts = async () => {
+      const products = await getAllProducts();
+      setProducts(products)
+    }
+    setAllProducts()
+  }, [])
 
   const totalPagesCount = Math.ceil(products.length / MAX_ITEMS_IN_STORE_TO_VIEW)
   return (
     <>
       <div className="container h-full grid grid-cols-3 grid-rows-3 gap-6 pb-6 pt-6">
-        {products.slice((params.page - 1) * 9, 9 * params.page).map((product, i) => (
+        {products.map((product, i) => (
           <ProductCard key={i} product={product}/>
         ))}
       </div>

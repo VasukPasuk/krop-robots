@@ -3,6 +3,7 @@
 import prisma from "../../../prisma/prisma-client";
 import {revalidatePath} from "next/cache";
 import {URLS} from "@/constants";
+import {Category} from "@prisma/client";
 
 export async function createCategory(name: string) {
   try {
@@ -16,6 +17,25 @@ export async function createCategory(name: string) {
     return newCategory
   } catch (e) {
     return "Error"
+  }
+}
+
+export async function getCategories(take?: number, skip?: number, order?: 'ASC' | 'DESC', orderBy?: keyof Category) {
+  try {
+    const orderByOption = orderBy ? {[orderBy]: order} : undefined;
+
+    const result = await prisma.category.findMany({
+      take,
+      skip,
+      orderBy: orderByOption,
+    });
+
+    revalidatePath(URLS.ADMIN_ROOT_URL + '/admin/managament/categories');
+
+    return result;
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    throw error;
   }
 }
 
