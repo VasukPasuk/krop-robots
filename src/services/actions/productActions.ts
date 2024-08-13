@@ -1,6 +1,6 @@
 "use server"
 
-import {Product} from "@prisma/client";
+import {Product, Variant} from "@prisma/client";
 import prisma from "../../../prisma/prisma-client";
 
 export async function getAllProducts(limit?: number, skip?: number): Promise<Product[]> {
@@ -15,5 +15,14 @@ export async function getAllProducts(limit?: number, skip?: number): Promise<Pro
     return total
   } catch (error) {
     return error
+  }
+}
+
+export async function getProductById(id: number): Promise<{product: Product, variants: Variant[] }> {
+  const {variants, ...rest} = await prisma.product.findUnique({where: {id}, include: {variants: true}})
+
+  return {
+    product: rest,
+    variants: variants
   }
 }

@@ -13,7 +13,7 @@ interface IProductCardProps {
 }
 
 function ProductCard(props: IProductCardProps) {
-  const {product: {category_name, name, image_name}} = props;
+  const {product: {category_name, name, image_name, id}} = props;
 
   const router = useRouter()
 
@@ -23,7 +23,7 @@ function ProductCard(props: IProductCardProps) {
   }
 
   const clickCardHandler = () => {
-    router.push("/shop/products/1")
+    router.push(`/shop/products/${id}`)
   }
 
   return (
