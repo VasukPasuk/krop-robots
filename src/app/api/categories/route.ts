@@ -2,39 +2,36 @@ import {NextRequest, NextResponse} from "next/server";
 import prisma from "../../../../prisma/prisma-client";
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  let categories = [];
   const params = {
     skip: Number(req.nextUrl.searchParams.get("skip")) || 0,
-    take: Number(req.nextUrl.searchParams.get("take")) || 10,
+    take: Number(req.nextUrl.searchParams.get("take")) || 9,
   }
   try {
-    categories = await prisma.category.findMany({
+    const result = await prisma.category.findMany({
       skip: params.skip,
       take: params.take,
     })
+    return Response.json(result)
   } catch (e) {
-    return NextResponse.error()
+    return Response.error()
   }
-  return NextResponse.json(
-    categories
-  )
 }
 
-type RequestBody = {
+type PostRequestBody = {
   name: string;
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const data = req.body as unknown as string
+    const data:PostRequestBody = await req.json()
     const result = await prisma.category.create({
       data: {
-        name: JSON.parse(data),
+        name: data.name,
       }
     })
-    return Response.json({message: 'Something went wrong'});
+    return Response.json(result);
   } catch (e) {
-    return Response.json({message: 'Something went wrong'});
+    return Response.error();
   }
 }
 

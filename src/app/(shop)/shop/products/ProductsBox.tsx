@@ -1,89 +1,56 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {Category, Product} from "@prisma/client";
-import {getCategories} from "@/services/actions/categoryActions";
-import {getProductsWithLength} from "@/services/actions/productActions";
-import {BASIC_CATEGORIES} from "@/constants";
 import {useSearchParams} from "next/navigation";
 import CategoryTabs from "@/custom-components/ui/CategoryTabs/CategoryTabs";
 import ProductsList from "@/app/(shop)/shop/products/ProductsList";
-import { Skeleton } from "@mui/material";
-import { notFound } from "next/navigation";
-
-interface IPageProps {
-}
+import {Skeleton} from "@mui/material";
+import {useQuery} from "@tanstack/react-query";
 
 function ProductsBox() {
-  const [loading, setLoading] = useState<boolean>(true); // Loading
-  const [categories, setCategories] = useState<Category[]>([]) // Categories state array
-  const [products, setProducts] = useState<Product[]>([]) // Products state array
-  const [totalPages, setTotalPages] = useState<number>(0) // Total Pages state number
-  const [error, setError] = useState<boolean>(false) // Error state
-
 
   const searchParams = useSearchParams();
   const params = {
-    category: searchParams.get("category") || BASIC_CATEGORIES.All,
-    page: Number(searchParams.get("page") || 1),
+    category: searchParams.get("category") || "",
+    page: Number(searchParams.get("page")) || 1,
+    search: searchParams.get("search") || '',
   };
 
+  const {data: productData, isLoading: isLoadingProducts, refetch} = useQuery({
+    queryKey: ["products", params.category, params.page, 9],
+    queryFn: async ({queryKey}):Promise<{products: Product[], total: number}> => {
+      const [, category = "", page = 0, take = 9] = queryKey;
+      const response = await fetch(`/api/products?category=${category}&skip=${(Number(page) - 1) * 9}&take=${take}&search=${params.search}`, {method: "GET"});
+      if (!response.ok) throw new Error("Error response");
+      return response.json();
+    },
+  });
+
+  const {data: categories, isLoading: isLoadingCategories} = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const response = await fetch("/api/categories", {method: "GET"})
+      if (!response.ok) throw new Error("Error response")
+      return response.json()
+    },
+  })
 
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const [productsData, categories] = await Promise.all([getProductsWithLength("", 0, 9), getCategories()])
-        setProducts(productsData.products)
-        setTotalPages(productsData.total)
-        setCategories(categories)
-      } catch (e) {
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
-    init()
-  }, [])
-
-  useEffect(() => {
-    const refresh = async () => {
-      setLoading(true)
-      try {
-        const {total, products} = await getProductsWithLength(params.category !== BASIC_CATEGORIES.All ? params.category : "", 0, 9)
-        setProducts(products)
-        setTotalPages(total)
-      } catch (e) {
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
-    refresh()
-  }, [params.category])
 
   useEffect(() => {
-    const refresh = async () => {
-      setLoading(true)
-      try {
-        const {products} = await getProductsWithLength(params.category !== BASIC_CATEGORIES.All ? params.category : "", 0, 9);
-        setProducts(products)
-      } catch (e) {
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
-    refresh()
-  }, [params.page])
+    refetch()
+  }, [params.page, params.category,  params.search]);
 
-  if (loading) {
+
+  if (isLoadingCategories || isLoadingProducts) {
     return (
-      <div className={"mt-[112px] min-h-dvh flex flex-col max-w-[1300px] mx-auto mb-8"}>
-        <Skeleton className={"w-full h-32"} />
-        <Skeleton className={"w-full h-32"} />
-        <Skeleton className={"w-full h-32"} />
-        <Skeleton className={"w-full h-32"} />
-        <Skeleton className={"w-full h-32"} />
+      <div className={"mt-[112px] min-h-dvh flex gap-0 flex-col max-w-[1300px] mx-auto mb-8"}>
+        <Skeleton className={"w-full h-32"}/>
+        <div className="w-full min-h-[80dvh] grid grid-cols-12 gap-4 grid-rows-12">
+          {[...Array.from({length: 9})].map((_, index) => (
+            <Skeleton className={"col-span-4 row-span-4 my-[-4.5rem]"}/>
+          ))}
+        </div>
       </div>
     )
   }
@@ -92,7 +59,11 @@ function ProductsBox() {
     <div className="mt-[112px] h-full flex flex-row max-w-[1300px] mx-auto mb-8">
       <div className="w-full flex flex-col">
         <CategoryTabs categories={categories}/>
-        <ProductsList products={products} totalPages={totalPages} />
+        <ProductsList
+          products={productData.products}
+          totalPages={productData.total}
+          productsLoading={isLoadingProducts}
+        />
       </div>
     </div>
   );

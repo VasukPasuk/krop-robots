@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CircularProgress, Tab, Tabs} from "@mui/material";
 import {TabOwnProps} from "@mui/material/Tab/Tab";
 import {notFound, useRouter, useSearchParams} from "next/navigation";
@@ -21,6 +21,10 @@ function CategoryTabs({categories}: ICategoryTabsProps) {
     if (value !== "Всі") router.push(`/shop/products?category=${value}`)
     else router.push(`/shop/products`);
   };
+
+  useEffect(() => {
+    setValue(searchParams.get("category") || 'Всі')
+  }, [searchParams.get("category")])
 
   return (
     <div className="flex flex-row  items-center w-full">

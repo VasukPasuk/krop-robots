@@ -7,15 +7,17 @@ import {toast} from "react-toastify";
 
 export function SearchInput() {
   const [value, setValue] = useState<string>("");
+  const pathname = usePathname()
+  const router = useRouter()
+
+
   const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setValue(prev => event.target.value)
   };
 
-  const pathname = usePathname()
-  const router = useRouter()
   const onSearchButtonHandler = () => {
     if (value.trim() !== "") router.push(pathname + `?search=${value}` + (!!window.location.search ? window.location.search.replace("?", "&") : ""), {scroll: false})
-    else toast.warning("Поле пошуку за іменем не повинно бути пустим!")
+    else router.push("/shop/products")
   }
 
   return (
