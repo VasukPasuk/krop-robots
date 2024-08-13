@@ -20,47 +20,14 @@ function ProductsBox() {
   const [totalPages, setTotalPages] = useState<number>(0) // Total Pages state number
   const [error, setError] = useState<boolean>(false) // Error state
 
-  // const [loading, setLoading] = useState<boolean>(true);
-  // const [categories, setCategories] = useState<Category[]>([]);
-  // const [products, setProducts] = useState<Product[]>([]);
-  // const [total, setTotal] = useState<number>(0);
-  //
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const [categoriesData, productsData] = await Promise.all([
-  //         getCategories(),
-  //         getProductsWithLength("", 0, 9),
-  //       ]);
-  //       setCategories(categoriesData);
-  //       setProducts(productsData.products);
-  //       setTotal(productsData.total);
-  //     } catch (error) {
-  //       console.error("Failed to fetch data:", error);
-  //       notFound();
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchData();
-  // }, []);
-  //
-  // if (loading) {
-  //   return (
-  //     <div className="mt-[112px] h-full flex flex-row gap-y-4 max-w-[1300px] mx-auto mb-8">
-  //       {Array.from({ length: 4 }).map((_, idx) => (
-  //         <Skeleton key={idx} variant="rectangular" className="w-full h-16" />
-  //       ))}
-  //     </div>
-  //   );
-  // }
 
   const searchParams = useSearchParams();
   const params = {
     category: searchParams.get("category") || BASIC_CATEGORIES.All,
     page: Number(searchParams.get("page") || 1),
   };
+
+
 
   useEffect(() => {
     const init = async () => {
@@ -109,6 +76,17 @@ function ProductsBox() {
     refresh()
   }, [params.page])
 
+  if (loading) {
+    return (
+      <div className={"mt-[112px] min-h-dvh flex flex-col max-w-[1300px] mx-auto mb-8"}>
+        <Skeleton className={"w-full h-32"} />
+        <Skeleton className={"w-full h-32"} />
+        <Skeleton className={"w-full h-32"} />
+        <Skeleton className={"w-full h-32"} />
+        <Skeleton className={"w-full h-32"} />
+      </div>
+    )
+  }
 
   return (
     <div className="mt-[112px] h-full flex flex-row max-w-[1300px] mx-auto mb-8">

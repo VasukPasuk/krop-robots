@@ -13,9 +13,9 @@ interface ICategoryTabsProps {
 
 
 function CategoryTabs({categories}: ICategoryTabsProps) {
-  const [value, setValue] = useState<string | 'Всі'>('Всі');
+  const searchParams = useSearchParams();
+  const [value, setValue] = useState<string | 'Всі'>(searchParams.get("category") || 'Всі');
   const router = useRouter();
-
   const handleChange = (event: React.SyntheticEvent, value: string) => {
     setValue(prev => value)
     if (value !== "Всі") router.push(`/shop/products?category=${value}`)
