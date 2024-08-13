@@ -5,6 +5,7 @@ import ProductsList from "@/app/(shop)/shop/products/ProductsList";
 import {SearchInput} from "@/app/(shop)/shop/products/Search";
 import CategoryTabs from "@/custom-components/ui/CategoryTabs/CategoryTabs";
 import {getAllProducts} from "@/services/actions/productActions";
+import ProductsBox from "@/app/(shop)/shop/products/ProductsBox";
 
 
 function Page() {
@@ -16,12 +17,7 @@ function Page() {
             <SearchInput/>
           </div>
         </ShopUpperBar>
-        <div className="mt-[112px] h-full flex flex-row  max-w-[1300px] mx-auto mb-8">
-          <div className="w-full flex flex-col">
-            <CategoryTabs/>
-            <ProductsList/>
-          </div>
-        </div>
+        <ProductsBox/>
       </Suspense>
     </>
   );

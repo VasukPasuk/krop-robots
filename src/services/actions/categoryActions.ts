@@ -39,6 +39,7 @@ export async function getCategories(take?: number, skip?: number, order?: 'ASC' 
   }
 }
 
+
 export async function deleteCategory(name: string) {
   try {
     const result = await prisma.category.delete({

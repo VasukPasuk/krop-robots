@@ -18,7 +18,37 @@ export async function getAllProducts(limit?: number, skip?: number): Promise<Pro
   }
 }
 
-export async function getProductById(id: number): Promise<{product: Product, variants: Variant[] }> {
+export async function getProductsWithLength(category: string, skip: number, take: number): Promise<{
+  products: Product[],
+  total: number
+} | null> {
+  try {
+    const searching_category = category !== "" ? {
+      category_name: category
+    } : undefined
+    const products = await prisma.product.findMany({
+      where: searching_category,
+      take: take,
+      skip: skip
+    })
+    const total = await prisma.product.count({
+      where: {
+        category_name: {
+          mode: "insensitive",
+          contains: category,
+        }
+      }
+    })
+    return {
+      products: products,
+      total: total,
+    }
+  } catch (e) {
+    return null
+  }
+}
+
+export async function getProductById(id: number): Promise<{ product: Product, variants: Variant[] }> {
   const {variants, ...rest} = await prisma.product.findUnique({where: {id}, include: {variants: true}})
 
   return {
