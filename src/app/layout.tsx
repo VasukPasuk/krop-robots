@@ -7,6 +7,7 @@ import {AppRouterCacheProvider} from "@mui/material-nextjs/v13-appRouter";
 import {CssBaseline, StyledEngineProvider} from "@mui/material";
 import "react-toastify/scss/main.scss"
 import {TanStackProvider} from "@/app/TanstackWrapper";
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -35,6 +36,7 @@ export default function RootLayout({children}: PROPS) {
           </TanStackProvider>
         </StyledEngineProvider>
       </AppRouterCacheProvider>
+      <Analytics/>
     </html>
   );
 }
