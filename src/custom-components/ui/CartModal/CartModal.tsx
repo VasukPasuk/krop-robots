@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Drawer, IconButton, Modal, Typography} from "@mui/material";
 import CartItem from "@/custom-components/ui/CartItem/CartItem";
 import {toast} from "react-toastify";
-import {UserCartItemType} from "@/features/localStorageFunctions";
+import {getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
 import {useRouter} from "next/navigation";
 import {MdClose} from "react-icons/md";
 
@@ -25,21 +25,15 @@ function CartModal(props: ICartModalProps) {
   }
 
   const refreshHandler = () => {
-    const storedCartItems = localStorage.getItem("cartItems");
-    const parsedCartItems = storedCartItems ? JSON.parse(storedCartItems) : {};
-    setItems(parsedCartItems as { [key: string]: UserCartItemType });
+    setItems(getAllCartItems())
   }
 
   useEffect(() => {
-    const storedCartItems = localStorage.getItem("cartItems");
-    const parsedCartItems = storedCartItems ? JSON.parse(storedCartItems) : {};
-    setItems(parsedCartItems as { [key: string]: UserCartItemType });
+    setItems(getAllCartItems())
   },[])
 
   useEffect(() => {
-    const storedCartItems = localStorage.getItem("cartItems");
-    const parsedCartItems = storedCartItems ? JSON.parse(storedCartItems) : {};
-    setItems(parsedCartItems as { [key: string]: UserCartItemType });
+    setItems(getAllCartItems())
   },[open])
 
   const totalPrice = Object.keys(items).reduce((total, key) => {

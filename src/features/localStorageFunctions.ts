@@ -18,9 +18,11 @@ export function setProductToCart(data: UserCartItemType) {
     amount: 1
   }
 
-  let prevItems = JSON.parse((localStorage.getItem("cartItems") || {}) as string);
+  const storedCartItems = localStorage.getItem("cartItems");
+  const parsedCartItems = storedCartItems ? JSON.parse(storedCartItems) : {}
+
   localStorage.setItem("cartItems", JSON.stringify({
-    ...prevItems,
+    ...parsedCartItems,
     [userCartItem.color.hex + userCartItem.product.name + userCartItem.variant.price + userCartItem.plastic]: userCartItem
   }))
 }
@@ -33,6 +35,12 @@ export function deleteProduct(key: string) {
   localStorage.setItem("cartItems", JSON.stringify(fullCart));
 }
 
+
+
+export function getAllCartItems():{ [key: string]: UserCartItemType } {
+  const storedCartItems = localStorage.getItem("cartItems");
+  return storedCartItems ? JSON.parse(storedCartItems) : {};
+}
 
 
 export function incrementProduct(key: string) {
