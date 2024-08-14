@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {Category, Product} from "@prisma/client";
-import {useSearchParams} from "next/navigation";
+import {notFound, useSearchParams} from "next/navigation";
 import CategoryTabs from "@/custom-components/ui/CategoryTabs/CategoryTabs";
 import ProductsList from "@/app/(shop)/shop/products/ProductsList";
 import {Skeleton} from "@mui/material";
@@ -16,7 +16,7 @@ function ProductsBox() {
     search: searchParams.get("search") || '',
   };
 
-  const {data: productData, isLoading: isLoadingProducts, refetch} = useQuery({
+  const {data: productData, isLoading: isLoadingProducts, refetch, isFetched: isFetchedProducts} = useQuery({
     queryKey: ["products", params.category, params.page, 9],
     queryFn: async ({queryKey}):Promise<{products: Product[], total: number}> => {
       const [, category = "", page = 0, take = 9] = queryKey;
@@ -26,7 +26,7 @@ function ProductsBox() {
     },
   });
 
-  const {data: categories, isLoading: isLoadingCategories} = useQuery({
+  const {data: categories, isLoading: isLoadingCategories, isFetched: isFetchedCategories} = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
       const response = await fetch("/api/categories", {method: "GET"})
@@ -41,6 +41,10 @@ function ProductsBox() {
     refetch()
   }, [params.page, params.category,  params.search]);
 
+
+  if ((!productData && isFetchedProducts)|| (!categories && isFetchedCategories)) {
+    notFound()
+  }
 
   if (isLoadingCategories || isLoadingProducts) {
     return (
