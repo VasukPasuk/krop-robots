@@ -49,7 +49,7 @@ function CartModal(props: ICartModalProps) {
       disableScrollLock
       className="w-1/2"
       anchor={"right"}
-      classes={{paperAnchorRight: "gap-y-4 p-6 flex flex-col justify-center items-center w-[460px]"}}
+      classes={{paperAnchorRight: "gap-y-4 p-6 flex flex-col justify-center items-center w-full sm:w-[460px]"}}
     >
       <div className={"flex w-full flex-row justify-between items-center"}>
         <Typography variant="h4">
@@ -64,7 +64,7 @@ function CartModal(props: ICartModalProps) {
           <CartItem refreshFn={refreshHandler} data={value} propertyHash={key} key={key}/>
         ))}
       </div>
-      <div className="container flex flex-row items-center justify-between">
+      <div className="container flex flex-col gap-y-4 sm:flex-row items-center justify-between">
         <Typography variant="h6">
           Загальна ціна {totalPrice} грн.
         </Typography>

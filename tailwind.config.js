@@ -11,6 +11,19 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {},
+    screens: {
+      "s320": "320px",
+      // => @media (min-width: 320px) { ... }
+      
+      "s360": "360px",
+      // => @media (min-width: 360px) { ... }
+      
+      "s420": "420px",
+      // => @media (min-width: 420px) { ... }
+      
+      "s480": "480px",
+      // => @media (min-width: 480px) { ... }
+    }
   },
   plugins: [],
 }
