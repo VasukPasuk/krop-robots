@@ -8,12 +8,13 @@ import {Color, Product, Variant} from "@prisma/client";
 import {getProductById} from "@/services/actions/productActions";
 import {useQuery} from "@tanstack/react-query";
 import {toast} from "react-toastify";
+import {setProductToCart} from "@/features/localStorageFunctions";
 
 const SIZES = {}
 
 function ProductPage({params}: { params: { id: string } }) {
   const [currentVariant, setCurrentVariant] = useState<number>(0)
-  const [plasticVariant, setPlasticVariant] = useState<"PLA"|"CoPET">("PLA")
+  const [plasticVariant, setPlasticVariant] = useState<"PLA" | "CoPET">("PLA")
   const [currentColor, setCurrentColor] = useState<string | "Чорний">("Чорний")
 
   const [modal, setModal] = useState<boolean>(false)
@@ -47,6 +48,13 @@ function ProductPage({params}: { params: { id: string } }) {
   }
 
   const onModalButtonHandler = () => {
+    setProductToCart({
+      plastic: plasticVariant,
+      color: data.colors.find(({name}) => name === currentColor),
+      amount: 1,
+      product: data.product,
+      variant: data.variants[currentVariant]
+    })
     toast.success(`Товар ${data.product.name} додано до кошика.`)
   }
 
@@ -82,7 +90,7 @@ function ProductPage({params}: { params: { id: string } }) {
               {data.variants.map(({weight, height, width, length}, index) => (
                 <Button
                   key={index}
-                  variant={currentVariant === index ?"contained" : "outlined"}
+                  variant={currentVariant === index ? "contained" : "outlined"}
                   color={"info"}
                   size={"small"}
                   onClick={() => {
@@ -99,10 +107,12 @@ function ProductPage({params}: { params: { id: string } }) {
               Вид пластику:
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
-              <Button variant={plasticVariant === "PLA" ? "contained" : "outlined"} color={"info"} size={"small"} onClick={() => setPlasticVariant("PLA")}>
+              <Button variant={plasticVariant === "PLA" ? "contained" : "outlined"} color={"info"} size={"small"}
+                      onClick={() => setPlasticVariant("PLA")}>
                 PLA
               </Button>
-              <Button variant={plasticVariant === "CoPET" ? "contained" : "outlined"} color={"info"} size={"small"} onClick={() => setPlasticVariant("CoPET")}>
+              <Button variant={plasticVariant === "CoPET" ? "contained" : "outlined"} color={"info"} size={"small"}
+                      onClick={() => setPlasticVariant("CoPET")}>
                 CoPET
               </Button>
             </div>
@@ -113,7 +123,8 @@ function ProductPage({params}: { params: { id: string } }) {
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-x-2 mt-2">
               {data.colors.map(({hex, name}) => (
-                <Paper className={`w-6 h-6 cursor-pointer`} style={{background: hex}} variant={"outlined"} onClick={() => setCurrentColor(name)}>
+                <Paper className={`w-6 h-6 cursor-pointer`} style={{background: hex}} variant={"outlined"}
+                       onClick={() => setCurrentColor(name)}>
 
                 </Paper>
               ))}
@@ -125,7 +136,8 @@ function ProductPage({params}: { params: { id: string } }) {
           </div>
         </div>
       </section>
-      <Modal disableScrollLock className={"flex justify-center items-center"} open={modal} onClose={() => setModal(false)}>
+      <Modal disableScrollLock className={"flex justify-center items-center"} open={modal}
+             onClose={() => setModal(false)}>
         <Paper elevation={4} className="px-8 pr-24 pt-8 pb-6 flex flex-col items-start justify-center gap-y-8">
           <Typography variant={"h4"} className={"font-bold text-neutral-700"}> Деталі товару </Typography>
           <div className="flex flex-row items-start justify-center gap-x-8">

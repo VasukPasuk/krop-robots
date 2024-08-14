@@ -1,7 +1,10 @@
-import React from 'react';
-import {Button, Modal, Typography} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Button, Drawer, IconButton, Modal, Typography} from "@mui/material";
 import CartItem from "@/custom-components/ui/CartItem/CartItem";
 import {toast} from "react-toastify";
+import {UserCartItemType} from "@/features/localStorageFunctions";
+import {useRouter} from "next/navigation";
+import {MdClose} from "react-icons/md";
 
 interface ICartModalProps {
   open: boolean
@@ -10,52 +13,71 @@ interface ICartModalProps {
 
 function CartModal(props: ICartModalProps) {
   const {handleClose, open} = props;
+  const [items, setItems] = useState<{ [key: string]: UserCartItemType }>({});
+
+  const router = useRouter()
 
   const clearCartHandler = () => {
     toast.success("Кошик з Вашими товарами очищено")
   }
   const purchaseCartHandler = () => {
-    toast.success("Вітаємо з успішною покупкою!", {autoClose: false, position: "bottom-center"})
+    router.push("/shop/checkout")
   }
 
+  const refreshHandler = () => {
+    setItems(JSON.parse(localStorage.getItem("cartItems") as string) as { [key: string]: UserCartItemType })
+  }
+
+  useEffect(() => {
+    setItems(JSON.parse(localStorage.getItem("cartItems") as string) as { [key: string]: UserCartItemType })
+  },[])
+
+  useEffect(() => {
+    setItems(JSON.parse(localStorage.getItem("cartItems") as string) as { [key: string]: UserCartItemType })
+  },[open])
+
+  const totalPrice = Object.keys(items).reduce((total, key) => {
+    return total + items[key].variant.price * items[key].amount;
+  }, 0);
+
   return (
-    <Modal
+    <Drawer
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       disableScrollLock
-      className="flex justify-center items-center"
+      className="w-1/2"
+      anchor={"right"}
+      classes={{paperAnchorRight: "gap-y-4 p-6 flex flex-col justify-center items-center w-[460px]"}}
     >
-      <div
-        className="flex flex-col bg-white p-8 rounded gap-y-4 2xl:w-[40%] xl:w-[30%] lg:w-[20%] md:w-[40%] sm:w-[80%]">
-        <Typography variant="h5" className="mb-5">
+      <div className={"flex w-full flex-row justify-between items-center"}>
+        <Typography variant="h4">
           Кошик
         </Typography>
-        <div className="flex flex-col gap-y-4 max-h-[28rem] overflow-y-auto pr-4 py-4">
-          <CartItem/>
-          <CartItem/>
-          <CartItem/>
-          <CartItem/>
-          <CartItem/>
-          <CartItem/>
-          <CartItem/>
-        </div>
-        <div className="container flex flex-row items-center justify-between">
-          <Typography variant="h6">
-            Загальна ціна 1000 грн.
-          </Typography>
-          <div className="flex flex-row items-center justify-end gap-x-6">
-            <Button variant="contained" color="success" className="normal-case" onClick={purchaseCartHandler}>
-              Оформити замовлення
-            </Button>
-            <Button variant="outlined" color="warning" className="normal-case" onClick={clearCartHandler}>
-              Очистити кошик
-            </Button>
-          </div>
+        <IconButton onClick={() => handleClose(false)}>
+          <MdClose/>
+        </IconButton>
+      </div>
+      <div className="h-full flex flex-col gap-y-4 overflow-y-auto pr-4 py-4">
+        {Object.entries(items).map(([key, value]) => (
+          <CartItem refreshFn={refreshHandler} data={value} propertyHash={key} key={key}/>
+        ))}
+      </div>
+      <div className="container flex flex-row items-center justify-between">
+        <Typography variant="h6">
+          Загальна ціна {totalPrice} грн.
+        </Typography>
+        <div className="flex flex-row items-center justify-end gap-x-6">
+          <Button size={"small"} variant="contained" color="success" className="normal-case" onClick={purchaseCartHandler}>
+            Оформити замовлення
+          </Button>
+          <Button size={"small"} variant="outlined" color="warning" className="normal-case" onClick={clearCartHandler}>
+            Очистити кошик
+          </Button>
         </div>
       </div>
-    </Modal>
+    </Drawer>
   )
 }
 
