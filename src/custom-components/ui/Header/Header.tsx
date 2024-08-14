@@ -53,7 +53,9 @@ function Header({srcLogo,...rest}: IHeaderProps) {
         data-visible-drawer={visible}
       >
         {HEADER_LINK.map(({content, href}) => (
-          <Link href={href} key={content}>{content}</Link>
+          <Link href={href} key={content}>
+            {content}
+          </Link>
         ))}
       </div>
     </>

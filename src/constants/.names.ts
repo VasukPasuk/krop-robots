@@ -65,23 +65,27 @@ const HEADER_LINK = [
     content: "Товари"
   },
   {
-    href: "/services",
+    href: "/" || "/services",
     content: "Послуги"
   },
   {
-    href: "/news",
+    href: "/" || "/news",
     content: "Новини"
   },
   {
-    href: "/directions",
+    href: "/" || "/directions",
     content: "Напрями"
   },
   {
-    href: "/about",
+    href: "/" || "/about",
     content: "Про нас"
   },
   {
-    href: "/contacts",
+    href: "/" || "/projects",
+    content: "Про нас"
+  },
+  {
+    href: "/" || "/contacts",
     content: "Контакти"
   },
 ]

@@ -50,18 +50,7 @@ function SumoIntroductionBlock(props) {
           transition={{ease: "linear", duration: 0.75, delay: 1}}
         >
           <div className={`sumo-introduction-block-img-box`}>
-            {theme === "dark" ? (
-                <>
-                  <img src="./robot-fighting-3-removebg-preview.png" alt="robot fight image"/>
-                  {/*<div className={`sumo-introduction-img-shadow`}/>*/}
-                </>
-              )
-              :
-              (
-                <>
-                  <img src="./robot-fighting-white-bg-black-figure-removebg-preview.png" alt="robot fight image"/>
-                </>
-              )}
+            <img src={theme === "dark" ? "./robot-fighting-preview-image.png" : "./robot-fighting-white-bg-black-figure-removebg-preview.png"} alt="robot fight image"/>
           </div>
         </motion.div>
       </div>
