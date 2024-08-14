@@ -4,7 +4,6 @@ import './style.scss';
 import Link from "next/link";
 import {RxHamburgerMenu} from "react-icons/rx";
 import {AiFillSetting} from "react-icons/ai";
-import Logo from "@/custom-components/logo/Logo";
 import Image from "next/image";
 import ThemeSwitcher from "@/custom-components/ui/ThemeSwitcher/ThemeSwitcher";
 import {HEADER_LINK} from "@/constants/.names";
