@@ -14,6 +14,7 @@ $left-side-end-index: 7;
   grid-auto-rows: auto;
   gap: 2rem 2rem;
   line-height: 1.5rem;
+  color: var(--global-simple-text-color);
   .description__title-box {
     grid-column: 1 / #{$left-side-end-index};
     align-self: start;
