@@ -1,4 +1,6 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {Partial<CustomThemeConfig & {extend: Partial<CustomThemeConfig>}> & DefaultTheme} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -23,6 +25,7 @@ module.exports = {
       
       "s480": "480px",
       // => @media (min-width: 480px) { ... }
+      ...defaultTheme.screens,
     }
   },
   plugins: [],
