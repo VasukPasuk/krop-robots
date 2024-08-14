@@ -25,15 +25,21 @@ function CartModal(props: ICartModalProps) {
   }
 
   const refreshHandler = () => {
-    setItems(JSON.parse((localStorage.getItem("cartItems") || {}) as string) as { [key: string]: UserCartItemType })
+    const storedCartItems = localStorage.getItem("cartItems");
+    const parsedCartItems = storedCartItems ? JSON.parse(storedCartItems) : {};
+    setItems(parsedCartItems as { [key: string]: UserCartItemType });
   }
 
   useEffect(() => {
-    setItems(JSON.parse((localStorage.getItem("cartItems") || {}) as string) as { [key: string]: UserCartItemType })
+    const storedCartItems = localStorage.getItem("cartItems");
+    const parsedCartItems = storedCartItems ? JSON.parse(storedCartItems) : {};
+    setItems(parsedCartItems as { [key: string]: UserCartItemType });
   },[])
 
   useEffect(() => {
-    setItems(JSON.parse((localStorage.getItem("cartItems") || {}) as string) as { [key: string]: UserCartItemType })
+    const storedCartItems = localStorage.getItem("cartItems");
+    const parsedCartItems = storedCartItems ? JSON.parse(storedCartItems) : {};
+    setItems(parsedCartItems as { [key: string]: UserCartItemType });
   },[open])
 
   const totalPrice = Object.keys(items).reduce((total, key) => {
