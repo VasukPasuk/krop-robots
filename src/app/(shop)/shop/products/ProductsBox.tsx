@@ -60,7 +60,7 @@ function ProductsBox() {
   }
 
   return (
-    <div className="mt-[112px] h-full flex flex-row max-w-[1300px] mx-auto mb-8">
+    <div className="mt-[112px] h-full flex flex-row container mx-auto mb-8">
       <div className="w-full flex flex-col">
         <CategoryTabs categories={categories}/>
         <ProductsList

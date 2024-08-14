@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import ProductCard from "@/custom-components/ui/ProductCard/ProductCard";
 import {Product} from "@prisma/client";
 import {useRouter, useSearchParams, usePathname} from "next/navigation";
-import {Pagination, Skeleton} from "@mui/material";
+import {Pagination, Skeleton, Typography} from "@mui/material";
 import {MAX_ITEMS_IN_STORE_TO_VIEW} from "@/constants/index";
 import {BASIC_CATEGORIES} from "@/constants";
 
@@ -24,6 +24,16 @@ function ProductsList({products,productsLoading, totalPages}: IProductsListProps
     );
   };
 
+  if(!products.length) {
+    return (
+      <div className={"min-h-[85dvh] flex items-center justify-center"}>
+        <Typography variant="h5" className={"text-neutral-400 font-medium"}>
+          Товарів з таким іменем немає :(
+        </Typography>
+      </div>
+    )
+  }
+
   const loadingContent = (
     <div className="w-full min-h-[75dvh] grid grid-cols-12 gap-4 grid-rows-12">
       {[...Array.from({length: 9})].map((_, index) => (
@@ -33,7 +43,7 @@ function ProductsList({products,productsLoading, totalPages}: IProductsListProps
   )
 
   const dataContent = (
-    <div className="container h-full grid grid-cols-3 grid-rows-3 gap-6 pb-6 pt-6">
+    <div className="container h-full grid grid-cols-1 grid-rows-1 px-4 gap-y-4 pb-6 pt-6 md:grid-cols-2 md:grid-rows-2 md:gap-4 lg:grid-cols-3 lg:grid-rows-3 lg:gap-6">
       {products.map((product, i) => (
         <ProductCard key={product.id} product={product}/>
       ))}

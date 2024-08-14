@@ -76,7 +76,7 @@ function ProductPage({params}: { params: { id: string } }) {
           </Typography>
           <div className="mt-6">
             <Typography variant="h5" className="text-neutral-700 text-3xl font-bold">
-              {data.variants[currentVariant].price} грн. / шт.
+              {data?.variants[currentVariant]?.price} грн. / шт.
             </Typography>
             {/*<Typography variant="h5" className="text-neutral-700 text-xl">*/}
             {/*  Discount (optional)*/}
@@ -87,7 +87,7 @@ function ProductPage({params}: { params: { id: string } }) {
               Розмір / вага (мм. / гр.):
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
-              {data.variants.map(({weight, height, width, length}, index) => (
+              {data?.variants?.map(({weight, height, width, length}, index) => (
                 <Button
                   key={index}
                   variant={currentVariant === index ? "contained" : "outlined"}
@@ -157,16 +157,16 @@ function ProductPage({params}: { params: { id: string } }) {
                 Колір: {currentColor}
               </Typography>
               <Typography variant={"subtitle1"}>
-                Розмірність: {data.variants[currentVariant].height}x{data.variants[currentVariant].width}x{data.variants[currentVariant].length}
+                Розмірність: {data?.variants[currentVariant]?.height}x{data?.variants[currentVariant]?.width}x{data?.variants[currentVariant]?.length}
               </Typography>
               <Typography variant={"subtitle1"}>
-                Вага: {data.variants[currentVariant].weight} грам
+                Вага: {data?.variants[currentVariant]?.weight} грам
               </Typography>
               <Typography variant={"subtitle1"}>
                 Тип пластику: {plasticVariant}
               </Typography>
               <Typography variant={"h5"}>
-                Ціна: {data.variants[currentVariant].price} грн
+                Ціна: {data?.variants[currentVariant]?.price} грн
               </Typography>
             </div>
           </div>

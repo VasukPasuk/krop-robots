@@ -27,7 +27,7 @@ function CategoryTabs({categories}: ICategoryTabsProps) {
   }, [searchParams.get("category")])
 
   return (
-    <div className="flex flex-row  items-center w-full">
+    <div className="flex flex-row  items-center w-full overscroll-x-auto">
       <Tabs
         value={value}
         onChange={handleChange}

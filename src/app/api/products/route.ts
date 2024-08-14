@@ -3,42 +3,43 @@ import {Product} from "@prisma/client";
 import prisma from "../../../../prisma/prisma-client";
 
 
-
-
-export async function GET(req:NextRequest, res:NextResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const params = {
     skip: Number(req.nextUrl.searchParams.get("skip")) || 0,
     take: Number(req.nextUrl.searchParams.get("take")) || 10,
     category: req.nextUrl.searchParams.get("category") || "",
     search: req.nextUrl.searchParams.get("search") || ""
   }
+  console.log(params)
   try {
     const products = await prisma.product.findMany({
       where: {
-        category_name: {
+        category_name: params.category ? {
           mode: "insensitive",
           contains: params.category,
-        },
-        name: {
+        } : undefined,
+        name: params.search ? {
           mode: "insensitive",
           contains: params.search,
-        }
+        } : undefined
       },
       take: params.take,
       skip: params.skip
     })
     const total = await prisma.product.count({
       where: {
-        category_name: {
+        category_name: params.category ? {
           mode: "insensitive",
-          contains: params.category,
-        },
-        name: {
+          equals: params.category,
+        } : undefined,
+        name: params.search ? {
           mode: "insensitive",
-          contains: params.search,
-        }
+          equals: params.search,
+        } : undefined
       },
     })
+    console.log(products)
+    console.log(total)
     return Response.json({
       products: products,
       total: total,

@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Input} from "@mui/material";
 import {MdSearch} from "react-icons/md";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
@@ -9,7 +9,7 @@ export function SearchInput() {
   const [value, setValue] = useState<string>("");
   const pathname = usePathname()
   const router = useRouter()
-
+  const searchParams = useSearchParams()
 
   const onInputChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setValue(prev => event.target.value)
@@ -20,8 +20,12 @@ export function SearchInput() {
     else router.push("/shop/products")
   }
 
+  useEffect(() => {
+    setValue("")
+  }, [searchParams.get("category")]);
+
   return (
-    <div className="flex flex-row items-center justify-center gap-x-2 w-2/4">
+    <div className="flex flex-row items-center justify-center gap-x-2 md:w-2/4">
       <Input className="w-full" placeholder="Пошук товару..." onChange={onInputChange} value={value}/>
       <Button
         className="normal-case text-[.85rem]"

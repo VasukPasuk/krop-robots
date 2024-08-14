@@ -29,11 +29,17 @@ function ProductCard(props: IProductCardProps) {
   return (
     <Card className="flex flex-col justify-between pt-1 pb-1 min-h-64 hover:shadow-xl cursor-pointer" onClick={clickCardHandler}>
       <CardContent className="flex flex-row h-full">
-        <div className="w-[80%] bg-amber-400 relative rounded overflow-hidden">
-          <Image fill alt={"Product image"} src={`https://drive.google.com/uc?export=view&id=${image_name}`} className="hover:scale-110 transition duration-700" />
+        <div className="bg-amber-400 rounded overflow-hidden relative flex items-center justify-center">
+          <Image
+            width={325}
+            height={325}
+            alt={"Product image"}
+            src={`https://drive.google.com/uc?export=view&id=${image_name}`}
+            className="h-full hover:scale-110 transition duration-700"
+          />
         </div>
         <div className="container w-full flex flex-col pl-3">
-          <Typography variant="h5" className="text-neutral-900 text-[1.45rem] font-bold">
+          <Typography variant="h5" className="text-neutral-900 text-[clamp(0.985rem,3cqw,1.35rem)] font-bold">
             {name}
           </Typography>
           <Typography variant="h6" className="text-neutral-600 text-[.95rem]">
