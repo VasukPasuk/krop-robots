@@ -1,9 +1,8 @@
 import {IconButton, Paper, Typography} from '@mui/material';
 import React from 'react';
-import {deleteProduct, UserCartItemType} from "@/features/localStorageFunctions";
+import {deleteProduct, deleteProductAndReturn, UserCartItemType} from "@/features/localStorageFunctions";
 import {IoMdTrash} from "react-icons/io";
 import Image from "next/image";
-import {getAllProducts} from "@/services/actions/productActions";
 interface ICheckoutCartItem {
   data: UserCartItemType
   hashKey: string
@@ -13,14 +12,13 @@ interface ICheckoutCartItem {
 function CheckoutCartItem({data, hashKey, updateCartStateFn}: ICheckoutCartItem) {
 
   const deleteFromCartHandler = () => {
-    deleteProduct(hashKey)
-    updateCartStateFn(getAllProducts())
+    updateCartStateFn(deleteProductAndReturn(hashKey))
   }
 
   return (
-    <Paper variant={"outlined"} className={"flex flex-row items-center justify-center px-6 py-4"}>
-      <div className={"w-full flex flex-row items-center justify-start gap-x-4"}>
-        <Image className={"rounded overflow-hidden"} width={150} height={150} alt={`Картинка продукту ${data.product.name}`} src={`https://drive.google.com/uc?export=view&id=${data.product.image_name}`}/>
+    <Paper variant={"outlined"} className={"flex flex-col lg:flex-row items-center justify-center lg:px-6 lg:py-4"}>
+      <div className={"w-full flex flex-col lg:flex-row items-center justify-start gap-x-4"}>
+        <Image className={"rounded overflow-hidden "} width={150} height={150} alt={`Картинка продукту ${data.product.name}`} src={`https://drive.google.com/uc?export=view&id=${data.product.image_name}`}/>
         <div className={"flex flex-col"}>
           <Typography variant={"h6"} className={"font-bold text-neutral-800"}>
             {data.product.name}

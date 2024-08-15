@@ -35,6 +35,15 @@ export function deleteProduct(key: string) {
   localStorage.setItem("cartItems", JSON.stringify(fullCart));
 }
 
+export function deleteProductAndReturn(key: string) {
+  const fullCart = JSON.parse((localStorage.getItem("cartItems") || {}) as string);
+  Object.entries(fullCart).forEach(([data_key]) => {
+    if (data_key == key) delete fullCart[key]
+  })
+  localStorage.setItem("cartItems", JSON.stringify(fullCart));
+  return fullCart
+}
+
 export function clearProductCart() {
   localStorage.setItem("cartItems", JSON.stringify({}));
   return {}

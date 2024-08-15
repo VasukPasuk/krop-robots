@@ -5,15 +5,15 @@ import {Button, Paper, TextField, Typography} from "@mui/material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
+import {clearProductCart, getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
 import CheckoutCartItem from "@/app/(shop)/shop/checkout/CheckoutCartItem";
 
 const schema = z.object({
   phone_number: z
     .string()
     .trim()
-    .refine((val) => val.startsWith("+380") && val.length === 13, {
-      message: "Номер телефона повиненн починатися з +380 і мати 13 символів.",
+    .refine((val) => val.startsWith("+380") && val.length === 12, {
+      message: "Номер телефона повиненн починатися з +380 і мати 12 символів.",
     }),
   email: z.string().email({message: "Некоректна ел. пошта"}).trim().min(1, {message: "Поле ел. пошта не повинно бути пустим."}),
   name: z.string().min(1, {message: "Поле імені не повинно бути пустим."}).trim(),
@@ -37,7 +37,27 @@ function OrderPage() {
   })
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data)
+    const sendData = async () => {
+      try {
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          body: JSON.stringify({
+            ...data,
+            items: Object.values(cartItems)
+          })
+        })
+        if (!res.ok) {
+          throw new Error("Error response")
+        }
+        setCartItems(clearProductCart())
+        const result = res.json()
+        console.log(result)
+        return result
+      } catch (e) {
+        console.log(e.message)
+      }
+    }
+    sendData()
   }
 
   useEffect(() => {
@@ -49,14 +69,14 @@ function OrderPage() {
 
   return (
     <form
-      className="max-w-[1300px] min-h-dvh mx-auto mt-16 p-8 grid grid-cols-12 auto-rows-min gap-8"
+      className="container min-h-dvh mx-auto mt-16 md:p-8 grid grid-cols-12 auto-rows-min gap-8"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="col-span-full">
         <Typography variant="h4">Оформлення замовлення</Typography>
       </div>
       <Paper
-        className="col-start-1 col-end-9 p-4 grid grid-cols-12 auto-rows-min gap-y-8 gap-x-4"
+        className="col-span-full  min-[1000px]:col-start-1 min-[1000px]:col-end-9 p-4 grid grid-cols-12 auto-rows-min gap-y-8 gap-x-4"
         elevation={3}
         variant="outlined"
       >
@@ -73,7 +93,7 @@ function OrderPage() {
               helperText={errors.phone_number?.message}
               error={!!errors.phone_number}
               {...field}
-              className="col-span-6"
+              className="col-span-12 lg:col-span-6"
               variant="filled"
               size="small"
               label="Мобільний телефон"
@@ -91,7 +111,7 @@ function OrderPage() {
               type="email"
               error={!!errors.email}
               {...field}
-              className="col-span-6"
+              className="col-span-12 lg:col-span-6"
               variant="filled"
               size="small"
               label="Електронна пошта"
@@ -114,7 +134,7 @@ function OrderPage() {
                 helperText={errors[field as keyof FormData]?.message}
                 error={!!errors[field as keyof FormData]}
                 {...controllerField}
-                className="col-span-4"
+                className="col-span-12 lg:col-span-4"
                 variant="filled"
                 size="small"
                 label={label}
@@ -124,7 +144,7 @@ function OrderPage() {
           />
         ))}
       </Paper>
-      <Paper className="col-span-4 p-4 flex flex-col gap-y-8" variant="outlined">
+      <Paper className="col-span-full min-[1000px]:col-span-4 p-4 flex flex-col gap-y-8" variant="outlined">
         <Typography variant="h6">Деталі</Typography>
         {!Object.keys(cartItems).length && (
           <div className={"flex items-center justify-center py-8 text-center"}>
@@ -143,14 +163,14 @@ function OrderPage() {
               <Typography variant="h5">{totalPrice} грн.</Typography>
             </Paper>
             <div>
-              <Button fullWidth type="submit" variant="contained" size="large" color="success">
+              <Button fullWidth type="submit" variant="contained" size="large" color="success" disabled={totalPrice < 300}>
                 Підтвердити замовлення
               </Button>
             </div>
           </>
         )}
       </Paper>
-      <Paper className="col-start-1 col-end-9 p-4 flex flex-col" variant="outlined">
+      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col" variant="outlined">
         <Typography variant="h6">Товари для замовлення</Typography>
         <div className={"flex flex-col gap-y-4"}>
           {!totalItems && (

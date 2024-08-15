@@ -74,13 +74,15 @@ model Category {
 }
 
 model Order {
-  id Int @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   name           String
   first_surname  String
   second_surname String
   phone_number   String @unique
   email          String @unique
+
+  order_items OrderItems[]
 
   amount Int
   price  Int
@@ -103,8 +105,11 @@ model OrderItems {
   color      Color  @relation(fields: [color_name], references: [name], onDelete: Cascade)
   color_name String
 
-  amount Int
-  price  Int
+  amount   Int
+  price    Int
+  plastic  Plastic
+  Order    Order   @relation(fields: [order_id], references: [id])
+  order_id Int
 
   @@map("order_items")
 }
@@ -119,4 +124,9 @@ model Color {
   OrderItems OrderItems[]
 
   @@map("colors")
+}
+
+enum Plastic {
+  PLA
+  CoPET
 }
