@@ -24,7 +24,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
         } : undefined
       },
       take: params.take,
-      skip: params.skip
+      skip: params.skip,
+      orderBy: {
+        variants: {
+          _count: "desc"
+        }
+      }
     })
     const total = await prisma.product.count({
       where: {

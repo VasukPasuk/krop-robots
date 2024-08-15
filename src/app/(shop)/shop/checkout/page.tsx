@@ -12,8 +12,8 @@ const schema = z.object({
   phone_number: z
     .string()
     .trim()
-    .refine((val) => val.startsWith("+380") && val.length === 12, {
-      message: "Номер телефона повиненн починатися з +380 і мати 12 символів.",
+    .refine((val) => val.startsWith("+380") && val.length === 13, {
+      message: "Номер телефона повиненн починатися з +380 і мати 13 символів.",
     }),
   email: z.string().email({message: "Некоректна ел. пошта"}).trim().min(1, {message: "Поле ел. пошта не повинно бути пустим."}),
   name: z.string().min(1, {message: "Поле імені не повинно бути пустим."}).trim(),
@@ -50,11 +50,8 @@ function OrderPage() {
           throw new Error("Error response")
         }
         setCartItems(clearProductCart())
-        const result = res.json()
-        console.log(result)
-        return result
+        return res.json()
       } catch (e) {
-        console.log(e.message)
       }
     }
     sendData()
