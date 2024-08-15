@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Drawer, IconButton, Modal, Typography} from "@mui/material";
 import CartItem from "@/custom-components/ui/CartItem/CartItem";
 import {toast} from "react-toastify";
-import {getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
+import {clearProductCart, getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
 import {useRouter} from "next/navigation";
 import {MdClose} from "react-icons/md";
 
@@ -18,6 +18,7 @@ function CartModal(props: ICartModalProps) {
   const router = useRouter()
 
   const clearCartHandler = () => {
+    setItems(clearProductCart())
     toast.success("Кошик з Вашими товарами очищено")
   }
   const purchaseCartHandler = () => {
@@ -40,6 +41,10 @@ function CartModal(props: ICartModalProps) {
     return total + items[key].variant.price * items[key].amount;
   }, 0);
 
+  const cartItems = Object.entries(items).map(([key, value]) => (
+      <CartItem refreshFn={refreshHandler} data={value} propertyHash={key} key={key}/>
+    ))
+
   return (
     <Drawer
       open={open}
@@ -60,19 +65,23 @@ function CartModal(props: ICartModalProps) {
         </IconButton>
       </div>
       <div className="h-full flex flex-col gap-y-4 overflow-y-auto pr-4 py-4">
-        {Object.entries(items).map(([key, value]) => (
-          <CartItem refreshFn={refreshHandler} data={value} propertyHash={key} key={key}/>
-        ))}
+        {Object.keys(items).length ? (
+          cartItems
+        ):(
+          <div className={"mt-64 text-neutral-600"}>
+           Ваш кошик пустий :(
+          </div>
+        )}
       </div>
-      <div className="container flex flex-col gap-y-4 sm:flex-row items-center justify-between">
+      <div className="container flex flex-col gap-y-4 items-start justify-between">
         <Typography variant="h6">
           Загальна ціна {totalPrice} грн.
         </Typography>
-        <div className="flex flex-row items-center justify-end gap-x-6">
-          <Button size={"small"} variant="contained" color="success" className="normal-case" onClick={purchaseCartHandler}>
+        <div className="flex flex-row items-center justify-end gap-x-6 self-end">
+          <Button size={"medium"} variant="contained" color="success" className="normal-case" onClick={purchaseCartHandler}>
             Оформити замовлення
           </Button>
-          <Button size={"small"} variant="outlined" color="warning" className="normal-case" onClick={clearCartHandler}>
+          <Button size={"medium"} variant="outlined" color="warning" className="normal-case" onClick={clearCartHandler}>
             Очистити кошик
           </Button>
         </div>

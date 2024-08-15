@@ -5,6 +5,8 @@ import {Button, Paper, TextField, Typography} from "@mui/material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
+import CheckoutCartItem from "@/app/(shop)/shop/checkout/CheckoutCartItem";
 
 const schema = z.object({
   phone_number: z
@@ -22,7 +24,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 function OrderPage() {
-  const [cartItems, setCartItems] = useState<any>([])
+  const [cartItems, setCartItems] = useState<{ [key: string]: UserCartItemType }>({})
   const {control, handleSubmit, formState: {errors}} = useForm<FormData>({
     defaultValues: {
       phone_number: "+380",
@@ -39,9 +41,12 @@ function OrderPage() {
   }
 
   useEffect(() => {
-    const items = localStorage.getItem("cartItems")
-    setCartItems(items);
+    setCartItems(getAllCartItems());
   }, []);
+
+  const totalPrice = Object.entries(cartItems).reduce((prev, [key, data]) => prev + (data.variant.price * data.amount), 0)
+  const totalItems = Object.keys(cartItems).length
+
   return (
     <form
       className="max-w-[1300px] min-h-dvh mx-auto mt-16 p-8 grid grid-cols-12 auto-rows-min gap-8"
@@ -119,23 +124,23 @@ function OrderPage() {
           />
         ))}
       </Paper>
-      <Paper className="col-span-4 p-4 flex flex-col gap-y-8" elevation={3}>
+      <Paper className="col-span-4 p-4 flex flex-col gap-y-8" variant="outlined">
         <Typography variant="h6">Деталі</Typography>
-        {!cartItems.length && (
+        {!Object.keys(cartItems).length && (
           <div className={"flex items-center justify-center py-8 text-center"}>
             <Typography variant="subtitle1">Деталі про поточне замовлення відсутні.</Typography>
           </div>
         )}
-        {!!cartItems.length && (
+        {!!Object.keys(cartItems).length && (
           <>
 
             <div className="flex flex-row justify-between items-center">
-              <Typography variant="subtitle1">11 товарів на суму</Typography>
-              <Typography variant="h6">360 грн.</Typography>
+              <Typography variant="subtitle1">{totalItems} товарів на суму</Typography>
+              <Typography variant="h6">{totalPrice} грн.</Typography>
             </div>
             <Paper variant="outlined" className="py-6 px-3 flex flex-row justify-between items-center">
               <Typography variant="subtitle1">До сплати</Typography>
-              <Typography variant="h5">360 грн.</Typography>
+              <Typography variant="h5">{totalPrice} грн.</Typography>
             </Paper>
             <div>
               <Button fullWidth type="submit" variant="contained" size="large" color="success">
@@ -145,16 +150,21 @@ function OrderPage() {
           </>
         )}
       </Paper>
-      <Paper className="col-start-1 col-end-9 p-4 flex flex-col" elevation={3} variant="outlined">
+      <Paper className="col-start-1 col-end-9 p-4 flex flex-col" variant="outlined">
         <Typography variant="h6">Товари для замовлення</Typography>
-        <div>
-          {!cartItems.length && (
+        <div className={"flex flex-col gap-y-4"}>
+          {!totalItems && (
             <div className="flex  justify-center items-center py-24 text-neutral-500 ">
               <Typography variant="h6" className={"font-light"}>
                 Ваша корзинка пустує
               </Typography>
             </div>
           )}
+          {
+            Object.entries(cartItems).map(([hashKey, data]) => (
+              <CheckoutCartItem key={hashKey} hashKey={hashKey} updateCartStateFn={setCartItems} data={data} />
+            ))
+          }
         </div>
       </Paper>
     </form>

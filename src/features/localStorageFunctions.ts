@@ -35,6 +35,10 @@ export function deleteProduct(key: string) {
   localStorage.setItem("cartItems", JSON.stringify(fullCart));
 }
 
+export function clearProductCart() {
+  localStorage.setItem("cartItems", JSON.stringify({}));
+  return {}
+}
 
 
 export function getAllCartItems():{ [key: string]: UserCartItemType } {
