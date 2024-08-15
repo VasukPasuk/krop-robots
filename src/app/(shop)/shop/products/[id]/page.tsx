@@ -1,7 +1,7 @@
 "use client"
 import React, {useEffect, useState} from 'react';
 import Image from "next/image";
-import {Button, CircularProgress, Modal, Paper, Typography} from "@mui/material";
+import {Button, CircularProgress, Modal, Paper, Skeleton, Typography} from "@mui/material";
 import ShopUpperBar from "@/custom-components/ui/ShopUpperBar/ShopUpperBar";
 import CartButton from "@/custom-components/ui/CartButton";
 import {Color, Product, Variant} from "@prisma/client";
@@ -9,6 +9,7 @@ import {getProductById} from "@/services/actions/productActions";
 import {useQuery} from "@tanstack/react-query";
 import {toast} from "react-toastify";
 import {setProductToCart} from "@/features/localStorageFunctions";
+import {notFound} from "next/navigation";
 
 const SIZES = {}
 
@@ -19,29 +20,64 @@ function ProductPage({params}: { params: { id: string } }) {
 
   const [modal, setModal] = useState<boolean>(false)
 
-  const {data, isLoading, isFetched} = useQuery({
+  const {data, isLoading, isFetched, error, isError} = useQuery({
     queryKey: ["product-page", params.id],
     queryFn: async () => {
-      const result1 = await fetch(`/api/products/${params.id}`)
-      const result2 = await fetch(`/api/variants?id=${params.id}`)
-      const result3 = await fetch("/api/colors")
-      if (!result1.ok || !result2.ok || !result3.ok) throw new Error("Error response")
-      return {
-        product: await result1.json() as Product,
-        variants: await result2.json() as Variant[],
-        colors: await result3.json() as Color[],
+      const urls = [
+        `/api/products/${params.id}`,
+        `/api/variants?id=${params.id}`,
+        "/api/colors"
+      ];
+      const responses = await Promise.all(urls.map(url => fetch(url)));
+
+      if (responses.some(response => !response.ok)) {
+        throw new Error("Error response");
       }
+
+      const [product, variants, colors] = await Promise.all(
+        responses.map(response => response.json())
+      );
+
+      return {
+        product: product as Product,
+        variants: variants as Variant[],
+        colors: colors as Color[],
+      };
     }
   })
+
+  if (isFetched && isError) {
+    notFound()
+  }
 
 
   if (isLoading) {
     return (
-      <div className={"container max-w-[1200px] h-[800px] flex items-center justify-center mx-auto mt-[112px] mb-64"}>
-        <CircularProgress/>
-      </div>
+      <section className={"container max-w-[1200px] h-[800px] flex mx-auto mt-16 mb-64 px-4 py-8"}>
+        <div className="flex flex-col justify-start items-stretch w-full lg:w-2/3">
+          <Skeleton className={"h-[100%]"}/>
+          <Skeleton className={"h-96 w-3/4"}/>
+          <Skeleton className={"h-64 w-2/3"}/>
+          <Skeleton className={"h-64 w-2/3"}/>
+          <div className={"h-96 grid grid-cols-12 gap-x-4 grid-rows-12"}>
+            <Skeleton className={"row-span-6 col-span-6"}/>
+            <Skeleton className={"row-span-6 col-span-6"}/>
+            <Skeleton className={"row-span-6 col-span-6"}/>
+            <Skeleton className={"row-span-6 col-span-6"}/>
+          </div>
+          <Skeleton className={"h-64 w-2/3"}/>
+          <div className={"h-64 flex flex-row gap-4"}>
+            <Skeleton className={"h-full w-1/2"}/>
+            <Skeleton className={"h-full w-1/2"}/>
+          </div>
+          <Skeleton className={"h-64 w-2/3"}/>
+          <Skeleton className={"h-64 w-full"}/>
+        </div>
+
+      </section>
     )
   }
+
 
   const onAddToCartButtonHandler = () => {
     setModal(true)
@@ -61,7 +97,7 @@ function ProductPage({params}: { params: { id: string } }) {
   return (
     <>
       <ShopUpperBar/>
-      <section className="container max-w-[1200px] flex flex-row mx-auto mt-[112px] mb-64 px-6 py-8 gap-x-8">
+      <section className="container max-w-[1200px] flex flex-col gap-y-8 sm:flex-row mx-auto mt-[112px] mb-64 px-4 py-8 sm:gap-x-8">
         <div className="rounded overflow-hidden h-fit">
           <Image className="hover:scale-110 transition-transform duration-700" width={400} height={400}
                  alt={"Product image"}
@@ -86,7 +122,7 @@ function ProductPage({params}: { params: { id: string } }) {
             <Typography variant="h6" className="text-neutral-600 text-lg">
               Розмір / вага (мм. / гр.):
             </Typography>
-            <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
+            <div className="flex flex-row flex-wrap items-center justify-start gap-4 mt-2">
               {data?.variants?.map(({weight, height, width, length}, index) => (
                 <Button
                   key={index}
@@ -121,7 +157,7 @@ function ProductPage({params}: { params: { id: string } }) {
             <Typography variant="h6" className="text-neutral-600 text-lg">
               Кольори:
             </Typography>
-            <div className="flex flex-row flex-wrap items-center justify-start gap-x-2 mt-2">
+            <div className="flex flex-row flex-wrap items-center justify-start gap-2 mt-2">
               {data.colors.map(({hex, name}) => (
                 <Paper className={`w-6 h-6 cursor-pointer`} style={{background: hex}} variant={"outlined"}
                        onClick={() => setCurrentColor(name)}>
