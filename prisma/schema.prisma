@@ -54,6 +54,8 @@ model Variant {
   Product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
   product_id Int
 
+  size_label String @default("Стандартний")
+
   OrderItems OrderItems[]
 
   created_at DateTime @default(now())
