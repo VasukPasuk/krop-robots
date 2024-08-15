@@ -34,8 +34,9 @@ function Header({srcLogo,...rest}: IHeaderProps) {
             className="tools-wrapper"
             data-menu-visible={visible}
           >
-            {HEADER_LINK.map(({content, href}) => (
-              <Link href={href} className="header-link" key={content}>{content}</Link>
+            {srcLogo && <Link href={"/"}> Головна </Link>}
+            {HEADER_LINK.map(({content, href}, index) => (
+              <Link href={href} onClick={index > 0 ? () => toast.warn(`Вкладка ${content} поки що в розробці!`) : undefined} className="header-link" key={content}>{content}</Link>
             ))}
           </div>
           <ThemeSwitcher/>
@@ -49,8 +50,9 @@ function Header({srcLogo,...rest}: IHeaderProps) {
         className="tools-drawer"
         data-visible-drawer={visible}
       >
+        {srcLogo && <Link href={"/"}> Головна </Link>}
         {HEADER_LINK.map(({content, href}, index) => (
-          <Link href={href} key={content} onClick={() => toast(`Вкладка ${content} поки що в розробці!`)}>
+          <Link href={href} key={content} onClick={index > 0 ? () => toast.warn(`Вкладка ${content} поки що в розробці!`) : undefined}>
             {content}
           </Link>
         ))}

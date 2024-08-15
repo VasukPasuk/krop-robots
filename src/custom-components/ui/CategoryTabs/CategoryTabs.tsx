@@ -37,10 +37,10 @@ function CategoryTabs({categories}: ICategoryTabsProps) {
         variant="scrollable"
         scrollButtons="auto"
       >
-        <Tab label={"Всі"} value={"Всі"}/>
+        <Tab label={"Всі"} className={"dark:text-violet-500"} value={"Всі"}/>
         {
           categories.map(({name}) => (
-            <Tab label={name} value={name}/>
+            <Tab label={name} className={"dark:text-violet-500"} value={name}/>
           ))
         }
       </Tabs>

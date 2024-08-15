@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import {Button, Input} from "@mui/material";
 import {MdSearch} from "react-icons/md";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {toast} from "react-toastify";
 
 export function SearchInput() {
   const [value, setValue] = useState<string>("");

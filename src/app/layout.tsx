@@ -14,6 +14,10 @@ const inter = Inter({subsets: ["latin"]});
 export const metadata: Metadata = {
   title: "Krop Robots",
   description: 'Офіційний сайт ГО "Krop Robots"',
+  keywords: "Krop Robots, STEM освіта, 3д-друкування, Arduino",
+  category: "STEM",
+  publisher: "Krop Robots",
+  creator: "Krop Robots",
 };
 
 interface PROPS {

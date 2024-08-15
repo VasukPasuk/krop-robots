@@ -97,21 +97,21 @@ function ProductPage({params}: { params: { id: string } }) {
   return (
     <>
       <ShopUpperBar/>
-      <section className="container max-w-[1200px] flex flex-col gap-y-8 sm:flex-row mx-auto mt-[112px] mb-64 px-4 py-8 sm:gap-x-8">
+      <section className="dark:text-neutral-200 container max-w-[1200px] flex flex-col gap-y-8 sm:flex-row mx-auto mt-[112px] mb-64 px-4 py-8 sm:gap-x-8">
         <div className="rounded overflow-hidden h-fit">
           <Image className="hover:scale-110 transition-transform duration-700" width={400} height={400}
                  alt={"Product image"}
                  src={`https://drive.google.com/uc?export=view&id=${data.product.image_name}`}></Image>
         </div>
         <div>
-          <Typography variant="h4" className="text-neutral-900 text-3xl">
+          <Typography variant="h4" className="light:text-neutral-900 text-3xl">
             {data.product.name} - {currentColor}
           </Typography>
-          <Typography variant="h5" className="text-neutral-800 text-xl">
+          <Typography variant="h5" className="tlight:ext-neutral-800 text-xl">
             {data.product.category_name}
           </Typography>
           <div className="mt-6">
-            <Typography variant="h5" className="text-neutral-700 text-3xl font-bold">
+            <Typography variant="h5" className="light:text-neutral-700 text-3xl font-bold">
               {data?.variants[currentVariant]?.price} грн. / шт.
             </Typography>
             {/*<Typography variant="h5" className="text-neutral-700 text-xl">*/}
@@ -119,7 +119,7 @@ function ProductPage({params}: { params: { id: string } }) {
             {/*</Typography>*/}
           </div>
           <div className="w-full mt-4">
-            <Typography variant="h6" className="text-neutral-600 text-lg">
+            <Typography variant="h6" className="light:text-neutral-600 text-lg">
               Розмір / вага (мм. / гр.):
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-4 mt-2">
@@ -139,7 +139,7 @@ function ProductPage({params}: { params: { id: string } }) {
             </div>
           </div>
           <div className="w-full mt-4">
-            <Typography variant="h6" className="text-neutral-600 text-lg">
+            <Typography variant="h6" className="light:text-neutral-600 text-lg">
               Вид пластику:
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 mt-2">
@@ -154,7 +154,7 @@ function ProductPage({params}: { params: { id: string } }) {
             </div>
           </div>
           <div className="w-full mt-4">
-            <Typography variant="h6" className="text-neutral-600 text-lg">
+            <Typography variant="h6" className="light:text-neutral-600 text-lg">
               Кольори:
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-2 mt-2">
@@ -175,7 +175,7 @@ function ProductPage({params}: { params: { id: string } }) {
       <Modal disableScrollLock className={"flex justify-center items-center"} open={modal}
              onClose={() => setModal(false)}>
         <Paper elevation={4} className="px-8 pr-24 pt-8 pb-6 flex flex-col items-start justify-center gap-y-8">
-          <Typography variant={"h4"} className={"font-bold text-neutral-700"}> Деталі товару </Typography>
+          <Typography variant={"h4"} className={"font-bold light:text-neutral-700"}> Деталі товару </Typography>
           <div className="flex flex-row items-start justify-center gap-x-8">
             <div className={"overflow-hidden rounded flex flex-row items-center justify-center relative"}>
               <Image className={"hover:scale-110 transition-transform duration-700"} width={250} height={250}
@@ -183,10 +183,10 @@ function ProductPage({params}: { params: { id: string } }) {
                      alt={"Product image"}/>
             </div>
             <div className="flex flex-col items-start justify-center">
-              <Typography variant={"h5"} className={"font-bold text-neutral-800"}>
+              <Typography variant={"h5"} className={"font-bold light:text-neutral-800"}>
                 {data.product.name}
               </Typography>
-              <Typography variant={"h6"} className={"text-neutral-700"}>
+              <Typography variant={"h6"} className={"light:text-neutral-700"}>
                 {data.product.category_name}
               </Typography>
               <Typography variant={"subtitle1"}>

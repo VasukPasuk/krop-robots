@@ -17,7 +17,7 @@ function ShopUpperBar({children}: IShopUpperBarProps) {
   return (
     <>
       <nav
-        className="mt-16 h-[48px] z-50 w-full flex flex-row items-center fixed shadow bg-white pl-4 pr-4">
+        className="mt-16 h-[48px] dark:bg-black z-50 w-full flex flex-row items-center fixed shadow bg-white pl-4 pr-4">
         {children}
         <IconButton color="info" className={"ml-auto"} onClick={() => handleOpen()}>
           <MdShoppingCart/>
