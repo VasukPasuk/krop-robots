@@ -117,3 +117,44 @@ $break-point-1200: 1200px;
     @content;
   }
 }
+
+
+
+// Media with ( >= )
+
+@mixin media-b-320 {
+  @media screen and (width >= $break-point-320) {
+    @content;
+  }
+}
+
+@mixin media-b-360 {
+  @media screen and (width >= $break-point-360) {
+    @content;
+  }
+}
+
+@mixin media-b-420 {
+  @media screen and (width >= $break-point-420) {
+    @content;
+  }
+}
+
+@mixin media-b-768 {
+  @media screen and (width >= $break-point-768) {
+    @content;
+  }
+}
+
+@mixin media-b-992 {
+  @media screen and (width >= $break-point-992) {
+    @content;
+  }
+}
+
+@mixin media-b-1200 {
+  @media screen and (width >= $break-point-1200) {
+    @content;
+  }
+}
+

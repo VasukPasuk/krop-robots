@@ -113,12 +113,9 @@
       }
 
       .member-data-info__quote-box {
+        display: flex;
         padding: 0 4rem;
         text-align: center;
-        //display: flex;
-        //justify-content: center;
-        //align-items: start;
-        //gap: 0.5rem;
         margin-top: 1rem;
         @media screen and (width <= 960px) {
           padding: 0 1rem;
@@ -126,8 +123,14 @@
 
         .member-data-info__quote__quote-icon {
           color: $bg-gray-500;
-          font-size: 1.5rem;
+          font-size: 2rem;
           margin: 0 0.25rem;
+          @media screen and (width <= 1000px) {
+            font-size: 2.5rem;
+          }
+          @media screen and (width <= 460px) {
+            font-size: 6rem;
+          }
         }
 
         .member-data-info__quote {

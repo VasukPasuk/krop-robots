@@ -35,19 +35,10 @@ function MotionItem(props: { element: "h1" | "p", delay: number, children: React
 }
 
 function CarouselBlock() {
-  const [currentImage, setCurrentImage] = useState(0);
-
-  const increaseImageNumberHandler = () => {
-    setCurrentImage(prev => currentImage === (CAROUSEL_LENGTH - 1) ? 0 : (prev + 1))
-  }
-
-  const decreaseImageNumberHandler = () => {
-    setCurrentImage(prev => currentImage === 0 ? (CAROUSEL_LENGTH - 1) : (prev - 1))
-  }
 
   return (
-    <section className="flex flex-col gap-y-4 md:flex-row items-start justify-center container mx-auto py-16 sm:gap-x-4 ">
-      <div className="flex flex-col gap-y-4">
+    <section className="flex flex-col gap-y-8 lg:flex-row items-stretch w-full container justify-center my-24 sm:gap-x-8 mx-auto">
+      <div className="flex flex-col w-full lg:w-[60%] gap-y-8">
         <MotionItem delay={0.25} element={"h1"}>
           Lorem ipsum dolor sit amet
         </MotionItem>
@@ -66,26 +57,11 @@ function CarouselBlock() {
           est laborum.
         </MotionItem>
       </div>
-      <div className={"flex flex-col gap-y-4 w-full"}>
-        <div className={"w-full h-[500px] md:h-[380px] md:w-[478px] lg:w-[678px] lg:h-[560px] overflow-hidden"}>
-          <div className="w-full h-full grid grid-cols-[100%] grid-rows-[100%] grid-flow-col gap-0" style={{ transform: `translateX(-${currentImage * 100}%)`, transition: 'transform 0.7s' }}>
-            {[...Array.from({ length: 9 })].map((_, i) => (
-              <Image className={"object-cover"} width={500} height={500} key={i} alt={`Slider image ${i + 1}`} src={`/slider-image${i + 1}.jpg`} />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-row gap-x-2 items-center justify-center">
-          {[...Array.from({ length: 9 })].map((_, i) => (
-            <div
-              key={i}
-              onClick={() => setCurrentImage(i)}
-              className={clsx("w-4 h-4 cursor-pointer rounded-full bg-neutral-800 transition-colors duration-500 ease-out", {
-                "bg-neutral-500": currentImage === i
-              })}
-            />
-          ))}
-        </div>
+      <div className={"w-full lg:w-[40%] overflow-hidden rounded"}>
+        <img loading={"lazy"} className={"object-cover w-full h-full hover:scale-110 transition-transform duration-1000 ease"}
+             src={"/slider-image2.jpg"} alt={"Slider image"}/>
       </div>
+
     </section>
   )
 }

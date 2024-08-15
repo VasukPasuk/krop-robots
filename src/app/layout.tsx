@@ -28,6 +28,7 @@ export default function RootLayout({children}: PROPS) {
         <StyledEngineProvider injectFirst>
           <TanStackProvider>
             <ThemeProvider>
+
               <CssBaseline />
               <body className={inter.className}>
               {children}

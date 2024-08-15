@@ -1,0 +1,23 @@
+@import "src/styles/mixins.scss";
+#shop-start-page {
+  h5, h6 {
+
+    @include media-b-768 {
+      line-height: 2rem;
+    }
+
+    @include media-b-1200 {
+      line-height: 2.25rem;
+    }
+  }
+  h5 {
+    font-size: clamp(1.5rem, 1.2966rem + 1.0169vw, 2.25rem);
+  }
+  h6 {
+    font-size: clamp(1.125rem, 0.9555rem + 0.8475vw, 1.75rem);
+  }
+  & > div  {
+
+    @apply flex-col-reverse lg:flex-row;
+  }
+}

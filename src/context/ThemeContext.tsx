@@ -3,6 +3,7 @@ import React, {createContext, FC, useState, ReactNode, useEffect} from "react";
 import {TTheme, TThemeContext} from "@/types";
 import {ToastContainer} from "react-toastify";
 
+
 export const ThemeContext = createContext<TThemeContext | undefined>(undefined);
 
 interface ThemeProviderProps {

@@ -19,7 +19,7 @@ function ProductCard(props: IProductCardProps) {
 
   const onAddToCartHandler = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
-    toast.success("Товар додано до Вашого кошика.")
+    router.push(`/shop/products/${id}`)
   }
 
   const clickCardHandler = () => {
@@ -49,7 +49,7 @@ function ProductCard(props: IProductCardProps) {
       </CardContent>
       <CardActions className="flex justify-end">
         <Button  size="small" variant="text" onClick={onAddToCartHandler}>
-          <IoCart size={24}/>
+          Перейти до продукту
         </Button>
       </CardActions>
     </Card>

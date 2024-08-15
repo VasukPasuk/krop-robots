@@ -7,6 +7,7 @@ import {AiFillSetting} from "react-icons/ai";
 import Image from "next/image";
 import ThemeSwitcher from "@/custom-components/ui/ThemeSwitcher/ThemeSwitcher";
 import {HEADER_LINK} from "@/constants/.names";
+import {toast} from "react-toastify";
 
 
 interface IHeaderProps {
@@ -26,7 +27,6 @@ function Header({srcLogo,...rest}: IHeaderProps) {
           className={`logo-container w-[160px] h-[64px] relative`}
 
         >
-          {/*<Logo/>*/}
           <Image fill src={`${ !srcLogo ? '/logo_white.png' : srcLogo }`}  alt="krop_robots logo-text"/>
         </Link>
         <div className={`tools-container`}>
@@ -43,18 +43,17 @@ function Header({srcLogo,...rest}: IHeaderProps) {
             className={`hamburger-menu`}
             onClick={() => setVisible(prevState => !prevState)}
           />
-          {/*<AiFillSetting*/}
-          {/*  id="settings-icon"*/}
-          {/*/>*/}
         </div>
       </header>
       <div
         className="tools-drawer"
         data-visible-drawer={visible}
       >
-        {HEADER_LINK.map(({content, href}) => (
+        {HEADER_LINK.map(({content, href}, index) => (
           <Link href={href} key={content}>
-            {content}
+            <span onClick={() => toast(`Вкладка ${content} поки що в розробці!`)}>
+              {content}
+            </span>
           </Link>
         ))}
       </div>

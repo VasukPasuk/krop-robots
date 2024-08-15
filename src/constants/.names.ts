@@ -82,7 +82,7 @@ const HEADER_LINK = [
   },
   {
     href: "/" || "/projects",
-    content: "Про нас"
+    content: "Проекти"
   },
   {
     href: "/" || "/contacts",

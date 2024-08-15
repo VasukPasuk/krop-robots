@@ -1,4 +1,5 @@
 "use client"
+import "./style.scss";
 import React from 'react';
 import Image from 'next/image';
 import {motion} from "framer-motion";
@@ -24,13 +25,13 @@ function ShopMainPage() {
   }
 
   return (
-    <div className="flex container mx-auto mt-16 min-h-dvh w-full">
-      <div className="flex relative flex-row max-w-screen-xl items-center justify-center mx-auto w-full ">
+    <section id="shop-start-page" className="flex container mx-auto mt-16 min-h-dvh w-full">
+      <div className="flex flex-col lg:flex-row relative max-w-screen-xl items-center justify-center mx-auto w-full ">
         <div className="flex flex-col items-start justify-center h-full z-50 w-3/4 gap-y-8">
-          <motion.h5 {...animateParams(0.5)} className="text-5xl font-extrabold">
+          <motion.h5 {...animateParams(0.5)} className="font-extrabold">
             Lorem ipsum odor amet, consectetuer adipiscing elit. Ridiculus maecenas.
           </motion.h5>
-          <motion.h6 {...animateParams(0.75)} className="text-xl">
+          <motion.h6 {...animateParams(0.75)} className="">
             Lorem ipsum odor amet, consectetuer adipiscing elit.Tortor ante scelerisque leo curabitur lectus bibendum
             orci praesent, consectetuer adipiscing elit ipsum odor amet.
           </motion.h6>
@@ -41,11 +42,11 @@ function ShopMainPage() {
           </motion.span>
 
         </div>
-        <motion.div {...animateParams(1, 50)} className="flex relative w-full h-2/3">
+        <motion.div {...animateParams(1, 50)} className="flex relative w-full h-[60%] s420:h-[100%]  lg:h-2/3">
           <Image style={{objectFit: "cover"}} className="hover:scale-110 transition duration-1000" src={"/krop-robots-shop-landing-image.jpeg"} alt={"Preview image"} fill/>
         </motion.div>
       </div>
-    </div>
+    </section>
   )
 }
 
