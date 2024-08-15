@@ -81,8 +81,8 @@ model Order {
   name           String
   first_surname  String
   second_surname String
-  phone_number   String @unique
-  email          String @unique
+  phone_number   String
+  email          String
 
   order_items OrderItems[]
 

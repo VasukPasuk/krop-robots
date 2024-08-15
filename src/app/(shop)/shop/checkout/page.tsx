@@ -12,8 +12,8 @@ const schema = z.object({
   phone_number: z
     .string()
     .trim()
-    .refine((val) => val.startsWith("+380") && val.length === 13, {
-      message: "Номер телефона повиненн починатися з +380 і мати 13 символів.",
+    .refine((val) => val.startsWith("380") && val.length === 12, {
+      message: `Номер телефона повиненн починатися з 380 і мати 12 символів.`,
     }),
   email: z.string().email({message: "Некоректна ел. пошта"}).trim().min(1, {message: "Поле ел. пошта не повинно бути пустим."}),
   name: z.string().min(1, {message: "Поле імені не повинно бути пустим."}).trim(),
@@ -27,7 +27,7 @@ function OrderPage() {
   const [cartItems, setCartItems] = useState<{ [key: string]: UserCartItemType }>({})
   const {control, handleSubmit, formState: {errors}} = useForm<FormData>({
     defaultValues: {
-      phone_number: "+380",
+      phone_number: "380",
       email: "",
       name: "",
       first_surname: "",
