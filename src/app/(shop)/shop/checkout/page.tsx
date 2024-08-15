@@ -94,6 +94,7 @@ function OrderPage() {
               variant="filled"
               size="small"
               label="Мобільний телефон"
+              type={"tel"}
               required
             />
           )}

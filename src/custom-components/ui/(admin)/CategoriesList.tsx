@@ -39,7 +39,6 @@ function CategoriesListHead() {
 
   const onSubmit: SubmitHandler<{ name: string }> = async (data) => {
     const result = await createCategory(data.name)
-    console.log(result)
   }
 
   return (

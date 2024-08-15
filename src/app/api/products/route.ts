@@ -10,7 +10,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
     category: req.nextUrl.searchParams.get("category") || "",
     search: req.nextUrl.searchParams.get("search") || ""
   }
-  console.log(params)
   try {
     const products = await prisma.product.findMany({
       where: {
@@ -43,8 +42,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
         } : undefined
       },
     })
-    console.log(products)
-    console.log(total)
     return Response.json({
       products: products,
       total: total,

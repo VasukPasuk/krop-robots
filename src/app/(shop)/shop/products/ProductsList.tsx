@@ -27,8 +27,8 @@ function ProductsList({products,productsLoading, totalPages}: IProductsListProps
   if(!products.length) {
     return (
       <div className={"min-h-[85dvh] flex items-center justify-center"}>
-        <Typography variant="h5" className={"text-neutral-400 font-medium"}>
-          Товарів з таким іменем немає :(
+        <Typography variant="subtitle1" className={"text-neutral-400 text-lg font-light"}>
+          Таких товарів в наявності немає :(
         </Typography>
       </div>
     )
