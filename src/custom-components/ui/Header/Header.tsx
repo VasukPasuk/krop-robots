@@ -23,7 +23,7 @@ function Header({srcLogo,...rest}: IHeaderProps) {
         {...rest}
       >
         <Link
-          href="/"
+          href={`/${!srcLogo ? "" : "shop/products"}`}
           className={`logo-container w-[160px] h-[64px] relative`}
 
         >
@@ -50,10 +50,8 @@ function Header({srcLogo,...rest}: IHeaderProps) {
         data-visible-drawer={visible}
       >
         {HEADER_LINK.map(({content, href}, index) => (
-          <Link href={href} key={content}>
-            <span onClick={() => toast(`Вкладка ${content} поки що в розробці!`)}>
-              {content}
-            </span>
+          <Link href={href} key={content} onClick={() => toast(`Вкладка ${content} поки що в розробці!`)}>
+            {content}
           </Link>
         ))}
       </div>

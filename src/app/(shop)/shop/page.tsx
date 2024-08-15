@@ -1,6 +1,6 @@
 "use client"
 import "./style.scss";
-import React from 'react';
+import React, {useEffect} from 'react';
 import Image from 'next/image';
 import {motion} from "framer-motion";
 import {Button} from "@mui/material";
@@ -23,6 +23,15 @@ function ShopMainPage() {
   const onClickButtonHandler = () => {
     router.push("/shop/products")
   }
+
+  useEffect(() => {
+    const skip = JSON.parse(localStorage.getItem("skip-shop-main"))
+    if (skip === true) {
+      router.push("/shop/products")
+    } else {
+      localStorage.setItem("skip-shop-main", JSON.stringify(true))
+    }
+  }, [])
 
   return (
     <section id="shop-start-page" className="flex container mx-auto mt-16 min-h-dvh w-full">

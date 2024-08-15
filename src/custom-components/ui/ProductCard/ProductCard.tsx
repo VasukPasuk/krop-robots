@@ -35,7 +35,7 @@ function ProductCard(props: IProductCardProps) {
             height={325}
             alt={"Product image"}
             src={`https://drive.google.com/uc?export=view&id=${image_name}`}
-            className="h-full hover:scale-110 transition duration-700"
+            className="hover:scale-110 transition duration-700 w-[325px] h-[175px]"
           />
         </div>
         <div className="container w-full flex flex-col pl-3">
