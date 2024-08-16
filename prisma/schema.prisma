@@ -28,13 +28,13 @@ model User {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
-  name          String   @unique
-  category      Category @relation(fields: [category_name], references: [name], onDelete: Cascade)
+  id            Int       @id @default(autoincrement())
+  name          String    @unique
+  category      Category  @relation(fields: [category_name], references: [name], onDelete: Cascade)
   category_name String
-  image_name    String   @unique
-
-  variants Variant[]
+  image_name    String    @unique
+  description   String
+  variants      Variant[]
 
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
@@ -85,6 +85,8 @@ model Order {
   email          String
 
   order_items OrderItems[]
+
+  data Json @default("{ \"hello\": \"world\" }")
 
   amount Int
   price  Int

@@ -1,13 +1,26 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
-import {Button, Paper, TextField, Typography} from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography
+} from "@mui/material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {clearProductCart, getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
 import CheckoutCartItem from "@/app/(shop)/shop/checkout/CheckoutCartItem";
 import {useRouter} from "next/navigation";
+import {MdExpandMore} from "react-icons/md";
 import {toast} from "react-toastify";
 
 const schema = z.object({
@@ -21,42 +34,96 @@ const schema = z.object({
   name: z.string().min(1, {message: "Поле імені не повинно бути пустим."}).trim(),
   first_surname: z.string().min(1, {message: "Поле прізвище не повинно бути пустим."}).trim(),
   second_surname: z.string().min(1, {message: "Поле по-батькові не повинно бути пустим."}).trim(),
+  payment_type: z.string(),
+  commentary: z.string().default(""),
+  mail_index: z.string().optional(),
+  department_index: z.string().optional(),
+  delivery_type: z.string().min(1).default("У відділення"),
+  locality: z.string().min(1),
+  house: z.string().optional(),
+  floor: z.string().optional(),
+  street: z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
 
 function OrderPage() {
   const [cartItems, setCartItems] = useState<{ [key: string]: UserCartItemType }>({})
+  const [expanded, setExpanded] = React.useState<"NEW_POST_MAIL" | "URK_MAIL" | false>(false);
+  const handleChange =
+    (panel: "NEW_POST_MAIL" | "URK_MAIL") => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+      setValue("delivery_type", "У відділення")
+    };
+
   const router = useRouter()
-  const {control, handleSubmit, formState: {errors}} = useForm<FormData>({
-    defaultValues: {
-      phone_number: "380",
-      email: "",
-      name: "",
-      first_surname: "",
-      second_surname: "",
-    },
+  const {control, handleSubmit, watch, setValue, formState: {errors}} = useForm<FormData>({
     resolver: zodResolver(schema),
+    mode: "all"
   })
+
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const sendData = async () => {
       try {
+        let deliveryData = {};
+        switch (expanded) {
+          case "NEW_POST_MAIL":
+            deliveryData = {
+              locality: data.locality,
+              department_index: Number(data.department_index),
+            }
+            break;
+          case "URK_MAIL":
+            deliveryData = {
+              mail_index: Number(data.mail_index),
+              locality: data.locality,
+            }
+            break;
+          default:
+            return toast.warn("Ви не обрали доставку.")
+        }
+
+        const preparedData = {
+          items: Object.values(cartItems),
+          phone_number: data.phone_number,
+          email: data.email,
+          name: data.name,
+          first_surname: data.first_surname,
+          second_surname: data.second_surname,
+
+          dataJSON: JSON.stringify({
+            delivery_company: expanded,
+            payment_type: data.payment_type,
+            commentary: data.commentary,
+            house: data.house,
+            floor: data.floor,
+            street: data.street,
+            delivery_type: data.delivery_type,
+            locality: data.locality,
+            department_index: Number(data.department_index) || 1,
+            mail_index: Number(data.mail_index) || 1,
+          })
+        }
+
+        console.log(preparedData)
         const res = await fetch("/api/orders", {
           method: "POST",
-          body: JSON.stringify({
-            ...data,
-            items: Object.values(cartItems)
-          })
+          body: JSON.stringify(
+            preparedData
+          )
         })
-        if (!res.ok) {
-          throw new Error("Error response")
-        }
-        setCartItems(clearProductCart())
-        toast.success("Ваше замовлення успішно оформлено!", {position: "bottom-center", autoClose: false})
-        router.push("/shop/products")
+        // if (!res.ok) {
+        //   throw new Error("Error response")
+        // }
+
+        // setCartItems(clearProductCart())
+        // toast.success("Ваше замовлення успішно оформлено!", {position: "bottom-center", autoClose: false})
+        // router.push("/shop/products")
         return res.json()
+        // return ""
       } catch (e) {
+        toast.error("Ваше замовлення неуспішно оформлено!", {position: "bottom-center", autoClose: false})
       }
     }
     sendData()
@@ -100,6 +167,7 @@ function OrderPage() {
               size="small"
               label="Мобільний телефон"
               type={"tel"}
+              defaultValue={"380"}
               required
             />
           )}
@@ -166,7 +234,8 @@ function OrderPage() {
               <Typography variant="h5">{totalPrice} грн.</Typography>
             </Paper>
             <div>
-              <Button fullWidth type="submit" variant="contained" size="large" color="success" disabled={totalPrice < 300}>
+              <Button fullWidth type="submit" variant="contained" size="large" color="success"
+                      disabled={totalPrice < 300}>
                 Підтвердити замовлення
               </Button>
             </div>
@@ -174,66 +243,192 @@ function OrderPage() {
         )}
       </Paper>
 
-      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col" variant="outlined">
-        <Typography variant="h6">Доставка Новою Поштою</Typography>
+
+      <Typography variant="h5" className={"col-span-full lg:col-start-1 lg:col-end-9"}>Доставка</Typography>
+
+
+      <Accordion expanded={expanded === "NEW_POST_MAIL"} variant={"outlined"}
+                 onChange={handleChange("NEW_POST_MAIL")}
+                 className="rounded overflow-hidden col-span-full lg:col-start-1 lg:col-end-9">
+        <AccordionSummary
+          expandIcon={<MdExpandMore/>}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          <Typography variant="h6">Нова Пошта</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Controller
+            name={"delivery_type"}
+            control={control}
+            render={({field}) => (
+              <FormControl className={"w-full"}>
+                <InputLabel>Тип доставки</InputLabel>
+                <Select {...field} defaultValue={"У відділення"} MenuProps={{disableScrollLock: true}} label={"Спосіб оплати"}>
+                  <MenuItem value={"У відділення"}>
+                    У відділення
+                  </MenuItem>
+                  <MenuItem value={"У поштомат"}>
+                    У поштомат
+                  </MenuItem>
+                  <MenuItem value={"Кур'єром"}>
+                    Кур'єром
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={"locality"}
+            control={control}
+            render={({field}) => (
+              <TextField {...field} label={"Населений пункт(область)"} className={"mt-4 w-full"}/>
+            )}
+          />
+          {!(watch("delivery_type") === "Кур'єром") && <Controller
+		        name={"department_index"}
+		        control={control}
+		        render={({field}) => (
+              <TextField {...field} type={"number"} label={"Номер відділення"} className={"mt-4 w-full"}/>
+            )}
+	        />}
+
+          {watch("delivery_type") === "Кур'єром" && <div className={"flex flex-col gap-y-4 lg:flex-row lg:gap-x-4 mt-4 w-full"}>
+            {[
+              {label: "Будинок", field: "house"},
+              {label: "Квартира", field: "floor"},
+              {label: "Вулиця", field: "street"},
+            ].map(({field, label}) => (
+              <Controller
+                key={field}
+                name={field as keyof FormData}
+                control={control}
+                render={({field: controllerField}) => (
+                  <TextField
+                    // helperText={errors[field as keyof FormData]?.message}
+                    // error={!!errors[field as keyof FormData]}
+                    {...controllerField}
+                    variant="outlined"
+                    className={"w-full"}
+                    size="medium"
+                    label={label}
+                  />
+                )}
+              />
+            ))}
+	        </div>}
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion expanded={expanded === "URK_MAIL"} variant={"outlined"}
+                 onChange={handleChange("URK_MAIL")}
+                 className="rounded overflow-hidden col-span-full lg:col-start-1 lg:col-end-9">
+        <AccordionSummary
+          expandIcon={<MdExpandMore/>}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          <Typography variant="h6">Укрпошта</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Controller
+            name={"delivery_type"}
+            control={control}
+            render={({field}) => (
+              <FormControl  className={"w-full"}>
+                <InputLabel>Тип доставки</InputLabel>
+                <Select {...field} defaultValue={"У відділення"} MenuProps={{disableScrollLock: true}} label={"Спосіб оплати"}>
+                  <MenuItem value={"У відділення"}>
+                    У відділення
+                  </MenuItem>
+                  <MenuItem value={"Кур'єром"}>
+                    Кур'єром
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={"locality"}
+            control={control}
+            render={({field}) => (
+              <TextField {...field} placeholder={"Населений пункт(область)"} className={"mt-4 w-full"}/>
+            )}
+          />
+          {!(watch("delivery_type") === "Кур'єром") && <Controller
+		        name={"mail_index"}
+		        control={control}
+		        render={({field}) => (
+              <TextField {...field} type={"number"} label={"Поштовий індекс"} className={"mt-4 w-full"}/>
+            )}
+	        />}
+
+          {watch("delivery_type") === "Кур'єром" && <div className={"flex flex-col gap-y-4 lg:flex-row lg:gap-x-4 mt-4 w-full"}>
+            {[
+              {label: "Будинок", field: "house"},
+              {label: "Квартира", field: "floor"},
+              {label: "Вулиця", field: "street"},
+            ].map(({field, label}) => (
+              <Controller
+                key={field}
+                name={field as keyof FormData}
+                control={control}
+                render={({field: controllerField}) => (
+                  <TextField
+                    // helperText={errors[field as keyof FormData]?.message}
+                    // error={!!errors[field as keyof FormData]}
+                    {...controllerField}
+                    variant="outlined"
+                    className={"w-full"}
+                    size="medium"
+                    label={label}
+                  />
+                )}
+              />
+            ))}
+	        </div>}
+        </AccordionDetails>
+      </Accordion>
+
+      <Paper className="col-span-full lg:col-start-1 lg:col-end-9 p-4 flex flex-col" variant="outlined">
+        <Typography variant="h6">Спосіб оплати та коментар</Typography>
         <div className={"flex flex-col gap-y-4"}>
-          {[
-            {label: "Назва населеного пункту", field: "locality"},
-            {label: "Номер відділеня", field: "department"},
-          ].map(({field, label}) => (
-            <Controller
-              key={field}
-              name={field as keyof FormData}
-              control={control}
-              rules={{required: true}}
-              render={({field: controllerField}) => (
-                <TextField
-                  helperText={errors[field as keyof FormData]?.message}
-                  error={!!errors[field as keyof FormData]}
-                  {...controllerField}
-                  className="col-span-12 lg:col-span-6"
-                  variant="filled"
-                  size="small"
-                  label={label}
-                  required
-                />
-              )}
-            />
-          ))}
+          <Controller
+            name={"payment_type"}
+            control={control}
+            render={({field}) => (
+              <FormControl className={"w-full mt-4"}>
+                <InputLabel>Спосіб оплати</InputLabel>
+                <Select {...field} MenuProps={{disableScrollLock: true}} label={"Спосіб оплати"}>
+                  <MenuItem value={"Предоплата (200 грн.)"}>
+                    Предоплата (200 грн.)
+                  </MenuItem>
+                  <MenuItem value={"Наложний"}>
+                    Наложний
+                  </MenuItem>
+                  <MenuItem value={"Повна оплата"}>
+                    Повна оплата
+                  </MenuItem>
+                  <MenuItem value={"Рахунок для юридичних осіб"}>
+                    Рахунок для юридичних осіб
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            )}
+          />
+          <Controller
+            name={"commentary"}
+            control={control}
+            render={({field}) => (
+              <TextField {...field} multiline label={"Коментар"} rows={5}/>
+            )}
+          />
         </div>
       </Paper>
 
-      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col" variant="outlined">
-        <Typography variant="h6">Доставка Новою Поштою</Typography>
-        <div className={"flex flex-col gap-y-4"}>
-          {[
-            {label: "Назва населеного пункту", field: "locality"},
-            {label: "Номер відділеня", field: "department"},
-          ].map(({field, label}) => (
-            <Controller
-              key={field}
-              name={field as keyof FormData}
-              control={control}
-              rules={{required: true}}
-              render={({field: controllerField}) => (
-                <TextField
-                  helperText={errors[field as keyof FormData]?.message}
-                  error={!!errors[field as keyof FormData]}
-                  {...controllerField}
-                  className="col-span-12 lg:col-span-6"
-                  variant="filled"
-                  size="small"
-                  label={label}
-                  required
-                />
-              )}
-            />
-          ))}
-        </div>
-      </Paper>
 
-
-      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col" variant="outlined">
+      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col"
+             variant="outlined">
         <Typography variant="h6">Товари для замовлення</Typography>
         <div className={"flex flex-col gap-y-4"}>
           {!totalItems && (
@@ -245,7 +440,7 @@ function OrderPage() {
           )}
           {
             Object.entries(cartItems).map(([hashKey, data]) => (
-              <CheckoutCartItem key={hashKey} hashKey={hashKey} updateCartStateFn={setCartItems} data={data} />
+              <CheckoutCartItem key={hashKey} hashKey={hashKey} updateCartStateFn={setCartItems} data={data}/>
             ))
           }
         </div>
