@@ -39,7 +39,7 @@ function Header({srcLogo,...rest}: IHeaderProps) {
               <Link href={href} onClick={index > 0 ? () => toast.warn(`Вкладка ${content} поки що в розробці!`) : undefined} className="header-link" key={content}>{content}</Link>
             ))}
           </div>
-          <ThemeSwitcher/>
+          {/*<ThemeSwitcher/>*/}
           <RxHamburgerMenu
             className={`hamburger-menu`}
             onClick={() => setVisible(prevState => !prevState)}

@@ -97,7 +97,8 @@ function ProductPage({params}: { params: { id: string } }) {
   return (
     <>
       <ShopUpperBar/>
-      <section className="dark:text-neutral-200 container max-w-[1200px] flex flex-col gap-y-8 sm:flex-row mx-auto mt-[112px] mb-64 px-4 py-8 sm:gap-x-8">
+      <section
+        className="dark:text-neutral-200 container max-w-[1200px] flex flex-col gap-y-8 sm:flex-row mx-auto mt-[112px] mb-64 px-4 py-8 sm:gap-x-8">
         <div className="rounded overflow-hidden h-fit">
           <Image className="hover:scale-110 transition-transform duration-700" width={400} height={400}
                  alt={"Product image"}
@@ -123,7 +124,7 @@ function ProductPage({params}: { params: { id: string } }) {
               Розмір / вага (мм. / гр.):
             </Typography>
             <div className="flex flex-row flex-wrap items-center justify-start gap-4 mt-2">
-              {data?.variants?.map(({weight, height, width, length}, index) => (
+              {data?.variants?.map(({weight, height, width, length, size_label}, index) => (
                 <Button
                   key={index}
                   variant={currentVariant === index ? "contained" : "outlined"}
@@ -133,7 +134,7 @@ function ProductPage({params}: { params: { id: string } }) {
                     setCurrentVariant(prev => index)
                   }}
                 >
-                  {`${length}x${height}x${width} / ${weight}`}
+                  {size_label}
                 </Button>
               ))}
             </div>
@@ -166,7 +167,12 @@ function ProductPage({params}: { params: { id: string } }) {
               ))}
             </div>
           </div>
-          <div className="w-full mt-8 flex flex-row justify-end gap-x-4">
+
+          <div className="w-1/2 mt-4">
+            {data.product.description}
+          </div>
+
+          <div className="w-1/2 mt-8 flex flex-row justify-end gap-x-4">
             <CartButton cart={"add"} variant={"contained"} onClick={onAddToCartButtonHandler}/>
             {/*<CartButton cart={"remove"} variant={"contained"} color={"warning"}/>*/}
           </div>

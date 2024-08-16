@@ -106,22 +106,20 @@ function OrderPage() {
           })
         }
 
-        console.log(preparedData)
         const res = await fetch("/api/orders", {
           method: "POST",
           body: JSON.stringify(
             preparedData
           )
         })
-        // if (!res.ok) {
-        //   throw new Error("Error response")
-        // }
+        if (!res.ok) {
+          throw new Error("Error response")
+        }
 
-        // setCartItems(clearProductCart())
-        // toast.success("Ваше замовлення успішно оформлено!", {position: "bottom-center", autoClose: false})
-        // router.push("/shop/products")
+        setCartItems(clearProductCart())
+        toast.success("Ваше замовлення успішно оформлено!", {position: "bottom-center", autoClose: false})
+        router.push("/shop/products")
         return res.json()
-        // return ""
       } catch (e) {
         toast.error("Ваше замовлення неуспішно оформлено!", {position: "bottom-center", autoClose: false})
       }

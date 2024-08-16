@@ -61,6 +61,8 @@ function ProductsList({products,productsLoading, totalPages}: IProductsListProps
           onChange={handlePageChange}
           size="large"
           shape="rounded"
+          siblingCount={1}
+          boundaryCount={1}
         />
       </div>
     </>
