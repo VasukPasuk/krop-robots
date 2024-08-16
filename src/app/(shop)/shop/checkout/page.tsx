@@ -401,8 +401,8 @@ function OrderPage() {
                   <MenuItem value={"Предоплата (200 грн.)"}>
                     Предоплата (200 грн.)
                   </MenuItem>
-                  <MenuItem value={"Наложний"}>
-                    Наложний
+                  <MenuItem value={"Наложний (200 грн предоплата)"}>
+                    Наложний (200 грн предоплата)
                   </MenuItem>
                   <MenuItem value={"Повна оплата"}>
                     Повна оплата
