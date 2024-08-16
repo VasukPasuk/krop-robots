@@ -7,6 +7,8 @@ import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {clearProductCart, getAllCartItems, UserCartItemType} from "@/features/localStorageFunctions";
 import CheckoutCartItem from "@/app/(shop)/shop/checkout/CheckoutCartItem";
+import {useRouter} from "next/navigation";
+import {toast} from "react-toastify";
 
 const schema = z.object({
   phone_number: z
@@ -25,6 +27,7 @@ type FormData = z.infer<typeof schema>;
 
 function OrderPage() {
   const [cartItems, setCartItems] = useState<{ [key: string]: UserCartItemType }>({})
+  const router = useRouter()
   const {control, handleSubmit, formState: {errors}} = useForm<FormData>({
     defaultValues: {
       phone_number: "380",
@@ -50,6 +53,8 @@ function OrderPage() {
           throw new Error("Error response")
         }
         setCartItems(clearProductCart())
+        toast.success("Ваше замовлення успішно оформлено!", {position: "bottom-center", autoClose: false})
+        router.push("/shop/products")
         return res.json()
       } catch (e) {
       }
@@ -168,6 +173,66 @@ function OrderPage() {
           </>
         )}
       </Paper>
+
+      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col" variant="outlined">
+        <Typography variant="h6">Доставка Новою Поштою</Typography>
+        <div className={"flex flex-col gap-y-4"}>
+          {[
+            {label: "Назва населеного пункту", field: "locality"},
+            {label: "Номер відділеня", field: "department"},
+          ].map(({field, label}) => (
+            <Controller
+              key={field}
+              name={field as keyof FormData}
+              control={control}
+              rules={{required: true}}
+              render={({field: controllerField}) => (
+                <TextField
+                  helperText={errors[field as keyof FormData]?.message}
+                  error={!!errors[field as keyof FormData]}
+                  {...controllerField}
+                  className="col-span-12 lg:col-span-6"
+                  variant="filled"
+                  size="small"
+                  label={label}
+                  required
+                />
+              )}
+            />
+          ))}
+        </div>
+      </Paper>
+
+      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col" variant="outlined">
+        <Typography variant="h6">Доставка Новою Поштою</Typography>
+        <div className={"flex flex-col gap-y-4"}>
+          {[
+            {label: "Назва населеного пункту", field: "locality"},
+            {label: "Номер відділеня", field: "department"},
+          ].map(({field, label}) => (
+            <Controller
+              key={field}
+              name={field as keyof FormData}
+              control={control}
+              rules={{required: true}}
+              render={({field: controllerField}) => (
+                <TextField
+                  helperText={errors[field as keyof FormData]?.message}
+                  error={!!errors[field as keyof FormData]}
+                  {...controllerField}
+                  className="col-span-12 lg:col-span-6"
+                  variant="filled"
+                  size="small"
+                  label={label}
+                  required
+                />
+              )}
+            />
+          ))}
+        </div>
+      </Paper>
+
+
       <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col" variant="outlined">
         <Typography variant="h6">Товари для замовлення</Typography>
         <div className={"flex flex-col gap-y-4"}>
