@@ -19,8 +19,8 @@ function Page() {
     <>
       <Header/>
       <IntroductionBlock/>
-      <CarouselBlock/>
-      <MembersBlock/>
+      {/*<CarouselBlock/>*/}
+      {/*<MembersBlock/>*/}
       <SumoIntroductionBlock/>
       <SumoZonesBlock/>
       <SumoStagesBlock/>

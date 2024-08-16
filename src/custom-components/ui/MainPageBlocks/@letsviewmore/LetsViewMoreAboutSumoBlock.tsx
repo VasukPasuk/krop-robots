@@ -10,8 +10,8 @@ function LetsViewMoreAboutSumoBlock() {
   return (
     <section id="view-more-about-sumo-block">
       <div className="decoration-circle-and-image--container">
-        <div className="decoration-circle-image"/>
-        <div className="decoration-circle-image"/>
+        {/*<div className="decoration-circle-image"/>*/}
+        {/*<div className="decoration-circle-image"/>*/}
         <Image
           src="/view-more-about-robot-sumo-image-removebg-preview.png"
           alt="boy is controlling his mini-robot with phone"

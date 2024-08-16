@@ -20,15 +20,18 @@ export async function GET(req: NextRequest, res: NextResponse) {
         name: params.search ? {
           mode: "insensitive",
           contains: params.search,
-        } : undefined
+        } : undefined,
+        description: {
+          not: "t"
+        }
       },
       take: params.take,
       skip: params.skip,
       orderBy: {
         variants: {
           _count: "desc"
-        }
-      }
+        },
+      },
     })
     const total = await prisma.product.count({
       where: {
@@ -39,7 +42,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
         name: params.search ? {
           mode: "insensitive",
           equals: params.search,
-        } : undefined
+        } : undefined,
+        description: {
+          not: "t"
+        }
       },
     })
     return Response.json({
