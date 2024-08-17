@@ -134,6 +134,8 @@ function OrderPage() {
   const totalPrice = Object.entries(cartItems).reduce((prev, [key, data]) => prev + (data.variant.price * data.amount), 0)
   const totalItems = Object.keys(cartItems).length
 
+  const generalTotal = Object.entries(cartItems).reduce((prev, [key, data]) => prev + data.amount, 0)
+
   return (
     <form
       className="container min-h-dvh mx-auto mt-16 md:p-8 grid grid-cols-12 auto-rows-min gap-8"
@@ -224,7 +226,7 @@ function OrderPage() {
           <>
 
             <div className="flex flex-row justify-between items-center">
-              <Typography variant="subtitle1">{totalItems} товарів на суму</Typography>
+              <Typography variant="subtitle1">{generalTotal} товарів на суму</Typography>
               <Typography variant="h6">{totalPrice} грн.</Typography>
             </div>
             <Paper variant="outlined" className="py-6 px-3 flex flex-row justify-between items-center">
