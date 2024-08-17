@@ -27,14 +27,14 @@ function CheckoutCartItem({data, hashKey, updateCartStateFn}: ICheckoutCartItem)
             {data.product.category_name}
           </Typography>
         </div>
-        <div>
-          <Typography variant={"subtitle1"} className={"font-bold text-neutral-800"}>
-            Розмірність/вага:
-          </Typography>
-          <Typography variant={"subtitle1"} className={"font-bold text-neutral-700"}>
-            {data.variant.length}
-          </Typography>
-        </div>
+        {/*<div>*/}
+        {/*  <Typography variant={"subtitle1"} className={"font-bold text-neutral-800"}>*/}
+        {/*    Розмірність/вага:*/}
+        {/*  </Typography>*/}
+        {/*  <Typography variant={"subtitle1"} className={"font-bold text-neutral-700"}>*/}
+        {/*    {data.variant.length}*/}
+        {/*  </Typography>*/}
+        {/*</div>*/}
 
         <Typography variant={"subtitle1"} className={"font-bold text-neutral-800"}>
           Кількість: {data.amount}
