@@ -25,12 +25,13 @@ function ShopMainPage() {
   }
 
   useEffect(() => {
-    const skip = JSON.parse(localStorage.getItem("skip-shop-main"))
-    if (skip === true) {
-      router.push("/shop/products")
-    } else {
-      localStorage.setItem("skip-shop-main", JSON.stringify(true))
-    }
+    // const skip = JSON.parse(localStorage.getItem("skip-shop-main"))
+    // if (skip === true) {
+    //   router.push("/shop/products")
+    // } else {
+    //   localStorage.setItem("skip-shop-main", JSON.stringify(true))
+    // }
+    router.push("/shop/products")
   }, [])
 
   return (
