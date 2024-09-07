@@ -1,6 +1,6 @@
 import React from "react";
-import AdminHeader from "@/custom-components/ui/(admin)/AdminHeader";
 import AdminDrawer from "@/custom-components/ui/(admin)/AdminDrawer";
+import AdminNavBar from "@/custom-components/ui/(admin)/AdminNavBar";
 
 type LayoutProps = {
   children: React.ReactNode
@@ -8,12 +8,14 @@ type LayoutProps = {
 
 export default function layout({children}: LayoutProps) {
   return (
-    <>
-      <AdminHeader/>
-      <div className="flex flex-row min-h-dvh mt-16">
-        <AdminDrawer/>
-        {children}
+    <main className={"flex flex-row"}>
+      <AdminDrawer/>
+      <div className="flex flex-col min-h-dvh w-full">
+        <AdminNavBar/>
+        <div className={"border-t-[1px] md:ml-72 border-t-neutral-300 border-solid flex flex-col md:p-6"}>
+          {children}
+        </div>
       </div>
-    </>
+    </main>
   )
 }
