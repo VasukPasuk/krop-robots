@@ -6,7 +6,7 @@ import CatalogSearch from "@/custom-components/ui/(client)/CatalogPage/CatalogSe
 
 function Page() {
   return (
-    <div className="container mt-16 mx-auto flex gap-x-4 py-6">
+    <div className="container mt-4 mx-auto flex gap-x-4">
       <CatalogFilter/>
       <div className="flex flex-col flex-1 gap-y-4 relative">
         <CatalogSearch/>

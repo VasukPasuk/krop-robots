@@ -9,8 +9,8 @@ export default class TagFetcher {
   static updateOneByName(name: string, data: {name: string, description?: string}) {
     return axiosWithAuth.patch(`${this.URL}/${name}`, data)
   }
-  static async getAllTags() {
-    return (await axiosWithAuth.get<{items: ITag[], count: number}>(this.URL)).data
+  static async getAllTags(query: string = "") {
+    return (await axiosWithAuth.get<{items: ITag[], count: number}>(this.URL + (query ? `?${query}`: ""))).data
   }
 
 

@@ -1,17 +1,43 @@
 "use client"
-import {Button, FormControl, IconButton, Input, InputLabel, MenuItem, Select, TextField, Tooltip} from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Tooltip
+} from "@mui/material";
 import {MdSearch} from "react-icons/md";
 import {useState} from "react";
+import useCatalogFilters, {TypeSort} from "@/hooks/useCatalogFilters";
 
 function CatalogSearch() {
-  const [sort, setSort] = useState("")
+  const [search, setSearch] = useState<string>("");
+  const {appendSearchQuery, setSearchQuery} = useCatalogFilters();
+  const setTypeSort = (type: TypeSort) => {
+    appendSearchQuery({typeSort: type})
+  }
+
+  const onClickHandler = () => {
+    setSearchQuery({
+      searchField: "name",
+      searchValue: search,
+    })
+  }
+
   return (
-    <nav className="h-16 rounded bg-black/5 flex items-center p-4 justify-between">
+    <nav className="h-16 flex items-center py-2 justify-between border-b-[1px] border-solid border-b-neutral-200 pb-8">
       <div className="flex items-center justify-center md:w-1/3 gap-x-2">
-        <TextField size="small" className="w-full" label="Шукаю..."/>
+        <TextField
+          size="small"
+          className="w-full"
+          label="Шукаю..."
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <div>
           <Tooltip title="Почати пошук">
-            <Button variant="contained" size="large" sx={{ minWidth: 0 }}>
+            <Button variant="contained" size="large" sx={{ minWidth: 0 }} onClick={onClickHandler}>
               <MdSearch className="text-2xl"/>
             </Button>
           </Tooltip>
@@ -23,13 +49,13 @@ function CatalogSearch() {
           <Select
             labelId="sort-label"
             label="Сортування"
-            onChange={e => setSort(_ => e.target.value as string)}
+            onChange={e => setTypeSort(e.target.value as TypeSort)}
             MenuProps={{disableScrollLock: true}}
           >
             <MenuItem value={'new'}>Новинки</MenuItem>
             <MenuItem value={'rating'}>Рейтинг</MenuItem>
-            <MenuItem value={'expensive-cheap'}>Від дорогих до дешевих</MenuItem>
-            <MenuItem value={'cheap-expensive'}>Від дешевих до дорогих</MenuItem>
+            <MenuItem value={'expensive_cheap'}>Від дорогих до дешевих</MenuItem>
+            <MenuItem value={'cheap_expensive'}>Від дешевих до дорогих</MenuItem>
           </Select>
         </FormControl>
       </div>

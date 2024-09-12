@@ -7,7 +7,7 @@ import {
   TextField,
   Paper, Switch, FormControlLabel, Autocomplete,
 } from "@mui/material";
-import {useMutation, useQueries} from "@tanstack/react-query";
+import {useMutation, useQueries, useQueryClient} from "@tanstack/react-query";
 import {axiosWithAuth} from "@/services/axios/axios.interceptors";
 import {ICategory, IProduct, ITag} from "@/interfaces";
 import "../index.scss";
@@ -29,6 +29,7 @@ const schema = zod.object({
   name: zod.string().min(1),
   discount: zod.number({coerce: true}).min(0),
   popular: zod.boolean(),
+  published: zod.boolean(),
   description: zod.string().min(1),
   category_name: zod.string().min(1),
 })
@@ -39,6 +40,8 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
   const {control, reset, handleSubmit, formState: {errors}} = useForm<FormDataSchema>({
     resolver: zodResolver(schema),
   })
+
+  const client = useQueryClient()
   const [q_categories, q_product] = useQueries({
     queries: [
       {
@@ -61,6 +64,7 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
   const productMutate = useMutation({
     mutationFn: (foo: Function) => foo(),
     onSuccess: () => {
+      client.invalidateQueries({queryKey: ["product", productName]})
       toast.success("Продукт успішно оновлено.");
     },
     onError: (error: Error) => {
@@ -122,25 +126,43 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
           control={control}
           options={categoriesNames}
           getOptionLabel={(option: string) => option}
-          renderInput={(params) => <TextField {...params} label="Категорія"/>}
+          renderInput={(params) => <TextField {...params} value={params.value}  label="Категорія"/>}
           renderOption={(props, option: string) => (
             <li {...props}>{option}</li>
           )}
 
           className={"col-span-4"}
         />
-        <Controller
-          name="popular"
-          control={control}
-          render={({field}) => (
-            <FormControlLabel
-              control={
-                <Switch {...field} checked={field.value}/>
-              }
-              label="Популярний"
-            />
-          )}
-        />
+
+
+
+        
+        <div className="col-span-full">
+          <Controller
+            name="popular"
+            control={control}
+            render={({field}) => (
+              <FormControlLabel
+                control={<Switch {...field} checked={field.value}/> }
+                label="Популярний"
+              />
+            )}
+          />
+        </div>
+
+        <div className="col-span-full">
+          <Controller
+            name="published"
+            control={control}
+            render={({field}) => (
+              <FormControlLabel
+                control={<Switch {...field} checked={field.value}/> }
+                label="Опублікований"
+              />
+            )}
+          />
+        </div>
+
 
         <div className="col-span-8">
           <ManageTagsBox

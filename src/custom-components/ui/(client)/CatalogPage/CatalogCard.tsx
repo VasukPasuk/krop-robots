@@ -3,7 +3,7 @@
 
 import {IProduct} from "@/interfaces";
 import Image from "next/image";
-import {IconButton} from "@mui/material";
+import {IconButton, Paper} from "@mui/material";
 import {MdShoppingCart} from "react-icons/md";
 import {useRouter} from "next/navigation";
 
@@ -16,7 +16,7 @@ function CatalogCard(props: ICatalogCardProps) {
   const {popular, name, discount, description, category_name, updated_at, id, created_at, photos, variants} = props.data
 
   const router = useRouter();
-  const moveToProductPage = () => router.push(`${location.href}/${name}`);
+  const moveToProductPage = () => router.push(`${location.pathname}/${name}`);
 
   const addToFavouritesClick = () => {};
 
@@ -25,12 +25,19 @@ function CatalogCard(props: ICatalogCardProps) {
   }
 
   return (
-    <div
-      className="h-[350px] bg-black/5 flex flex-col flex-1 overflow-hidden rounded-md hover:-translate-y-2 transition-transform duration-1000 ease-out cursor-pointer"
+    <Paper
+      elevation={4}
+      className="h-[350px] flex flex-col flex-1 overflow-hidden rounded-md hover:-translate-y-2 transition-transform duration-1000 ease-out cursor-pointer"
       onClick={onCardClick}
     >
       <div className="relative h-56 overflow-hidden">
-        <Image className="hover:scale-110 transition-transform duration-1000 ease-out" alt={"photo"} src={process.env.NEXT_PUBLIC_API_URL + `/${photos[0].source}`} fill/>
+        <Image
+          className="hover:scale-110 transition-transform duration-1000 ease-out"
+          alt={"photo"}
+          src={process.env.NEXT_PUBLIC_API_URL + `/${photos[0].source}`}
+          fill
+          sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
+        />
       </div>
       <div className="p-2 flex flex-col flex-1 h-full justify-between">
         <div>
@@ -46,7 +53,7 @@ function CatalogCard(props: ICatalogCardProps) {
           </IconButton>
         </div>
       </div>
-    </div>
+    </Paper>
   )
 }
 

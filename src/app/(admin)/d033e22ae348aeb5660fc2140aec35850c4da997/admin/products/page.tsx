@@ -7,7 +7,7 @@ interface IPageProps {
 
 function Page(props: IPageProps) {
   return (
-    <section className="flex w-full">
+    <section className="w-full flex">
       <AdminProductsList/>
     </section>
   )

@@ -32,10 +32,14 @@ export interface IProduct {
   popular: boolean;
   description: string;
   category_name: string;
+  rating: number;
+  published: boolean;
   created_at: string;
   updated_at: string;
   photos?: IImage[];
   variants?: IVariant[];
+  category?: ICategory;
+  ProductHaveTag?: {tag_name: string, tag: ITag}[]
 }
 
 
