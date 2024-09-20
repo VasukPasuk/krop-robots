@@ -22,6 +22,8 @@ import CheckoutCartItem from "@/app/(shop)/shop/checkout/CheckoutCartItem";
 import {useRouter} from "next/navigation";
 import {MdExpandMore} from "react-icons/md";
 import {toast} from "react-toastify";
+import {useMutation} from "@tanstack/react-query";
+import {OrderService} from "@/services/order.service";
 
 const schema = z.object({
   phone_number: z
@@ -47,6 +49,26 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+
+export interface IOrderRequestData {
+  phone_number: string
+  email: string
+  name: string
+  first_surname: string
+  second_surname: string
+  delivery: string
+  payment_type: string
+  comment: string
+  items: {
+    colorName: string
+    productName: string
+    variantId: number
+    plastic: "PLA" | "CoPET"
+    amount: number
+    price: number
+  }[]
+}
+
 function OrderPage() {
   const [cartItems, setCartItems] = useState<{ [key: string]: UserCartItemType }>({})
   const [expanded, setExpanded] = React.useState<"NEW_POST_MAIL" | "URK_MAIL" | false>(false);
@@ -63,68 +85,64 @@ function OrderPage() {
   })
 
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    const sendData = async () => {
-      try {
-        let deliveryData = {};
-        switch (expanded) {
-          case "NEW_POST_MAIL":
-            deliveryData = {
-              locality: data.locality,
-              department_index: Number(data.department_index),
-            }
-            break;
-          case "URK_MAIL":
-            deliveryData = {
-              mail_index: Number(data.mail_index),
-              locality: data.locality,
-            }
-            break;
-          default:
-            return toast.warn("Ви не обрали доставку.")
-        }
-
-        const preparedData = {
-          items: Object.values(cartItems),
-          phone_number: data.phone_number,
-          email: data.email,
-          name: data.name,
-          first_surname: data.first_surname,
-          second_surname: data.second_surname,
-
-          dataJSON: JSON.stringify({
-            delivery_company: expanded,
-            payment_type: data.payment_type,
-            commentary: data.commentary,
-            house: data.house,
-            floor: data.floor,
-            street: data.street,
-            delivery_type: data.delivery_type,
-            locality: data.locality,
-            department_index: Number(data.department_index) || 1,
-            mail_index: Number(data.mail_index) || 1,
-          })
-        }
-
-        const res = await fetch("/api/orders", {
-          method: "POST",
-          body: JSON.stringify(
-            preparedData
-          )
-        })
-        if (!res.ok) {
-          throw new Error("Error response")
-        }
-
-        setCartItems(clearProductCart())
-        toast.success("Ваше замовлення успішно оформлено!", {position: "bottom-center", autoClose: false})
-        router.push("/shop/products")
-        return res.json()
-      } catch (e) {
-        toast.error("Ваше замовлення неуспішно оформлено!", {position: "bottom-center", autoClose: false})
-      }
+  const orderMutation = useMutation({
+    mutationFn: (foo: Function) => foo(),
+    onSuccess: () => {
+      toast.success("Всьо чотко")
+    },
+    onError: () => {
+      toast.error("Всьо погано")
     }
-    sendData()
+  })
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    let deliveryData = {};
+    switch (expanded) {
+      case "NEW_POST_MAIL":
+        deliveryData = {
+          locality: data.locality,
+          department_index: Number(data.department_index),
+        }
+        break;
+      case "URK_MAIL":
+        deliveryData = {
+          mail_index: Number(data.mail_index),
+          locality: data.locality,
+        }
+        break;
+      default:
+        return toast.warn("Ви не обрали доставку.")
+    }
+
+    const preparedData: IOrderRequestData = {
+      items: Object.values(cartItems).map((cartItem) => ({
+        amount: cartItem.amount,
+        variantId: cartItem.variant.id,
+        colorName: cartItem.color.name,
+        plastic:cartItem.plastic,
+        productName:cartItem.product.name,
+        price: cartItem.amount * cartItem.variant.price
+      })),
+      phone_number: data.phone_number,
+      email: data.email,
+      name: data.name,
+      first_surname: data.first_surname,
+      second_surname: data.second_surname,
+      payment_type: data.payment_type,
+      comment: data.commentary,
+      delivery: JSON.stringify({
+        delivery_company: expanded,
+        house: data.house,
+        floor: data.floor,
+        street: data.street,
+        delivery_type: data.delivery_type,
+        locality: data.locality,
+        department_index: Number(data.department_index) || 1,
+        mail_index: Number(data.mail_index) || 1,
+      })
+    }
+
+    orderMutation.mutate(() => OrderService.create(preparedData))
   }
 
   useEffect(() => {
@@ -264,7 +282,8 @@ function OrderPage() {
             render={({field}) => (
               <FormControl className={"w-full"}>
                 <InputLabel>Тип доставки</InputLabel>
-                <Select {...field} defaultValue={"У відділення"} MenuProps={{disableScrollLock: true}} label={"Спосіб оплати"}>
+                <Select {...field} defaultValue={"У відділення"} MenuProps={{disableScrollLock: true}}
+                        label={"Спосіб оплати"}>
                   <MenuItem value={"У відділення"}>
                     У відділення
                   </MenuItem>
@@ -286,37 +305,38 @@ function OrderPage() {
             )}
           />
           {!(watch("delivery_type") === "Кур'єром") && <Controller
-		        name={"department_index"}
-		        control={control}
-		        render={({field}) => (
+						name={"department_index"}
+						control={control}
+						render={({field}) => (
               <TextField {...field} type={"number"} label={"Номер відділення"} className={"mt-4 w-full"}/>
             )}
-	        />}
+					/>}
 
-          {watch("delivery_type") === "Кур'єром" && <div className={"flex flex-col gap-y-4 lg:flex-row lg:gap-x-4 mt-4 w-full"}>
-            {[
-              {label: "Будинок", field: "house"},
-              {label: "Квартира", field: "floor"},
-              {label: "Вулиця", field: "street"},
-            ].map(({field, label}) => (
-              <Controller
-                key={field}
-                name={field as keyof FormData}
-                control={control}
-                render={({field: controllerField}) => (
-                  <TextField
-                    // helperText={errors[field as keyof FormData]?.message}
-                    // error={!!errors[field as keyof FormData]}
-                    {...controllerField}
-                    variant="outlined"
-                    className={"w-full"}
-                    size="medium"
-                    label={label}
-                  />
-                )}
-              />
-            ))}
-	        </div>}
+          {watch("delivery_type") === "Кур'єром" &&
+						<div className={"flex flex-col gap-y-4 lg:flex-row lg:gap-x-4 mt-4 w-full"}>
+              {[
+                {label: "Будинок", field: "house"},
+                {label: "Квартира", field: "floor"},
+                {label: "Вулиця", field: "street"},
+              ].map(({field, label}) => (
+                <Controller
+                  key={field}
+                  name={field as keyof FormData}
+                  control={control}
+                  render={({field: controllerField}) => (
+                    <TextField
+                      // helperText={errors[field as keyof FormData]?.message}
+                      // error={!!errors[field as keyof FormData]}
+                      {...controllerField}
+                      variant="outlined"
+                      className={"w-full"}
+                      size="medium"
+                      label={label}
+                    />
+                  )}
+                />
+              ))}
+						</div>}
         </AccordionDetails>
       </Accordion>
 
@@ -335,9 +355,10 @@ function OrderPage() {
             name={"delivery_type"}
             control={control}
             render={({field}) => (
-              <FormControl  className={"w-full"}>
+              <FormControl className={"w-full"}>
                 <InputLabel>Тип доставки</InputLabel>
-                <Select {...field} defaultValue={"У відділення"} MenuProps={{disableScrollLock: true}} label={"Спосіб оплати"}>
+                <Select {...field} defaultValue={"У відділення"} MenuProps={{disableScrollLock: true}}
+                        label={"Спосіб оплати"}>
                   <MenuItem value={"У відділення"}>
                     У відділення
                   </MenuItem>
@@ -356,37 +377,38 @@ function OrderPage() {
             )}
           />
           {!(watch("delivery_type") === "Кур'єром") && <Controller
-		        name={"mail_index"}
-		        control={control}
-		        render={({field}) => (
+						name={"mail_index"}
+						control={control}
+						render={({field}) => (
               <TextField {...field} type={"number"} label={"Поштовий індекс"} className={"mt-4 w-full"}/>
             )}
-	        />}
+					/>}
 
-          {watch("delivery_type") === "Кур'єром" && <div className={"flex flex-col gap-y-4 lg:flex-row lg:gap-x-4 mt-4 w-full"}>
-            {[
-              {label: "Будинок", field: "house"},
-              {label: "Квартира", field: "floor"},
-              {label: "Вулиця", field: "street"},
-            ].map(({field, label}) => (
-              <Controller
-                key={field}
-                name={field as keyof FormData}
-                control={control}
-                render={({field: controllerField}) => (
-                  <TextField
-                    // helperText={errors[field as keyof FormData]?.message}
-                    // error={!!errors[field as keyof FormData]}
-                    {...controllerField}
-                    variant="outlined"
-                    className={"w-full"}
-                    size="medium"
-                    label={label}
-                  />
-                )}
-              />
-            ))}
-	        </div>}
+          {watch("delivery_type") === "Кур'єром" &&
+						<div className={"flex flex-col gap-y-4 lg:flex-row lg:gap-x-4 mt-4 w-full"}>
+              {[
+                {label: "Будинок", field: "house"},
+                {label: "Квартира", field: "floor"},
+                {label: "Вулиця", field: "street"},
+              ].map(({field, label}) => (
+                <Controller
+                  key={field}
+                  name={field as keyof FormData}
+                  control={control}
+                  render={({field: controllerField}) => (
+                    <TextField
+                      // helperText={errors[field as keyof FormData]?.message}
+                      // error={!!errors[field as keyof FormData]}
+                      {...controllerField}
+                      variant="outlined"
+                      className={"w-full"}
+                      size="medium"
+                      label={label}
+                    />
+                  )}
+                />
+              ))}
+						</div>}
         </AccordionDetails>
       </Accordion>
 

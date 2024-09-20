@@ -4,10 +4,13 @@ import {Button, Divider, Paper, Rating, Tooltip} from "@mui/material";
 import Image from "next/image";
 import clsx from "clsx";
 import {BiHeart} from "react-icons/bi";
-import {MdShoppingCart} from "react-icons/md";
-import {useQuery} from "@tanstack/react-query";
+import {MdAddShoppingCart, MdShoppingCart} from "react-icons/md";
+import {useQueries, useQuery} from "@tanstack/react-query";
 import ProductFetcher from "@/services/fetchers/ProductFetcher";
 import {useState} from "react";
+import ColorFetcher from "@/services/fetchers/ColorFetcher";
+import {setProductToCart} from "@/features/localStorageFunctions";
+import {IColor} from "@/interfaces";
 
 type TypePlastic = "PLA" | "CoPET"
 
@@ -17,12 +20,21 @@ function ProductAbout({productName}: { productName: string }) {
   const [currentPhoto, setCurrentPhoto] = useState<number>(0)
   const [currentVariant, setCurrentVariant] = useState<string>("Стандарт")
   const [plastic, setPlastic] = useState<TypePlastic>("PLA")
-  const {data, isLoading, isError} = useQuery({
-    queryKey: ["product-with-details", productName],
-    queryFn: () => ProductFetcher.getOneWithDetails(productName)
+  const [currentColor, setCurrentColor] = useState<string>("Чорний")
+  const [productData, colorsData] = useQueries({
+    queries: [
+      {
+        queryKey: ["product-with-details", productName],
+        queryFn: () => ProductFetcher.getOneWithDetails(productName)
+      },
+      {
+        queryKey: ["colors"],
+        queryFn: () => ColorFetcher.getAll()
+      }
+    ]
   })
 
-  if (isLoading) {
+  if (productData.isLoading || colorsData.isLoading) {
     return (
       <div>
         Loading...
@@ -30,7 +42,7 @@ function ProductAbout({productName}: { productName: string }) {
     )
   }
 
-  if (!data || isError) {
+  if (!productData.data || productData.isError || !colorsData.data || colorsData.isError) {
     return (
       <div>
         Error...
@@ -38,24 +50,37 @@ function ProductAbout({productName}: { productName: string }) {
     )
   }
 
-  const {photos, variants, ProductHaveTag, category, ...product} = data
+  const {photos, variants, ProductHaveTag, category, ...product} = productData.data
 
   const variantObject = variants.find((variant) => variant.size_label === currentVariant);
 
+  const colorsObject: IColor = colorsData.data.items.find((color) => color.name === currentColor);
+
+  const addToCartHandler = () => {
+    setProductToCart({
+      product: product,
+      plastic: plastic,
+      color: colorsObject,
+      variant: variantObject,
+      amount: 1,
+      photo: photos[0].source
+    })
+  }
 
   return (
-    <div className="flex gap-x-4 mb-16">
+    <div className="flex lg:flex-row flex-col gap-y-4 lg:gap-x-4 mb-16">
       <div className="flex flex-col gap-y-4 flex-1">
-        <Paper elevation={1} className="p-6 py-8 col-span-6 flex flex-col items-center justify-center">
-          <Paper className="relative w-[34rem] h-[26rem] overflow-hidden rounded">
+        <Paper elevation={1} className="sm:p-6 py-8 flex flex-col items-center justify-center">
+          <Paper
+            className="relative w-[20rem] h-[16rem] sm:w-[28rem] sm:h-[20rem]  lg:w-[34rem] lg:h-[26rem] overflow-hidden rounded">
             <Image
               className="hover:scale-110 transition-transform duration-700"
               alt="Фото продукта"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/${data.photos[currentPhoto].source}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/${photos[currentPhoto].source}`}
               fill
             />
           </Paper>
-          <div className="flex flex-row gap-x-4 mt-4">
+          <div className="flex flex-row gap-x-4 mt-4 justify-start w-full px-5 overflow-x-auto">
             {photos.length > 2 && (
               <>
                 {photos.map((photo, i) => (
@@ -114,45 +139,38 @@ function ProductAbout({productName}: { productName: string }) {
         </Paper>
       </div>
       <div className="flex flex-col gap-y-4 flex-1">
-        <Paper elevation={1} className="p-6 col-span-6 flex flex-col gap-y-2 flex-1">
-          <div className="flex justify-between items-center">
-            <h3 className="text-bold text-3xl">
-              {product.name}
-            </h3>
-
-
-            <Tooltip title="Додати до улюбленого">
-              <div className="p-2 rounded hover:bg-black/5 transition-colors duration-500 ease-in-out cursor-pointer">
-                <BiHeart size={28}/>
-              </div>
-            </Tooltip>
+        <div className="p-4 shadow flex flex-col gap-y-2">
+          <div className={"text-neutral-800 text-3xl text-bold"}>
+            {product.name}
           </div>
-          <div>
-            <Rating precision={0.5} />
-
-          </div>
-          <h4 className="text-bold text-xl text-neutral-600">
+          <div className={"text-neutral-800/70 text-xl text-semibold"}>
             {product.category_name}
-          </h4>
-
-          <h5 className="mt-2">
+          </div>
+          <div className={"text-neutral-800"}>
             {product.description}
-          </h5>
-          <div className="flex flex-wrap gap-2 mb-4 mt-4">
-            {ProductHaveTag.map((tag, i) => (
-              <div
-                className="px-2 py-1 rounded border-[1px] border-solid border-neutral-400 font-light hover:bg-black/5 transition-colors duration-300 ease-in">
-                {tag.tag_name}
-              </div>
+          </div>
+        </div>
+        <div className="p-4 shadow flex flex-col gap-y-2">
+          <div>
+            Колір: {currentColor}
+          </div>
+          <div className="flex gap-x-2">
+            {colorsData.data.items.map((color, i) => (
+              <Tooltip title={color.name}>
+                <Paper
+                  onClick={() => setCurrentColor(color.name)}
+                  className="w-6 h-6 rounded cursor-pointer"
+                  style={{backgroundColor: color.hex}}
+                />
+              </Tooltip>
             ))}
           </div>
-
-          <Divider/>
-
-          <h5 className="mt-2">
+        </div>
+        <div className="p-4 shadow flex flex-col gap-y-2">
+          <div>
             Пластик: {plastic}
-          </h5>
-          <div className="mb-4 flex gap-x-4">
+          </div>
+          <div className="flex gap-x-2">
             {PlasticVariants.map((kind, i) => (
               <Button variant={"contained"} color={kind !== plastic ? "primary" : "secondary"} onClick={() => {
                 setPlastic(kind)
@@ -161,13 +179,12 @@ function ProductAbout({productName}: { productName: string }) {
               </Button>
             ))}
           </div>
-
-          <Divider/>
-
-          <h5 className="mt-2">
-            Поточний варіант: {currentVariant}
-          </h5>
-          <div className="flex gap-x-3">
+        </div>
+        <div className="p-4 shadow flex flex-col gap-y-2">
+          <div>
+            Варіант: {currentVariant}
+          </div>
+          <div className="flex gap-x-2">
             {variants.map((variant, i) => (
               <Button
                 onClick={() => setCurrentVariant(_ => variant.size_label)}
@@ -178,16 +195,28 @@ function ProductAbout({productName}: { productName: string }) {
               </Button>
             ))}
           </div>
-          <h5 className="mt-12 text-3xl font-bold">
-            {variants.find((variant) => variant.size_label === currentVariant).price} грн.
-          </h5>
-          <h5 className="flex gap-x-4 mt-2">
-            <Button size="large" className="normal-case" variant="contained" color="success"
-                    endIcon={<MdShoppingCart/>}>
-              Купити
+        </div>
+        <div className="p-4 shadow flex justify-between items-center">
+          <div>
+            <span className="text-3xl">
+              {variantObject.price}
+            </span>
+            <span className="ml-1 text-3xl">
+              грн.
+            </span>
+          </div>
+          <div>
+            <Button
+              variant={"contained"}
+              color={"success"}
+              onClick={addToCartHandler}
+              endIcon={<MdAddShoppingCart/>}
+              className="normal-case"
+            >
+              До кошика
             </Button>
-          </h5>
-        </Paper>
+          </div>
+        </div>
       </div>
     </div>
   )

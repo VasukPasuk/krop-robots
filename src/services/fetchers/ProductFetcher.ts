@@ -33,13 +33,20 @@ export default class ProductFetcher {
   }
 
   static async getCatalog(searchQuery: string = "") {
-    return (await axiosWithAuth.get<{
+    return (await axiosBasic.get<{
       items: IProduct[], count: number
     }>(`${this.URL}/catalog/list` + (Boolean(searchQuery) ? `?${searchQuery}` : ""))).data
   }
 
   static async getOneWithDetails(name: string) {
-    return (await axiosWithAuth.get<IProduct>(`${this.URL}/${name}/with_details`)).data
+    return (await axiosBasic.get<IProduct>(`${this.URL}/${name}/with_details`)).data
+  }
+
+
+  static async getAdminCatalog(searchQuery: string = "") {
+    return (await axiosWithAuth.get<{
+      items: IProduct[], count: number
+    }>(`${this.URL}/admin-catalog/list` + (Boolean(searchQuery) ? `?${searchQuery}` : ""))).data
   }
 }
 

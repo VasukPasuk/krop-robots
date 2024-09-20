@@ -25,9 +25,8 @@ function CatalogCard(props: ICatalogCardProps) {
   }
 
   return (
-    <Paper
-      elevation={4}
-      className="h-[350px] flex flex-col flex-1 overflow-hidden rounded-md hover:-translate-y-2 transition-transform duration-1000 ease-out cursor-pointer"
+    <div
+      className="h-[350px] flex flex-col flex-1 overflow-hidden rounded-md hover:-translate-y-2 transition-transform duration-1000 ease-out cursor-pointer shadow"
       onClick={onCardClick}
     >
       <div className="relative h-56 overflow-hidden">
@@ -41,19 +40,19 @@ function CatalogCard(props: ICatalogCardProps) {
       </div>
       <div className="p-2 flex flex-col flex-1 h-full justify-between">
         <div>
-          <span className="text-lg font-bold line-clamp-2 leading-5">{name}</span>
-          <span>{category_name}</span>
+          <span className="text-xl font-medium line-clamp-2 leading-5">{name}</span>
+          <span className="text-[0.95rem] text-neutral-800/80">{category_name}</span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-xl font-bold">
-            {variants[0]?.price} грн.
+          <span className="text-xl font-medium">
+            ₴ {variants[0]?.price} / шт.
           </span>
-          <IconButton>
-            <MdShoppingCart/>
-          </IconButton>
+          <div className="p-2 rounded bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-700 ease-in-out">
+            <MdShoppingCart size={24}/>
+          </div>
         </div>
       </div>
-    </Paper>
+    </div>
   )
 }
 

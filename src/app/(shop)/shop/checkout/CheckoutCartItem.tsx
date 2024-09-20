@@ -3,6 +3,7 @@ import React from 'react';
 import {deleteProduct, deleteProductAndReturn, UserCartItemType} from "@/features/localStorageFunctions";
 import {IoMdTrash} from "react-icons/io";
 import Image from "next/image";
+
 interface ICheckoutCartItem {
   data: UserCartItemType
   hashKey: string
@@ -18,30 +19,21 @@ function CheckoutCartItem({data, hashKey, updateCartStateFn}: ICheckoutCartItem)
   return (
     <Paper variant={"outlined"} className={"flex flex-col lg:flex-row items-center justify-center lg:px-6 lg:py-4"}>
       <div className={"w-full flex flex-col lg:flex-row items-center justify-start gap-x-4"}>
-        <Image className={"rounded overflow-hidden "} width={150} height={150} alt={`Картинка продукту ${data.product.name}`} src={`https://drive.google.com/uc?export=view&id=${data.product.image_name}`}/>
-        <div className={"flex flex-col"}>
-          <Typography variant={"h6"} className={"font-bold text-neutral-800"}>
-            {data.product.name}
-          </Typography>
-          <Typography variant={"subtitle1"} className={"font-bold text-neutral-800"}>
-            {data.product.category_name}
-          </Typography>
+        <div className="relative h-32 w-32">
+          <Image
+            className={"rounded overflow-hidden "}
+            fill
+            alt={`Картинка продукту ${data.product.name}`}
+            src={process.env.NEXT_PUBLIC_API_URL + "/" + data.photo}
+          />
         </div>
-        {/*<div>*/}
-        {/*  <Typography variant={"subtitle1"} className={"font-bold text-neutral-800"}>*/}
-        {/*    Розмірність/вага:*/}
-        {/*  </Typography>*/}
-        {/*  <Typography variant={"subtitle1"} className={"font-bold text-neutral-700"}>*/}
-        {/*    {data.variant.length}*/}
-        {/*  </Typography>*/}
-        {/*</div>*/}
+        <div className={"flex flex-col"}>
+          <div>{data.product.name}</div>
+          <div>{data.product.category_name}</div>
+          <div>Кількість: {data.amount}</div>
+          <div>Ціна: {data.amount * data.variant.price} грн</div>
+        </div>
 
-        <Typography variant={"subtitle1"} className={"font-bold text-neutral-800"}>
-          Кількість: {data.amount}
-        </Typography>
-        <Typography variant={"h6"} className={"font-bold text-neutral-800"}>
-          Ціна: {data.amount * data.variant.price} грн
-        </Typography>
       </div>
       <div className={"ml-auto flex flex-row items-center justify-center"}>
         <IconButton color={"error"} onClick={deleteFromCartHandler}>

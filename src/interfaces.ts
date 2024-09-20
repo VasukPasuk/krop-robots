@@ -129,7 +129,9 @@ export interface IProductHaveTag {
 export interface IReview {
   id: number;
   product_name: string;
-  user_id: number;
+  user_id: number | null;
+  name: string;
+  surname: string;
   body: string;
   created_at: string;
   updated_at: string;

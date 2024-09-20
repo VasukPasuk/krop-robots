@@ -40,9 +40,12 @@ function CartItem({data, propertyHash, refreshFn}: ICartItemProps) {
     <div>
       <Card className="flex h-full flex-col w-full">
         <CardContent className="h-full container flex flex-row gap-x-4">
-          <div className="relative overflow-hidden rounded w-[150px] h-[150px]">
-            <Image fill src={`https://drive.google.com/uc?export=view&id=${data.product.image_name}`}
-                   alt={"Cart product item"}/>
+          <div className="relative overflow-hidden rounded w-[150px] h-[110px] s420:h-[150px]">
+            <Image
+              fill
+              src={`${process.env.NEXT_PUBLIC_API_URL}/${data.photo}`}
+              alt={"Cart product item"}
+            />
           </div>
           <div>
             <Typography variant="h5" className="text-neutral-900 text-[1.345rem] font-bold">
@@ -65,24 +68,21 @@ function CartItem({data, propertyHash, refreshFn}: ICartItemProps) {
             </Typography>
           </div>
         </CardContent>
-        <CardActions className="flex items-center justify-between px-4">
+        <CardActions className="flex items-center justify-between px-4 s420:flex-row">
           <div className="flex flex-row justify-center items-center gap-x-2">
-            <Typography variant="h5" className="text-neutral-800">
+            <Typography variant="h5" className="text-neutral-800 text-lg sm:text-2xl">
               {data.variant.price * data.amount} грн.
             </Typography>
-            {/*<Typography variant="h6" className="text-neutral-500 line-through text-[.95rem]">*/}
-            {/*  {Math.round(100*amount*1.12)} грн.*/}
-            {/*</Typography>*/}
           </div>
-          <div className="flex justify-start items-start gap-x-4">
-            <IconButton color="primary" onClick={increaseAmountHandler}>
-              <FaPlus className="text-xl"/>
+          <div className="flex flex-row justify-start items-start gap-x-4">
+            <IconButton onClick={increaseAmountHandler}>
+              <FaPlus className="text-sm s420:text-xl"/>
             </IconButton>
-            <Input className="w-12" slotProps={{input: {style: {textAlign: "center"}}}} defaultValue={1}
+            <Input className="w-6" slotProps={{input: {style: {textAlign: "center"}}}} defaultValue={1}
                    value={data.amount}>
             </Input>
-            <IconButton color="error" onClick={decreaseAmountHandler}>
-              <MdHorizontalRule className="text-xl"/>
+            <IconButton onClick={decreaseAmountHandler}>
+              <MdHorizontalRule className="text-sm s420:text-xl"/>
             </IconButton>
           </div>
           <div>

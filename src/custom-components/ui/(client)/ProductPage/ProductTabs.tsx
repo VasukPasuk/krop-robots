@@ -35,7 +35,7 @@ function ProductTabs() {
     router.push("/shop/products/" + param + isNotDefaultTab)
   }
   return (
-    <Paper elevation={1} className="w-full rounded overflow-hidden">
+    <Paper elevation={1} className="w-full rounded overflow-hidden mt-8">
       <Tabs onChange={tabOnChangeHandler} value={currentTab}>
         {Object.keys(TabsConfig).map(key => (
           <Tab key={key} value={key} label={TabsConfig[key].label}/>

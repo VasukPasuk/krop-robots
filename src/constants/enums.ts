@@ -6,3 +6,8 @@ export enum PRODUCT_INCLUDES {
   PHOTOS = "photos",
   VARIANTS = "variants",
 }
+
+export enum TOKEN_NAMES {
+  "ACCESS_TOKEN" = "accessToken",
+  "REFRESH_TOKEN" = "refreshToken",
+}

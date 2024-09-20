@@ -11,6 +11,7 @@ import {
 import {MdSearch} from "react-icons/md";
 import {useState} from "react";
 import useCatalogFilters, {TypeSort} from "@/hooks/useCatalogFilters";
+import {IoMdClose} from "react-icons/io";
 
 function CatalogSearch() {
   const [search, setSearch] = useState<string>("");
@@ -27,14 +28,26 @@ function CatalogSearch() {
   }
 
   return (
-    <nav className="h-16 flex items-center py-2 justify-between border-b-[1px] border-solid border-b-neutral-200 pb-8">
-      <div className="flex items-center justify-center md:w-1/3 gap-x-2">
-        <TextField
-          size="small"
-          className="w-full"
-          label="Шукаю..."
-          onChange={(e) => setSearch(e.target.value)}
-        />
+    <nav className="
+      flex flex-col justify-start gap-y-2 s480:gap-y-0 s480:flex-row items-center s480:gap-x-2 s480:justify-between
+      shadow rounded p-3
+    ">
+      <div className="flex items-center justify-start w-full md:w-1/3 gap-x-2">
+        <div className="w-full flex relative items-center">
+          <TextField
+            size="small"
+            className="w-full"
+            label="Шукаю..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <div
+            className="absolute right-1 p-1 hover:bg-black/5 rounded transition-colors duration-400"
+            onClick={() => setSearch("")}
+          >
+            <IoMdClose/>
+          </div>
+        </div>
         <div>
           <Tooltip title="Почати пошук">
             <Button variant="contained" size="large" sx={{ minWidth: 0 }} onClick={onClickHandler}>
@@ -43,8 +56,8 @@ function CatalogSearch() {
           </Tooltip>
         </div>
       </div>
-      <div>
-        <FormControl size="small" className="w-[25ch]">
+      <div className="flex flex-1 w-full justify-end">
+        <FormControl size="small" className="s480:w-[25ch] w-full">
           <InputLabel id="sort-label">Сортування</InputLabel>
           <Select
             labelId="sort-label"

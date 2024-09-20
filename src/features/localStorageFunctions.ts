@@ -1,12 +1,15 @@
 "use client"
-import {Color, Product, Variant} from "@prisma/client";
+
+import {IColor, IProduct, IVariant} from "@/interfaces";
 
 export type UserCartItemType = {
-  product: Product,
-  variant: Variant,
-  color: Color,
+  product: IProduct,
+  variant: IVariant,
+  color: IColor,
   plastic: "PLA" | "CoPET",
+  photo: string,
   amount: number,
+  price?: number
 }
 
 export function setProductToCart(data: UserCartItemType) {
@@ -15,7 +18,8 @@ export function setProductToCart(data: UserCartItemType) {
     product: data.product,
     variant: data.variant,
     plastic: data.plastic,
-    amount: 1
+    photo: data.photo,
+    amount: data.amount || 1
   }
 
   const storedCartItems = localStorage.getItem("cartItems");

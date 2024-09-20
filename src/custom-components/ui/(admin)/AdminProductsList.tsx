@@ -17,13 +17,14 @@ import ProductFetcher from "@/services/fetchers/ProductFetcher";
 import queryString from "query-string";
 import React from "react";
 import {FaEllipsisVertical} from "react-icons/fa6";
+import clsx from "clsx";
 
 
 export default function AdminProductsList() {
   const {limit, order_rule, page} = usePagination()
   const {data, isError, isLoading, isFetched} = useQuery({
     queryKey: ["products", limit, order_rule, page],
-    queryFn: async () => ProductFetcher.getCatalog(queryString.stringify({limit: "30"}))
+    queryFn: async () => ProductFetcher.getAdminCatalog(queryString.stringify({limit: "30"}))
   })
 
   if (isLoading) return (
@@ -55,7 +56,6 @@ function AdminProductsListCard({data}: IAdminProductsListCardProps) {
   const router = useRouter()
   const source = !!data.photos[0]?.source && process.env.NEXT_PUBLIC_API_URL + "/" + data.photos[0]?.source
 
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -71,7 +71,6 @@ function AdminProductsListCard({data}: IAdminProductsListCardProps) {
     mutationFn: (foo: Function) => foo(),
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: ["products"]})
-      toast.success("Продукт успішно видалено")
     },
     onError: () => {
       toast.error("Упс. Щось сталося не так!")
@@ -85,7 +84,9 @@ function AdminProductsListCard({data}: IAdminProductsListCardProps) {
   }))
 
   return (
-    <Paper className="col-span-1 flex flex-col overflow-hidden">
+    <Paper className={clsx("col-span-1 flex flex-col overflow-hidden", {
+      "bg-neutral-600/10": !data.published,
+    })}>
       <div className={"w-full h-64 relative overflow-hidden"}>
         {!!source && <Image fill src={source} alt={"Фото продукту"} className="hover:scale-105 transition duration-700 transform"/>}
         {!source && (

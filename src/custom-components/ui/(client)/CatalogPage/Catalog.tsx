@@ -7,14 +7,42 @@ import queryString from "query-string";
 import CatalogCard from "@/custom-components/ui/(client)/CatalogPage/CatalogCard";
 import {MAX_ITEMS_TO_VIEW_IN_CATALOG} from "@/constants";
 import {Pagination, Skeleton} from "@mui/material";
-import React from "react";
-
+import React, {useEffect} from "react";
+import {useSearchParams} from "next/navigation";
+import Image from "next/image";
 function Catalog() {
-  const {page, limit, order_rule, setPage} = usePagination(1, 15)
-  const {isLoading, data} = useQuery({
-    queryKey: ["products", page, limit],
-    queryFn: () => ProductFetcher.getCatalog(queryString.stringify({page: page, limit: limit})),
+  const {
+    page,
+    limit,
+    order_rule,
+    searchField,
+    searchValue,
+    setPage,
+    minPrice,
+    maxPrice,
+    filterCategories,
+    filterTags
+  } = usePagination(1, 15)
+  const searchParams = useSearchParams()
+  const {isLoading, data, refetch} = useQuery({
+    queryKey: ["products", page, limit, searchField, searchValue, filterCategories, filterTags],
+    queryFn: () => ProductFetcher.getCatalog(queryString.stringify({
+      page: page,
+      limit: limit,
+      searchValue: searchValue,
+      searchField: searchField, 
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      filterCategories: filterCategories,
+      filterTags: filterTags,
+    }, {arrayFormat: "comma", skipNull: true, skipEmptyString: true})),
   })
+
+
+  useEffect(() => {
+    refetch()
+  }, [searchParams])
+
 
   if (isLoading) return (
     <section className="grid grid-cols-5 auto-rows-[350px] gap-4 w-full">
@@ -27,20 +55,25 @@ function Catalog() {
   if (!data) {
     return (
       <section>
-        1
+        No data
       </section>
     )
   }
 
-  const {items, count} = data;
+  const {count} = data;
 
   return (
     <>
-      <section className="grid grid-cols-5 gap-4 w-full">
+      <section className="grid px-12 s420:px-0 s420:grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 w-full">
         {
-          data.items.map((data) => (
+          !!data.items.length ? data.items.map((data) => (
             <CatalogCard key={data.name} data={data}/>
-          ))
+          )) : (
+            <div className="col-span-full h-dvh flex flex-col items-center justify-center text-2xl text-neutral-500 font-light">
+              <Image src="/bad-search-filter.png" alt="bad filter request" className=" w-64  md:h-96 md:w-96" height={500} width={400}/>
+              <span>Товарів не знайдено</span>
+            </div>
+          )
         }
       </section>
       <div className="w-full mb-12 mt-6 flex items-center justify-center">

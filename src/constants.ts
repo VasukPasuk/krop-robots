@@ -30,7 +30,7 @@ export enum URLS {
 }
 
 
-export const MAX_ITEMS_TO_VIEW_IN_CATALOG: number = 30;
+export const MAX_ITEMS_TO_VIEW_IN_CATALOG: number = 15;
 
 
 export {
