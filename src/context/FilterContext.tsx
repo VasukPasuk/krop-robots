@@ -1,6 +1,6 @@
 'use client'
 import React, {createContext, FC, useState, ReactNode, ChangeEvent} from "react";
-import useCatalogFilters from "@/hooks/useCatalogFilters";
+import useCatalogFilters from "@/hooks/useQueryFilters";
 
 type TypeFilterConfig = {
   maxPrice: number

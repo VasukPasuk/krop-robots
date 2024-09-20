@@ -8,7 +8,7 @@ import {CircularProgress, Pagination, Paper, Table, TableBody, TableCell, TableC
 import React from "react";
 import NoDataBlock from "@/custom-components/ui/(shared)/NoDataBlock";
 import CategoryFetcher from "@/services/fetchers/CategoryFetcher";
-import {usePagination} from "@/hooks/usePagination";
+import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 import {CategoryTableRow} from "@/custom-components/ui/(admin)/CategoriesTablePage/CategoriesTableRow";
 import {CategoriesTableForm} from "@/custom-components/ui/(admin)/CategoriesTablePage/CategoriesTableForm";
 
@@ -16,7 +16,7 @@ import {CategoriesTableForm} from "@/custom-components/ui/(admin)/CategoriesTabl
 
 
 export default function CategoryTable() {
-  const {page} = usePagination()
+  const {page} = useSpecialQueries()
   const router = useRouter();
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {

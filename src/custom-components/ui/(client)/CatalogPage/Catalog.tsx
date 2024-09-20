@@ -1,7 +1,7 @@
 "use client"
 
 import {useQuery} from "@tanstack/react-query";
-import {usePagination} from "@/hooks/usePagination";
+import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 import ProductFetcher from "@/services/fetchers/ProductFetcher";
 import queryString from "query-string";
 import CatalogCard from "@/custom-components/ui/(client)/CatalogPage/CatalogCard";
@@ -22,7 +22,7 @@ function Catalog() {
     maxPrice,
     filterCategories,
     filterTags
-  } = usePagination(1, 15)
+  } = useSpecialQueries(1, 15)
   const searchParams = useSearchParams()
   const {isLoading, data, refetch} = useQuery({
     queryKey: ["products", page, limit, searchField, searchValue, filterCategories, filterTags],

@@ -18,11 +18,12 @@ interface ISearchQueries {
   searchValue: string;
   filterTags: string[];
   filterCategories: string[];
+  flag: "latest" | "newest"
 }
 
 interface ISearchQueriesOption extends Partial<ISearchQueries> {}
 
-function useCatalogFilters() {
+function useQueryFilters() {
   const router = useRouter();
 
   /**
@@ -61,4 +62,4 @@ function useCatalogFilters() {
   };
 }
 
-export default useCatalogFilters;
+export default useQueryFilters;

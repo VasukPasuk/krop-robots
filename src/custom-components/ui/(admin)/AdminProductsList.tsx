@@ -2,7 +2,7 @@
 
 import {Button, CircularProgress, Divider, IconButton, Menu, MenuItem, Paper, Tooltip} from "@mui/material";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {usePagination} from "@/hooks/usePagination";
+import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 import Image from "next/image";
 import {IProduct} from "@/interfaces";
 import {axiosWithAuth} from "@/services/axios/axios.interceptors";
@@ -21,7 +21,7 @@ import clsx from "clsx";
 
 
 export default function AdminProductsList() {
-  const {limit, order_rule, page} = usePagination()
+  const {limit, order_rule, page} = useSpecialQueries()
   const {data, isError, isLoading, isFetched} = useQuery({
     queryKey: ["products", limit, order_rule, page],
     queryFn: async () => ProductFetcher.getAdminCatalog(queryString.stringify({limit: "30"}))

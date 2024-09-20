@@ -11,7 +11,7 @@ type OrderRuleUnion = "desc" | "asc"
 //   setLimit: (limit: number) => void;
 // }
 
-export function usePagination(defaultPage: number = 1, defaultLimit: number = 10, defaultOrderRule: OrderRuleUnion = "desc") {
+export function useSpecialQueries(defaultPage: number = 1, defaultLimit: number = 10, defaultOrderRule: OrderRuleUnion = "desc") {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -27,6 +27,8 @@ export function usePagination(defaultPage: number = 1, defaultLimit: number = 10
 
   const filterCategories = searchParams.get('filterCategories')
   const filterTags = searchParams.get('filterTags')
+
+  const flag = (searchParams.get("flag") || "newest") as "newest" | "latest"
 
   const setPage = useCallback((newPage: number) => {
     const params = new URLSearchParams(searchParams);
@@ -54,5 +56,6 @@ export function usePagination(defaultPage: number = 1, defaultLimit: number = 10
     maxPrice,
     filterCategories,
     filterTags,
+    flag,
   };
 }

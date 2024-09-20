@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import {MdSearch} from "react-icons/md";
 import {useState} from "react";
-import useCatalogFilters, {TypeSort} from "@/hooks/useCatalogFilters";
+import useCatalogFilters, {TypeSort} from "@/hooks/useQueryFilters";
 import {IoMdClose} from "react-icons/io";
 
 function CatalogSearch() {
