@@ -2,7 +2,6 @@ import {IconButton, Paper, Typography} from '@mui/material';
 import React from 'react';
 import {deleteProduct, deleteProductAndReturn, UserCartItemType} from "@/features/localStorageFunctions";
 import {IoMdTrash} from "react-icons/io";
-import Image from "next/image";
 
 interface ICheckoutCartItem {
   data: UserCartItemType
@@ -20,11 +19,10 @@ function CheckoutCartItem({data, hashKey, updateCartStateFn}: ICheckoutCartItem)
     <Paper variant={"outlined"} className={"flex flex-col lg:flex-row items-center justify-center lg:px-6 lg:py-4"}>
       <div className={"w-full flex flex-col lg:flex-row items-center justify-start gap-x-4"}>
         <div className="relative h-32 w-32">
-          <Image
-            className={"rounded overflow-hidden "}
-            fill
+          <img
+            className={"rounded overflow-hidden w-full h-full"}
             alt={`Картинка продукту ${data.product.name}`}
-            src={process.env.NEXT_PUBLIC_API_URL + "/" + data.photo}
+            src={process.env.NEXT_PUBLIC_API_URL + "/static/" + data.photo}
           />
         </div>
         <div className={"flex flex-col"}>

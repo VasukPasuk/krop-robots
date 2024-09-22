@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Button, Card, CardActions, CardContent, IconButton, Input, Typography} from "@mui/material";
-import Image from "next/image";
 import {MdHorizontalRule, MdPlusOne} from "react-icons/md";
 import {FaPlus} from "react-icons/fa6";
 import {BiSolidTrash} from "react-icons/bi";
@@ -41,9 +40,8 @@ function CartItem({data, propertyHash, refreshFn}: ICartItemProps) {
       <Card className="flex h-full flex-col w-full">
         <CardContent className="h-full container flex flex-row gap-x-4">
           <div className="relative overflow-hidden rounded w-[150px] h-[110px] s420:h-[150px]">
-            <Image
-              fill
-              src={`${process.env.NEXT_PUBLIC_API_URL}/${data.photo}`}
+            <img
+              src={`${process.env.NEXT_PUBLIC_API_URL}/static/${data.photo}`}
               alt={"Cart product item"}
             />
           </div>

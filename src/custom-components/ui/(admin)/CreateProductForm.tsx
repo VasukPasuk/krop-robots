@@ -14,7 +14,6 @@ import {
   Select, SelectChangeEvent,
   TextField, Tooltip
 } from "@mui/material";
-import Image from "next/image";
 import {MdAdd, MdRemove} from "react-icons/md";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {axiosWithAuth} from "@/services/axios/axios.interceptors";
@@ -123,7 +122,7 @@ function CreateProductForm() {
       <div className={"col-span-6 grid grid-cols-12 gap-4 auto-rows-[250px]"}>
         {formData.photos.map((image: File, index) => (
           <Paper key={index} className={"added-image-slot col-span-4 bg-black/10 relative rounded-lg overflow-hidden"}>
-            <Image fill alt={"product image"} src={URL.createObjectURL(image)}/>
+            <img className="w-full h-full" alt={"product image"} src={URL.createObjectURL(image)}/>
             <Tooltip title={"Видалити зображення"}>
               <IconButton onClick={removeImageHandler(index)}
                           className={"rounded-lg bg-black/25 absolute top-2 right-2"}>

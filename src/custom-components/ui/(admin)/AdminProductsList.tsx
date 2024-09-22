@@ -3,7 +3,6 @@
 import {Button, CircularProgress, Divider, IconButton, Menu, MenuItem, Paper, Tooltip} from "@mui/material";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useSpecialQueries} from "@/hooks/useSpecialQueries";
-import Image from "next/image";
 import {IProduct} from "@/interfaces";
 import {axiosWithAuth} from "@/services/axios/axios.interceptors";
 import {AiFillEye, AiOutlinePicture} from "react-icons/ai";
@@ -54,7 +53,7 @@ interface IAdminProductsListCardProps {
 
 function AdminProductsListCard({data}: IAdminProductsListCardProps) {
   const router = useRouter()
-  const source = !!data.photos[0]?.source && process.env.NEXT_PUBLIC_API_URL + "/" + data.photos[0]?.source
+  const source = !!data.photos[0]?.source && process.env.NEXT_PUBLIC_API_URL + "/static/" + data.photos[0]?.source
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -88,7 +87,7 @@ function AdminProductsListCard({data}: IAdminProductsListCardProps) {
       "bg-neutral-600/10": !data.published,
     })}>
       <div className={"w-full h-64 relative overflow-hidden"}>
-        {!!source && <Image fill src={source} alt={"Фото продукту"} className="hover:scale-105 transition duration-700 transform"/>}
+        {!!source && <img src={source} alt={"Фото продукту"} className="hover:scale-105 transition duration-700 transform w-full h-full"/>}
         {!source && (
           <div className={"w-full h-full flex flex-col gap-y-2 items-center justify-center select-none text-neutral-500 font-light"}>
             <AiOutlinePicture className={"text-9xl"}/>

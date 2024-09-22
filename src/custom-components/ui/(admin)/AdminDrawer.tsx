@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import Link from "next/link";
 import {Accordion, AccordionDetails, AccordionSummary, Divider, Paper, Typography} from "@mui/material";
 import {MdCircle} from "react-icons/md";
-import Image from "next/image";
 import {IoIosArrowDown} from "react-icons/io";
 import clsx from "clsx";
 import {ADMIN_URLS} from "@/constants/enums";
@@ -43,7 +42,7 @@ function AdminDrawer(props: IAdminDrawerProps) {
       className="flex flex-col items-start justify-start py-4 px-3 rounded-none w-dvw md:w-72 fixed h-full overflow-y-auto"
     >
       <Link className={"mb-12"} href={ADMIN_URLS.BASE_ADMIN_URL}>
-        <Image width={160} height={64} src="/logo_shop_blue.png" alt={"logo"}/>
+        <img width={160} height={64} src="/logo_shop_blue.png" alt={"logo"}/>
       </Link>
       <div className={"flex flex-col w-full gap-y-2"}>
         {DATA.map(({data, title, icon}, index) => (

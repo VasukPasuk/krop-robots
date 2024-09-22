@@ -1,10 +1,7 @@
 import React from 'react';
 
-interface ICustomersTableRowProps {
-  customer: IUser
-}
 
-function CustomersTableRow({}: ICustomersTableRowProps) {
+function CustomersTableRow() {
   return (
     <>
 

@@ -2,7 +2,6 @@
 
 import React from "react";
 import {IconButton, Input, Paper, Tooltip, CircularProgress} from "@mui/material";
-import Image from "next/image";
 import {IoTrashBin} from "react-icons/io5";
 import {MdAdd} from "react-icons/md";
 import {IPhoto} from "@/interfaces";
@@ -53,7 +52,7 @@ export function ImagesUploader({productName}: ImagesUploaderProps) {
     <div className="col-span-6 grid grid-cols-12 gap-4 auto-rows-[250px] w-full">
       {photos.map((photo: IPhoto) => (
         <Paper key={photo.id} className="added-image-slot col-span-4 bg-black/10 relative rounded-lg overflow-hidden">
-          <Image fill alt="product image" src={`${process.env.NEXT_PUBLIC_API_URL}/${photo.source}`}/>
+          <img className="w-full h-full" alt="product image" src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photo.source}`}/>
           <Tooltip title="Видалити зображення">
             <IconButton
               onClick={removeImageHandler(photo.id)}

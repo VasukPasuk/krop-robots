@@ -1,12 +1,11 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import {Typography} from "@mui/material";
 
 export default async function NotFound() {
 
   return (
     <main className="flex flex-col items-center justify-center gap-y-6">
-      <Image src={"/notfound-image.png"} width={1000} height={500} alt={""}></Image>
+      <img src={"/notfound-image.png"} width={1000} height={500} alt={""}/>
       <Typography variant="h4" className="font-bold">
         Код помилки 404
       </Typography>

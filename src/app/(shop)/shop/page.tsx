@@ -1,10 +1,8 @@
 "use client"
 import "./style.scss";
 import React, {useEffect} from 'react';
-import Image from 'next/image';
 import {motion} from "framer-motion";
 import {Button} from "@mui/material";
-import Link from "next/link";
 import {useRouter} from "next/navigation";
 
 function ShopMainPage() {
@@ -53,7 +51,7 @@ function ShopMainPage() {
 
         </div>
         <motion.div {...animateParams(1, 50)} className="flex relative w-full h-[60%] s420:h-[100%]  lg:h-2/3">
-          <Image style={{objectFit: "cover"}} className="hover:scale-110 transition duration-1000" src={"/krop-robots-shop-landing-image.jpeg"} alt={"Preview image"} fill/>
+          <img style={{objectFit: "cover"}} className="hover:scale-110 transition duration-1000 w-full h-full" src={"/krop-robots-shop-landing-image.jpeg"} alt={"Preview image"}/>
         </motion.div>
       </div>
     </section>

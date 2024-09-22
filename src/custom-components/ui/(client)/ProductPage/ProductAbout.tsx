@@ -73,11 +73,10 @@ function ProductAbout({productName}: { productName: string }) {
         <Paper elevation={1} className="sm:p-6 py-8 flex flex-col items-center justify-center">
           <Paper
             className="relative w-[20rem] h-[16rem] sm:w-[28rem] sm:h-[20rem]  lg:w-[34rem] lg:h-[26rem] overflow-hidden rounded">
-            <Image
-              className="hover:scale-110 transition-transform duration-700"
+            <img
+              className="hover:scale-110 transition-transform duration-700 w-full h-full"
               alt="Фото продукта"
-              src={`${process.env.NEXT_PUBLIC_API_URL}/${photos[currentPhoto].source}`}
-              fill
+              src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photos[currentPhoto].source}`}
             />
           </Paper>
           <div className="flex flex-row gap-x-4 mt-4 justify-start w-full px-5 overflow-x-auto">
@@ -90,8 +89,11 @@ function ProductAbout({productName}: { productName: string }) {
                       "border-solid border-2 border-amber-950": i === currentPhoto
                     })}
                   >
-                    <Image key={photo.source} src={`${process.env.NEXT_PUBLIC_API_URL}/${photo.source}`} fill
-                           alt="Фото продукта"/>
+                    <img
+                      key={photo.source}
+                      src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photo.source}`}
+                      className="w-full h-full"
+                      alt="Фото продукта"/>
                   </Paper>
                 ))}
               </>

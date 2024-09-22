@@ -30,12 +30,10 @@ function CatalogCard(props: ICatalogCardProps) {
       onClick={onCardClick}
     >
       <div className="relative h-56 overflow-hidden">
-        <Image
-          className="hover:scale-110 transition-transform duration-1000 ease-out"
+        <img
+          className="hover:scale-110 transition-transform duration-1000 ease-out w-full h-full"
           alt={"photo"}
-          src={process.env.NEXT_PUBLIC_API_URL + `/${photos[0].source}`}
-          fill
-          sizes={"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
+          src={process.env.NEXT_PUBLIC_API_URL + `/static/${photos[0].source}`}
         />
       </div>
       <div className="p-2 flex flex-col flex-1 h-full justify-between">
