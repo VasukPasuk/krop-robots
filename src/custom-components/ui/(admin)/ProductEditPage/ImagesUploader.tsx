@@ -49,9 +49,9 @@ export function ImagesUploader({productName}: ImagesUploaderProps) {
   const photos = photosData?.items || [];
 
   return (
-    <div className="col-span-6 grid grid-cols-12 gap-4 auto-rows-[250px] w-full">
+    <div className="col-span-6 grid grid-cols-12 gap-4 auto-rows-[250px] w-full p-2">
       {photos.map((photo: IPhoto) => (
-        <Paper key={photo.id} className="added-image-slot col-span-4 bg-black/10 relative rounded-lg overflow-hidden">
+        <Paper key={photo.id} className="added-image-slot xl:col-span-4 lg:col-span-6 md:col-span-4 s480:col-span-6 col-span-full bg-black/10 relative rounded-lg overflow-hidden">
           <img className="w-full h-full" alt="product image" src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photo.source}`}/>
           <Tooltip title="Видалити зображення">
             <IconButton
@@ -65,9 +65,9 @@ export function ImagesUploader({productName}: ImagesUploaderProps) {
       ))}
       <label
         htmlFor="file-upload"
-        className="col-span-4 flex flex-col items-center justify-center gap-y-2 border-dashed border-2 border-neutral-400 rounded-lg cursor-pointer"
+        className="col-span-full flex flex-col items-center justify-center gap-y-2 border-dashed border-2 border-neutral-400 rounded-lg cursor-pointer"
       >
-        <span className="text-neutral-500 font-light text-sm">Додати фото або фотки товару</span>
+        <span className="text-neutral-500 font-light text-[0.75rem] text-center">Додати фото або фотки товару</span>
         <IconButton className="rounded bg-black/5">
           <MdAdd/>
         </IconButton>

@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useContext} from "react";
 import AdminDrawer from "@/custom-components/ui/(admin)/AdminDrawer";
 import AdminNavBar from "@/custom-components/ui/(admin)/AdminNavBar";
+import clsx from "clsx";
+import {AdminLayoutProvider} from "@/context/AdminLayoutContext";
 
 type LayoutProps = {
   children: React.ReactNode
@@ -9,13 +11,17 @@ type LayoutProps = {
 export default function layout({children}: LayoutProps) {
   return (
     <main className={"flex flex-row"}>
-      <AdminDrawer/>
-      <div className="flex flex-col min-h-dvh w-full">
-        <AdminNavBar/>
-        <div className={"border-t-[1px] md:ml-72 border-t-neutral-300 border-solid flex flex-col md:p-6"}>
-          {children}
+      <AdminLayoutProvider>
+        <div>
+          <AdminDrawer/>
         </div>
-      </div>
+        <div className={clsx("flex flex-col min-h-dvh w-full")}>
+          <AdminNavBar/>
+          <div className={"flex flex-col"}>
+            {children}
+          </div>
+        </div>
+      </AdminLayoutProvider>
     </main>
   )
 }

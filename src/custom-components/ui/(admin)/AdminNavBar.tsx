@@ -1,10 +1,11 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Avatar, Badge, Divider, IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import {Box} from "@mui/system";
-import {MdLanguage, MdNotifications, MdShoppingCart, MdLogout, MdSunny, MdSettings} from "react-icons/md";
+import {MdLanguage, MdNotifications, MdShoppingCart, MdLogout, MdSunny, MdSettings, MdMenu} from "react-icons/md";
 import {CgProfile} from "react-icons/cg";
 import ThemeChangeIcon from "@/custom-components/ui/(admin)/ThemeChangeIcon";
+import {AdminLayoutContext} from "@/context/AdminLayoutContext";
 
 interface IAdminNavBarProps {
 
@@ -12,6 +13,7 @@ interface IAdminNavBarProps {
 
 
 function AdminNavBar(props: IAdminNavBarProps) {
+  const {disableDrawer, enableDrawer, drawerState} = useContext(AdminLayoutContext)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleCloseUserMenu = () => {
@@ -21,10 +23,18 @@ function AdminNavBar(props: IAdminNavBarProps) {
     setAnchorElUser(event.currentTarget);
   };
 
-  return (
-    <div className={"flex flex-row items-center justify-between px-6 py-4"}>
-      <div>
+  const menuDrawerStateHandler = () => {
+    drawerState ? disableDrawer() : enableDrawer()
+  }
 
+  return (
+    <div className={"flex flex-row items-center justify-between md:px-12 px-6 py-4 border-b border-solid border-neutral-200"}>
+      <div onClick={menuDrawerStateHandler}>
+        <Tooltip title="Бокове меню">
+          <IconButton className={"bg-neutral-200/55 p-3"} aria-label="cart">
+            <MdMenu size={20}/>
+          </IconButton>
+        </Tooltip>
       </div>
       <div className={"flex gap-x-8"}>
         <div className={"flex items-center justify-center gap-x-4"}>
@@ -32,20 +42,17 @@ function AdminNavBar(props: IAdminNavBarProps) {
             <ThemeChangeIcon/>
           </Tooltip>
           <Tooltip title="Змінити мову">
-            <IconButton className={"bg-neutral-200/55 p-3"} aria-label="cart">
+            <IconButton className={"bg-neutral-200/55 p-3"} aria-label="lang">
               <MdLanguage size={20}/>
             </IconButton>
           </Tooltip>
           <Tooltip title="Повідомлення">
-            <IconButton className={"bg-neutral-200/55 p-3"} aria-label="cart">
+            <IconButton className={"bg-neutral-200/55 p-3"} aria-label="notification">
               <Badge badgeContent={0} color="secondary">
                 <MdNotifications size={20}/>
               </Badge>
             </IconButton>
           </Tooltip>
-
-
-
         </div>
         <Box sx={{flexGrow: 0}}>
           <Tooltip title="Відкрити налаштування">

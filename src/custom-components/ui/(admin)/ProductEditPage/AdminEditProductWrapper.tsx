@@ -14,12 +14,14 @@ function AdminEditProductWrapper({productName} : {productName: string}) {
 
 
   return (
-    <div className={"flex flex-col gap-y-8"}>
-      <div className={"flex flex-row w-full gap-x-8"}>
+    <div className={"flex flex-col gap-y-4 p-2"}>
+      <div className={"flex flex-1 lg:flex-row gap-4 flex-col w-full"}>
         <ImagesUploader productName={productName}/>
         <AdminEditProductForm productName={productName}/>
       </div>
-      <AdminManageVariantsForm productName={productName}/>
+      <div className="overflow-x-hidden">
+        <AdminManageVariantsForm productName={productName}/>
+      </div>
     </div>
   )
 }

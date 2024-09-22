@@ -2,9 +2,9 @@ export interface IAProductFormData {
   photos: File[],
   name: string,
   category_name: string,
-  discount: number,
   description: string,
-  tags?: any[],
+  tags: string[],
+  variants: IVariant[]
 }
 
 export interface Category {

@@ -39,7 +39,7 @@ export default function AdminProductsList() {
 
 
   return (
-    <div className={"w-full grid grid-cols-5 auto-rows-min gap-8 md:px-16 md:py-8"}>
+    <div className={"w-full grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-3 grid-cols-2 auto-rows-min gap-4 md:px-6 md:py-4"}>
       {data.items.map((product) => (
         <AdminProductsListCard key={product.name} data={product}/>
       ))}
@@ -82,8 +82,14 @@ function AdminProductsListCard({data}: IAdminProductsListCardProps) {
     published: status,
   }))
 
+
+  const closeMenu = (foo:Function) => () => {
+    foo()
+    handleClose()
+  }
+
   return (
-    <Paper className={clsx("col-span-1 flex flex-col overflow-hidden", {
+    <Paper className={clsx("flex flex-col overflow-hidden", {
       "bg-neutral-600/10": !data.published,
     })}>
       <div className={"w-full h-64 relative overflow-hidden"}>
@@ -104,12 +110,11 @@ function AdminProductsListCard({data}: IAdminProductsListCardProps) {
           open={open}
           onClose={handleClose}
           disableScrollLock
-
         >
-          <MenuItem onClick={editHandler}> Редагувати </MenuItem>
-          <MenuItem onClick={deleteHandler}> Видалити </MenuItem>
-          <MenuItem onClick={productStatusHandler(false)}> Архівувати </MenuItem>
-          <MenuItem onClick={productStatusHandler(true)}> Опублікувати </MenuItem>
+          <MenuItem onClick={closeMenu(editHandler)}> Редагувати </MenuItem>
+          <MenuItem onClick={closeMenu(deleteHandler)}> Видалити </MenuItem>
+          <MenuItem onClick={closeMenu(productStatusHandler(false))}> Архівувати </MenuItem>
+          <MenuItem onClick={closeMenu(productStatusHandler(true))}> Опублікувати </MenuItem>
         </Menu>
 
       </div>

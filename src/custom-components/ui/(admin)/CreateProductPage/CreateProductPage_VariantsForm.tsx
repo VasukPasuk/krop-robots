@@ -1,73 +1,39 @@
-import {IVariant} from "@/interfaces";
+"use client"
 import React, {useContext, useState} from "react";
-import {
-  Button,
-  Tooltip
-} from "@mui/material";
+import {CreateProductContext, ICreateProductDTO} from "@/context/CreateProductContext";
+import clsx from "clsx";
+import {Button, Tooltip} from "@mui/material";
 import {MdAdd} from "react-icons/md";
 import {IoMdTrash} from "react-icons/io";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import AdminCreateVariantPopover from "@/custom-components/ui/(shared)/AdminCreateVariantPopover";
-import {toast} from "react-toastify";
 import {DataGrid, GridActionsCellItem, GridColDef, GridRowModel} from "@mui/x-data-grid";
-import {VariantService} from "@/services/variant.service";
-import {AxiosError} from "axios";
-import {IoTrashBin} from "react-icons/io5";
-import clsx from "clsx";
 import {AdminLayoutContext} from "@/context/AdminLayoutContext";
+import {IVariant} from "@/interfaces";
+import {IoTrashBin} from "react-icons/io5";
+import CreateProductPage_VariantsAddPopover from "@/custom-components/ui/(admin)/CreateProductPage/CreateProductPage_VariantsAddPopover";
 
+export default function CreateProductPage_VariantsForm() {
+  const {productData, stateFn, setProductData} = useContext(CreateProductContext)
 
-
-
-
-
-
-function AdminManageVariantsForm({productName}: { productName: string }) {
   const {drawerState} = useContext(AdminLayoutContext)
   const [anchorRef, setAnchorRef] = useState<HTMLButtonElement | null>(null)
 
-  const client = useQueryClient()
-
-  const variantsMutation = useMutation({
-    mutationFn: (foo: Function) => foo(),
-    onSuccess: async ({}) => {
-      await client.invalidateQueries({queryKey: ["variants", productName]})
-    },
-    onError: (error: AxiosError) => {
-      toast.error(error.message)
-    }
-  })
-
-
-  const q_variants = useQuery({
-    queryKey: ["variants", productName],
-    queryFn: async () => await VariantService.getManyOfProduct(productName),
-    select: (data) => {
-      return data.data
-    }
-  })
-
   const openPopover = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorRef(event.currentTarget)
 
-  if (q_variants.isLoading) return <p>Loading...</p>;
-  if (q_variants.error) return <p>Error: {q_variants.error.message}</p>;
-
-  const variants = q_variants.data.items
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const {id, created_at, updated_at, ...rest} = (newRow as IVariant);
-    variantsMutation.mutate(() => VariantService.update(id, rest))
     return newRow;
   };
 
 
-  const columns: GridColDef<IVariant>[] = [
+  const columns: GridColDef<Pick<ICreateProductDTO, "variants">>[] = [
     {
       field: 'id',
-      type: "number",
       headerName: 'ID',
+      type: 'number',
       width: 120,
-      flex: 1
+      editable: true,
+      flex: 1,
     },
     {
       field: 'height',
@@ -75,7 +41,7 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       type: 'number',
       width: 120,
       editable: true,
-      flex: 1
+      flex: 1,
     },
     {
       field: 'width',
@@ -113,32 +79,6 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       flex: 1
     },
     {
-      field: 'created_at',
-      headerName: 'Дата створення',
-      type: "dateTime",
-      align: "right",
-      sortable: true,
-      width: 200,
-      editable: false,
-      valueGetter: (value) => {
-        return new Date(value)
-      },
-      flex: 1
-    },
-    {
-      field: 'updated_at',
-      headerName: 'Дата оновлення',
-      type: "dateTime",
-      align: "right",
-      sortable: true,
-      width: 200,
-      editable: false,
-      valueGetter: (value) => {
-        return new Date(value)
-      },
-      flex: 1
-    },
-    {
       field: "actions",
       headerName: "Дії",
       type: "actions",
@@ -148,15 +88,13 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
           <GridActionsCellItem
             icon={<IoTrashBin />}
             label="Видалити"
-            onClick={() => variantsMutation.mutate(() => VariantService.delete(row.id))}
+            onClick={undefined}
             color="inherit"
           />,
         ]
       },
     }
   ];
-
-
 
   return (
     <div className={clsx("flex flex-col flex-1 border-solid border-neutral-200 border-[1px] rounded", {
@@ -180,7 +118,7 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
           </Tooltip>
           <Tooltip title={"Видалити усі варіанти продукту"}>
             <Button
-              onClick={() => variantsMutation.mutate(() => VariantService.deleteManyOfProduct(productName))}
+              onClick={() => setProductData({variants: []})}
               variant="contained"
               color="error"
               className="normal-case"
@@ -189,12 +127,12 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
               Видалити
             </Button>
           </Tooltip>
-          <AdminCreateVariantPopover productName={productName} anchorRef={anchorRef} setAnchorRef={setAnchorRef}/>
+          <CreateProductPage_VariantsAddPopover productName={productData.name} anchorRef={anchorRef} setAnchorRef={setAnchorRef}/>
         </div>
       </div>
       <div className="flex flex-col p-4">
         <DataGrid
-          rows={variants}
+          rows={productData.variants.map((value, index) => ({id: ++index, ...value}))}
           columns={columns}
           hideFooterPagination
           checkboxSelection
@@ -205,10 +143,4 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       </div>
     </div>
   )
-}
-
-export default AdminManageVariantsForm
-
-
-
-
+};

@@ -37,7 +37,7 @@ function ProductAddReview({product_name}: IProductAddReviewProps) {
     onSuccess: () => {
       toast.success(`Коментар до продукту ${product_name} успішно створено!`)
       client.invalidateQueries({
-        queryKey: [product_name]
+        queryKey: ["products"]
       })
       reset()
     },

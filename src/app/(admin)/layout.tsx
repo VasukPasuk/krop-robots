@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function layout({children}: LayoutProps) {
   return (
     <>
-      {children}
+        {children}
     </>
   )
 }

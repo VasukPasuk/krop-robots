@@ -12,11 +12,12 @@ import {AuthContext} from "@/context/AuthContext";
 import {AxiosError} from "axios";
 import {useRouter} from "next/navigation";
 import {ADMIN_URLS, TOKEN_NAMES} from "@/constants/enums";
+import {useMutation} from "@tanstack/react-query";
 
 
 const schema = zod.object({
-  login: zod.string().trim().min(6, { message: "Логін повинен містити 6 символів і більше."}),
-  password: zod.string().trim().min(8, { message: "Пароль повинен містити 8 символів і більше."}),
+  login: zod.string().trim().min(6, {message: "Логін повинен містити 6 символів і більше."}),
+  password: zod.string().trim().min(8, {message: "Пароль повинен містити 8 символів і більше."}),
 
 })
 
@@ -30,21 +31,26 @@ export default function AdminLoginForm() {
     mode: "onSubmit",
   })
 
-  const onSubmit:SubmitHandler<FormDataType> = (data) => {
-    const fetch = async () => {
-      try {
-        const result = await AuthFetcher.login({login: data.login, password: data.password})
-        console.log(result.data)
-        setToken(result.data.accessToken)
-        setUser(result.data.user)
-        localStorage.setItem("accessToken", result.data.accessToken)
-        router.push(ADMIN_URLS.BASE_ADMIN_URL)
-      } catch (e) {
-        const error = e as AxiosError
-        toast.error(error.response.status === 401 ? "Некоректні дані для входу." : "Помилка.")
-      }
-    }
-    fetch()
+  const authMutation = useMutation({
+    mutationFn: (data: FormDataType) => {
+      return AuthFetcher.login({
+        login: data.login,
+        password: data.password,
+      });
+    },
+    onSuccess: (result) => {
+      setToken(result.data.accessToken);
+      setUser(result.data.user);
+      localStorage.setItem("accessToken", result.data.accessToken);
+      router.push(ADMIN_URLS.BASE_ADMIN_URL);
+    },
+    onError: (error: AxiosError) => {
+      toast.error(error.message);
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormDataType> = (data) => {
+    authMutation.mutate(data)
   }
 
 

@@ -1,18 +1,18 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Link from "next/link";
-import {Accordion, AccordionDetails, AccordionSummary, Divider, Paper, Typography} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Divider, Paper} from "@mui/material";
 import {MdCircle} from "react-icons/md";
 import {IoIosArrowDown} from "react-icons/io";
 import clsx from "clsx";
 import {ADMIN_URLS} from "@/constants/enums";
-import { LuTags } from "react-icons/lu";
+import {LuTags} from "react-icons/lu";
 import {FaListCheck, FaUsers} from "react-icons/fa6";
 import {AiFillMail, AiFillProduct} from "react-icons/ai";
 import {BiBrush, BiCategory, BiComment} from "react-icons/bi";
 import {IoAnalytics} from "react-icons/io5";
-
-
+import {useRouter} from "next/navigation";
+import {AdminLayoutContext} from "@/context/AdminLayoutContext";
 
 
 interface IAdminDrawerProps {
@@ -22,7 +22,11 @@ interface IAdminDrawerProps {
 const DATA = [
   {title: "Кольори", icon: <BiBrush className="text-2xl"/>, data: [{href: "colors", name: "Список"}]},
   {title: "Категорії", icon: <BiCategory className="text-2xl"/>, data: [{href: "categories", name: "Список"}]},
-  {title: "Продукти", icon: <AiFillProduct className="text-2xl"/>, data: [{href: "products", name: "Список"}, {href: "products/create", name: "Створити"}]},
+  {
+    title: "Продукти",
+    icon: <AiFillProduct className="text-2xl"/>,
+    data: [{href: "products", name: "Список"}, {href: "products/create", name: "Створити"}]
+  },
   {title: "Замовлення", icon: <FaListCheck className="text-2xl"/>, data: [{href: "orders", name: "Список"}]},
   {title: "Користувачі", icon: <FaUsers className="text-2xl"/>, data: [{href: "customers", name: "Список"}]},
   {title: "Теги", icon: <LuTags className="text-2xl"/>, data: [{href: "tags", name: "Список"}]},
@@ -35,16 +39,25 @@ const SINGLE_LINKS = [
 ]
 
 function AdminDrawer(props: IAdminDrawerProps) {
+  const {drawerState} = useContext(AdminLayoutContext)
+  const router = useRouter()
   const [activeAccordion, setActiveAccordion] = useState<number>(0)
   return (
-    <Paper
-      variant={"outlined"}
-      className="flex flex-col items-start justify-start py-4 px-3 rounded-none w-dvw md:w-72 fixed h-full overflow-y-auto"
-    >
-      <Link className={"mb-12"} href={ADMIN_URLS.BASE_ADMIN_URL}>
-        <img width={160} height={64} src="/logo_shop_blue.png" alt={"logo"}/>
-      </Link>
-      <div className={"flex flex-col w-full gap-y-2"}>
+    (drawerState) && <Paper
+      variant="outlined"
+			className={"flex flex-col items-start justify-start py-4 px-3 w-64 rounded-none h-dvh"}
+		>
+			<div className="mb-6 relative w-full">
+				<img
+					width={160}
+					height={64}
+					src="/logo_shop_blue.png"
+					alt={"logo"}
+					className="cursor-pointer"
+					onClick={() => router.push(ADMIN_URLS.BASE_ADMIN_URL)}
+				/>
+			</div>
+			<div className={"flex flex-col w-full gap-y-2"}>
         {DATA.map(({data, title, icon}, index) => (
           <DrawerLinksAccordion
             expanded={activeAccordion === (index + 1)}
@@ -68,8 +81,8 @@ function AdminDrawer(props: IAdminDrawerProps) {
             </Link>
           </>
         ))}
-      </div>
-    </Paper>
+			</div>
+		</Paper>
   )
 }
 
@@ -89,8 +102,11 @@ interface IDrawerLinksAccordionProps {
 function DrawerLinksAccordion({data, title, order, setActive, expanded, titleIcon}: IDrawerLinksAccordionProps) {
   return (
     <>
-      <Accordion disableGutters variant={"outlined"} className={"w-full rounded-md p-1 border-none"}
-                 expanded={expanded}>
+      <Accordion
+        disableGutters
+        variant={"outlined"}
+        className={"w-full rounded-md p-1 border-none"}
+        expanded={expanded}>
         <AccordionSummary
           expandIcon={<IoIosArrowDown/>}
           aria-controls="panel1-content"
@@ -106,8 +122,9 @@ function DrawerLinksAccordion({data, title, order, setActive, expanded, titleIco
         </AccordionSummary>
         <AccordionDetails className="flex flex-col gap-y-2 ">
           {data.map(({href, name}) => (
-            <Link href={ADMIN_URLS.BASE_ADMIN_URL + "/" + href}
-                  className="flex flex-row gap-x-4 items-center rounded-md hover:bg-neutral-100 transition-colors px-4 py-2">
+            <Link
+              href={ADMIN_URLS.BASE_ADMIN_URL + "/" + href}
+              className="flex flex-row gap-x-4 items-center rounded-md hover:bg-neutral-100 transition-colors px-4 py-2">
               <MdCircle size={8}/>
               <span>{name}</span>
             </Link>

@@ -1,7 +1,7 @@
 'use client'
 
 
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {
   Autocomplete,
   Button,
@@ -21,6 +21,7 @@ import {Category, IAProductFormData} from "@/interfaces";
 import "./index.scss"
 import {IoTrashBin} from "react-icons/io5";
 import {toast} from "react-toastify";
+import {CreateProductContext} from "@/context/CreateProductContext";
 
 const BooleanDictionary = {"true": true, "false": false}
 
@@ -28,32 +29,31 @@ const InitStateData: IAProductFormData = {
   photos: [],
   name: "",
   category_name: "",
-  discount: 0,
   description: "",
-  // tags: [],
+  tags: [],
+  variants: [],
 }
 
 function CreateProductForm() {
-  const [formData, setFormData] = useState<IAProductFormData>(InitStateData)
-
+  const {productData, setProductData, stateFn} = useContext(CreateProductContext)
   const addImageHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files as unknown as File[];
     if (files.length === 0) return;
-    let filesToArray = [];
+    let filesToArray:File[] = [];
     for (let i = 0; i < files.length; i++) {
       if (files[i].type.split('/')[0] !== 'image') continue;
-      if (formData.photos.some((e) => e.name === files[i].name)) continue;
+      if (productData.photos.some((e) => e.name === files[i].name)) continue;
       filesToArray.push(files[i]);
     }
-    setFormData(prevState => ({...prevState, photos: [...prevState.photos, ...filesToArray]}))
+    setProductData({photos: filesToArray})
   }
 
   const removeImageHandler = (img_index: number) => () => {
-    setFormData(prevState => ({...prevState, photos: prevState.photos.filter((_, index) => index !== img_index)}))
+    stateFn(prevState => ({...prevState, photos: prevState.photos.filter((_, index) => index !== img_index)}))
   }
 
   const onSelectCategoryHandler = (event: React.SyntheticEvent, value: string) => {
-    setFormData(prevState => ({...prevState, category_name: value}))
+    stateFn(prevState => ({...prevState, category_name: value}))
   }
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -68,11 +68,11 @@ function CreateProductForm() {
         const reqFormData = new FormData();
         Object.keys(InitStateData).forEach((key: string) => {
           if (key === 'photos') {
-            formData.photos.forEach((photo, index) => {
+            productData.photos.forEach((photo, index) => {
               reqFormData.append('photos', photo, `photo_${index}.jpg`);
             });
           } else {
-            reqFormData.append(key, formData[key]);
+            reqFormData.append(key, productData[key]);
           }
         });
 
@@ -87,7 +87,7 @@ function CreateProductForm() {
       }
     },
     onSuccess: () => {
-      setFormData(InitStateData)
+      stateFn(InitStateData)
       toast.success("Продукт успішно створено.");
     },
     onError: (error) => {
@@ -118,55 +118,10 @@ function CreateProductForm() {
   const categoriesNames = data.items.map((item) => item.name)
 
   return (
-    <form className={"grid grid-cols-12 items-start gap-4 w-full"} onSubmit={onSubmitHandler}>
-      <div className={"col-span-6 grid grid-cols-12 gap-4 auto-rows-[250px]"}>
-        {formData.photos.map((image: File, index) => (
-          <Paper key={index} className={"added-image-slot col-span-4 bg-black/10 relative rounded-lg overflow-hidden"}>
-            <img className="w-full h-full" alt={"product image"} src={URL.createObjectURL(image)}/>
-            <Tooltip title={"Видалити зображення"}>
-              <IconButton onClick={removeImageHandler(index)}
-                          className={"rounded-lg bg-black/25 absolute top-2 right-2"}>
-                <IoTrashBin/>
-              </IconButton>
-            </Tooltip>
-          </Paper>
-        ))}
-        <label
-          htmlFor={"file-upload"}
-          className={"col-span-4 flex flex-col items-center justify-center gap-y-2 border-dashed border-2 border-neutral-400 rounded-lg"}
-        >
-          <span className={"text-neutral-500 font-light text-sm"}> Додати фото або фотки товару </span>
-          <IconButton className={"rounded bg-black/5"}>
-            <MdAdd/>
-          </IconButton>
-        </label>
-        <Input
-          slotProps={{input: {multiple: true}}}
-          onChange={addImageHandler} id="file-upload"
-          className={"invisible"}
-          type={"file"}/>
-      </div>
-      <div className={"col-span-6 grid grid-cols-12 auto-rows-auto gap-4"}>
-        <TextField value={formData.name}
-                   onChange={(e) => setFormData(prevState => ({...prevState, name: e.target.value}))} required
-                   className={"col-span-full"} label={"Назва"}/>
-        <TextField value={formData.description}
-                   onChange={(e) => setFormData(prevState => ({...prevState, description: e.target.value}))} required
-                   className={"col-span-full"} multiline rows={8} label={"Опис"}/>
-        <TextField value={formData.discount} defaultValue={0}
-                   onChange={(e) => setFormData(prevState => ({...prevState, discount: Number(e.target.value)}))}
-                   className={"col-span-4"} type={"number"} label={"Скидка"}/>
-        <Autocomplete onChange={onSelectCategoryHandler} className={"col-span-4"}
-                      renderInput={(params) => <TextField required {...params} label="Категорія"/>}
-                      options={categoriesNames}/>
+    // <form className={"flex flex-1 lg:flex-row flex-col gap-4 w-full"} onSubmit={onSubmitHandler}>
 
-        <div className={"col-span-12 flex justify-end p-4"}>
-          <Button type={"submit"} variant={"contained"} color={"success"}>
-            Створити
-          </Button>
-        </div>
-      </div>
-    </form>
+
+    // </form>
   )
 }
 

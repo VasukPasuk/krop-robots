@@ -21,6 +21,9 @@ import {
 } from "@mui/material";
 import {FaPlus} from "react-icons/fa6";
 import {MdAdd, MdCancel} from "react-icons/md";
+import {useContext} from "react";
+import {CreateProductContext} from "@/context/CreateProductContext";
+import {IVariant} from "@/interfaces";
 
 interface IAdminCreateVariantPopoverProps {
   anchorRef: HTMLButtonElement
@@ -48,37 +51,26 @@ const InputsMap:{label: string, name: keyof FormDataSchema, auto?: boolean}[] = 
   {label: "Назва", name: "size_label", auto: true}
 ]
 
-export default function AdminCreateVariantPopover({anchorRef, setAnchorRef, productName}:IAdminCreateVariantPopoverProps) {
-  const {control, reset, handleSubmit, formState: {errors}} = useForm<FormDataSchema>({
+export default function CreateProductPage_VariantsAddPopover({anchorRef, setAnchorRef, productName}:IAdminCreateVariantPopoverProps) {
+  const {productData, stateFn, setProductData} = useContext(CreateProductContext)
+
+  const {control, handleSubmit} = useForm<FormDataSchema>({
     resolver: zodResolver(schema),
     defaultValues: {
       size_label: "Стандарт"
     }
   })
 
-  const client = useQueryClient()
-
   const onSubmit: SubmitHandler<FormDataSchema> = (data) => {
-    const postData:{product_name: string} & FormDataSchema = {
-      ...data,
-      product_name: productName,
+    const haveSameLabel = productData.variants.some((variant) => variant.size_label === data.size_label);
+    if (!haveSameLabel) {
+      stateFn(prev => ({
+        ...prev,
+        variants: [...prev.variants, data as Omit<IVariant, "updated_at" | "created_at" | "id">]
+      }));
     }
-    mutate.mutate(postData)
   }
 
-  const mutate = useMutation({
-    mutationFn: (data:{product_name: string} & FormDataSchema) => {
-      return axiosWithAuth.post(`/variants`, data)
-    },
-    onSuccess: async () => {
-      setAnchorRef(null)
-      await client.invalidateQueries({queryKey: ["variants", productName]})
-    },
-    onError: () => {
-      toast.error("Щось не так")
-      setAnchorRef(null)
-    }
-  })
 
   const open = Boolean(anchorRef);
   return (
@@ -101,7 +93,7 @@ export default function AdminCreateVariantPopover({anchorRef, setAnchorRef, prod
             name={name}
             control={control}
             render={({field}) => !auto ? (
-              <TextField required className={"w-[10ch]"} label={label} {...field} />)
+                <TextField required className={"w-[10ch]"} label={label} {...field} />)
               :
               (
                 <FormControl className={"w-[15ch]"}>

@@ -5,7 +5,7 @@ import {
   Button,
   CircularProgress,
   TextField,
-  Paper, Switch, FormControlLabel, Autocomplete,
+  Paper, Switch, FormControlLabel, Autocomplete, InputLabel, Select, MenuItem, FormControl,
 } from "@mui/material";
 import {useMutation, useQueries, useQueryClient} from "@tanstack/react-query";
 import {axiosWithAuth} from "@/services/axios/axios.interceptors";
@@ -121,19 +121,28 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
           )}
         />
 
-        <ControlledAutocomplete
-          name="category_name"
+
+        <Controller
+          name={"category_name"}
           control={control}
-          options={categoriesNames}
-          getOptionLabel={(option: string) => option}
-          renderInput={(params) => <TextField {...params} value={params.value}  label="Категорія"/>}
-          renderOption={(props, option: string) => (
-            <li {...props}>{option}</li>
+          render={({field}) => (
+            <FormControl className={"col-span-4"}>
+              <InputLabel id="demo-simple-select-label">Категорія</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                {...field}
+                label={"Категорія"}
+              >
+                {q_categories.data.items.map((item) => (
+                  <MenuItem key={item.id} value={item.name}>{item.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           )}
+        >
 
-          className={"col-span-4"}
-        />
-
+        </Controller>
 
 
         
