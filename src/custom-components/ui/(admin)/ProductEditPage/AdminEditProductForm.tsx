@@ -57,7 +57,7 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
           const response = await axiosWithAuth.get<IProduct>(`/products/${productName}`);
           return response.data;
         },
-      }
+      },
     ],
   });
 

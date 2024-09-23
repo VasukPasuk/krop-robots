@@ -13,18 +13,14 @@ export default class ProductService {
     const reqFormData = new FormData();
 
 
-    product.variants.forEach((variant, index) => {
-      reqFormData.append("variants", JSON.stringify({variant}));
-    });
+
+    reqFormData.append("variants", JSON.stringify([...product.variants]))
 
     product.photos.forEach((photo, index) => {
       reqFormData.append('photos', photo, `photo_${index}.jpg`);
     });
 
-    product.tags.forEach((tag, index) => {
-      reqFormData.append('tags', tag);
-    });
-
+    reqFormData.append('tags', JSON.stringify(product.tags));
     reqFormData.append('name', product.name);
     reqFormData.append('description', product.description);
     reqFormData.append('category_name', product.category_name);

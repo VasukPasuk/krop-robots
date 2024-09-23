@@ -75,9 +75,15 @@ export default function ManageTagsBox(props: IManageTagsBoxProps) {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           label="Age"
-          onChange={(e) => mutateTags.mutate(() => TagFetcher.attachTagToProduct(e.target.value as string, productName))}
+          onChange={(e) => {
+            const value = e.target.value as string
+            if (!q_related_tags.data.items.some(item => item.name === value)) {
+              mutateTags.mutate(() => TagFetcher.attachTagToProduct(value, productName))
+            } else {
+              toast.warn(`Цей продукт вже пов'язаний з тегом ${value}`)
+            }
+          }}
           MenuProps={{disableScrollLock: true, PaperProps: PaperProps}}
-
         >
           {q_tags.data.items.map((tag, i) => (
             <MenuItem value={tag.name} key={tag.name}>

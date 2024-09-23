@@ -68,9 +68,6 @@ export function ImagesUploader({productName}: ImagesUploaderProps) {
         className="col-span-full flex flex-col items-center justify-center gap-y-2 border-dashed border-2 border-neutral-400 rounded-lg cursor-pointer"
       >
         <span className="text-neutral-500 font-light text-[0.75rem] text-center">Додати фото або фотки товару</span>
-        <IconButton className="rounded bg-black/5">
-          <MdAdd/>
-        </IconButton>
       </label>
       <Input
         id="file-upload"

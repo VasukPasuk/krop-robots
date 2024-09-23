@@ -43,9 +43,6 @@ export default function CreateProductPage_ImagesForm() {
         className={"xl:col-span-4 lg:col-span-6 md:col-span-4 s480:col-span-6 col-span-full flex flex-col items-center justify-center gap-y-2 border-dashed border-2 border-neutral-400 rounded-lg"}
       >
         <span className={"text-neutral-500 font-light text-[0.75rem] text-center"}> Додати фото або фотки товару </span>
-        <IconButton className={"rounded bg-black/5"}>
-          <MdAdd/>
-        </IconButton>
       </label>
       <Input
         slotProps={{input: {multiple: true}}}
