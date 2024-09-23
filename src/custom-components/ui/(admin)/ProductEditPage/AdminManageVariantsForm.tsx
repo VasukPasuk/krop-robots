@@ -23,7 +23,7 @@ import {AdminLayoutContext} from "@/context/AdminLayoutContext";
 
 
 function AdminManageVariantsForm({productName}: { productName: string }) {
-  const {drawerState} = useContext(AdminLayoutContext)
+  const {drawerState, match} = useContext(AdminLayoutContext)
   const [anchorRef, setAnchorRef] = useState<HTMLButtonElement | null>(null)
 
   const client = useQueryClient()
@@ -160,8 +160,8 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
 
   return (
     <div className={clsx("flex flex-col flex-1 border-solid border-neutral-200 border-[1px] rounded", {
-      "w-[85%]": drawerState,
-      "w-full": !drawerState
+      "w-[85%]": drawerState && !match,
+      "w-full": !drawerState && match
     })}>
       <div className="flex justify-between items-center py-4 px-8">
         <div className="text-2xl text-neutral-600">

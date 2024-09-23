@@ -1,10 +1,12 @@
 'use client';
 import React, { createContext, FC, useState, ReactNode } from "react";
+import {useMediaQuery} from "@mui/system";
 
 interface IAdminLayoutContextValue {
   enableDrawer: () => void,
   disableDrawer: () => void
-  drawerState: boolean
+  drawerState: boolean,
+  match: boolean
 }
 
 
@@ -16,13 +18,13 @@ type AdminLayoutProviderProps = {
 
 export const AdminLayoutProvider: FC<AdminLayoutProviderProps> = ({ children }) => {
   const [activeSideDrawer, setActiveSideDrawer] = useState(true)
-
+  const match = useMediaQuery("(max-width:640px)")
   const enableDrawer = () => setActiveSideDrawer(true);
   const disableDrawer = () => setActiveSideDrawer(false);
 
 
   return (
-    <AdminLayoutContext.Provider value={{enableDrawer, disableDrawer, drawerState: activeSideDrawer}}>
+    <AdminLayoutContext.Provider value={{enableDrawer, disableDrawer, drawerState: activeSideDrawer, match}}>
       {children}
     </AdminLayoutContext.Provider>
   );

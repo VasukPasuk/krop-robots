@@ -14,7 +14,7 @@ import CreateProductPage_VariantsAddPopover from "@/custom-components/ui/(admin)
 export default function CreateProductPage_VariantsForm() {
   const {productData, stateFn, setProductData} = useContext(CreateProductContext)
 
-  const {drawerState} = useContext(AdminLayoutContext)
+  const {drawerState, match} = useContext(AdminLayoutContext)
   const [anchorRef, setAnchorRef] = useState<HTMLButtonElement | null>(null)
 
   const openPopover = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorRef(event.currentTarget)
@@ -98,8 +98,8 @@ export default function CreateProductPage_VariantsForm() {
 
   return (
     <div className={clsx("flex flex-col flex-1 border-solid border-neutral-200 border-[1px] rounded", {
-      "w-[85%]": drawerState,
-      "w-full": !drawerState
+      "w-[85%]": drawerState && !match,
+      "w-full": !drawerState && match
     })}>
       <div className="flex justify-between items-center py-4 px-8">
         <div className="text-2xl text-neutral-600">

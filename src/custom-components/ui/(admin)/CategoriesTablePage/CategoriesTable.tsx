@@ -1,32 +1,62 @@
 "use client"
 
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import queryString from 'query-string';
 import {useRouter} from "next/navigation";
 import {CircularProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow}
   from "@mui/material";
-import React from "react";
+import React, {useContext} from "react";
 import NoDataBlock from "@/custom-components/ui/(shared)/NoDataBlock";
 import CategoryFetcher from "@/services/fetchers/CategoryFetcher";
 import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 import {CategoryTableRow} from "@/custom-components/ui/(admin)/CategoriesTablePage/CategoriesTableRow";
 import {CategoriesTableForm} from "@/custom-components/ui/(admin)/CategoriesTablePage/CategoriesTableForm";
+import {AdminLayoutContext} from "@/context/AdminLayoutContext";
+import {AxiosResponse} from "axios";
+import {toast} from "react-toastify";
+import ColorFetcher from "@/services/fetchers/ColorFetcher";
+import {DataGrid, GridActionsCellItem, GridColDef} from "@mui/x-data-grid";
+import {ICategory, IColor} from "@/interfaces";
+import {IoTrashBin} from "react-icons/io5";
+import clsx from "clsx";
+import useQueryFilters from "@/hooks/useQueryFilters";
 
 
 
 
 export default function CategoryTable() {
+  const {drawerState, match} = useContext(AdminLayoutContext)
+  const {appendSearchQuery} = useQueryFilters()
   const {page} = useSpecialQueries()
-  const router = useRouter();
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
-    router.push(location.pathname + "?" + queryString.stringify({page: newPage}), {scroll: false}
-    );
+    appendSearchQuery({page: newPage})
   };
 
-  const {isError, error, isLoading, data} = useQuery({
-    queryKey: ["categories", page],
-    queryFn: () => CategoryFetcher.getMany(queryString.stringify({page: page})),
+  const queryClient = useQueryClient()
+
+  const categoriesMutation = useMutation({
+    mutationFn: (func: any) => func(),
+    onSuccess: ({config}:AxiosResponse) => {
+      queryClient.invalidateQueries({queryKey: ["categories"]})
+      const method = config.method;
+      switch (method) {
+        case "patch":
+          toast.success("Дані оновлено.")
+          break
+        default:
+          toast.success("Рядок успішно видалено!")
+          break
+      }
+    },
+    onError: () => toast.error("Сталася проблема")
+  })
+
+  const {isError, error, isFetched, isLoading, data} = useQuery({
+    queryKey: ["colors", page],
+    queryFn: async () => {
+      return CategoryFetcher.getMany(queryString.stringify({page: page, limit: 10}));
+    },
   });
 
   if (isLoading) return (
@@ -38,41 +68,117 @@ export default function CategoryTable() {
   if (!data || !data.items) return <p>No data available</p>;
 
 
-  return (
-    <>
-      {data.items.length > 0 && <div className={"flex flex-col gap-y-4 items-center"}>
-				<TableContainer sx={{width: 1200}} className={"border-solid border-neutral-200 border-[1px] rounded"}>
-					<Table sx={{minWidth: 1200}}>
-						<TableHead>
-							<TableRow>
-								<TableCell align="left">Номер</TableCell>
-								<TableCell align="left">Назва</TableCell>
-								<TableCell align="left">Опис</TableCell>
-								<TableCell align="left">Дата створення</TableCell>
-								<TableCell align="left">Дата оновлення</TableCell>
-								<TableCell align="left"></TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-              {data.items.map((category) => (
-                <CategoryTableRow key={category.name} data={category}/>
-              ))}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<Pagination
-					count={Math.ceil(data.count / 10)}
-					page={page}
-					onChange={handlePageChange}
-					size="large"
-					shape="rounded"
-					siblingCount={1}
-					boundaryCount={1}
-				/>
-			</div>}
+  const columns: GridColDef<ICategory>[] = [
+    {
+      field: 'id',
+      headerName: 'ID',
+      type: 'number',
+      width: 50,
+      editable: false,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: 'name',
+      headerName: 'Назва',
+      type: 'string',
+      width: 120,
+      editable: true,
+      flex: 1,
+      align: "right",
+      headerAlign: "right",
+    },
+    {
+      field: 'description',
+      headerName: 'Опис',
+      type: 'string',
+      width: 120,
+      editable: true,
+      flex: 1,
+      align: "right",
+      headerAlign: "right",
+    },
+    {
+      field: 'created_at',
+      headerName: 'Дата оновлення',
+      type: 'dateTime',
+      width: 120,
+      editable: false,
+      flex: 1,
+      align: "right",
+      headerAlign: "right",
+      valueGetter: (value) => {
+        return new Date(value)
+      },
+    },
+    {
+      field: 'updated_at',
+      headerName: 'Дата створення',
+      type: "dateTime",
+      sortable: true,
+      width: 120,
+      editable: false,
+      flex: 1,
+      align: "right",
+      headerAlign: "right",
+      valueGetter: (value) => {
+        return new Date(value)
+      },
+    },
+    {
+      field: "actions",
+      headerName: "Дії",
+      type: "actions",
+      cellClassName: "actions",
+      getActions: ({row}) => {
+        return [
+          <GridActionsCellItem
+            icon={<IoTrashBin/>}
+            label="Видалити"
+            onClick={() => categoriesMutation.mutate(() => CategoryFetcher.delete(row.name))}
+            color="inherit"
+          />,
+        ]
+      },
+    }
+  ];
 
-      {!data.items.length && <NoDataBlock children={"Категорій в наявності немає"}/>}
+
+  const processRowUpdate = (newRow: IColor, oldRow: IColor) => {
+    if (JSON.stringify(newRow) === JSON.stringify(oldRow)) {
+      return newRow
+    }
+    categoriesMutation.mutate(() => ColorFetcher.update(newRow.id, newRow))
+    return newRow
+  }
+
+
+  return (
+    <div className="w-full flex min-[900px]:flex-row p-4 min-[900px]:gap-x-4 flex-col gap-y-4">
+      <div className={clsx("flex flex-col flex-1 border-solid border-neutral-200 border-[1px] rounded p-4", {
+        "w-[85%]": drawerState && !match,
+        "w-[90%]": !drawerState && match
+      })}>
+        <DataGrid
+          rows={data.items}
+          columns={columns}
+          disableRowSelectionOnClick
+          processRowUpdate={processRowUpdate}
+          hideFooterPagination
+        />
+        <div className="flex items-center justify-center p-2">
+          <Pagination
+            count={Math.ceil(data.count / 10)}
+            page={page}
+            onChange={handlePageChange}
+            size="large"
+            shape="rounded"
+            siblingCount={1}
+            boundaryCount={1}
+          />
+        </div>
+      </div>
       <CategoriesTableForm/>
-    </>
+    </div>
   )
 }

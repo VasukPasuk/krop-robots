@@ -13,10 +13,10 @@ export default class ColorFetcher {
   }
 
   static async delete(name: string) {
-    return axiosWithAuth.delete(`${this.url}/${name}`)
+    return await axiosWithAuth.delete(`${this.url}/${name}`)
   }
 
-  static async update(id: number, data: Pick<IColor, "name" | "hex">) {
+  static async update(id: number, data: Partial<Pick<IColor, "name" | "hex">>) {
     return axiosWithAuth.patch(`${this.url}/${id}`, data)
   }
 

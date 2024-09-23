@@ -38,7 +38,7 @@ export function CategoriesTableForm() {
   }
 
   return (
-    <div className="ml-12 w-full">
+    <div className="lg:w-1/3 sm:w-1/2 w-full">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Paper variant={"outlined"} className={"p-4 flex flex-col gap-y-4"}>
           <Controller name={"name"} control={control} render={({field}) => (

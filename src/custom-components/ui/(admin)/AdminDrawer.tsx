@@ -2,7 +2,7 @@
 import React, {useContext, useState} from 'react';
 import Link from "next/link";
 import {Accordion, AccordionDetails, AccordionSummary, Divider, Paper} from "@mui/material";
-import {MdCircle} from "react-icons/md";
+import {MdCircle, MdClose} from "react-icons/md";
 import {IoIosArrowDown} from "react-icons/io";
 import clsx from "clsx";
 import {ADMIN_URLS} from "@/constants/enums";
@@ -13,6 +13,7 @@ import {BiBrush, BiCategory, BiComment} from "react-icons/bi";
 import {IoAnalytics} from "react-icons/io5";
 import {useRouter} from "next/navigation";
 import {AdminLayoutContext} from "@/context/AdminLayoutContext";
+import {useMediaQuery} from "@mui/system";
 
 
 interface IAdminDrawerProps {
@@ -39,15 +40,19 @@ const SINGLE_LINKS = [
 ]
 
 function AdminDrawer(props: IAdminDrawerProps) {
-  const {drawerState} = useContext(AdminLayoutContext)
+  const {drawerState, disableDrawer, match} = useContext(AdminLayoutContext)
   const router = useRouter()
   const [activeAccordion, setActiveAccordion] = useState<number>(0)
+
+
+
+
   return (
     (drawerState) && <Paper
       variant="outlined"
-			className={"flex flex-col items-start justify-start py-4 px-3 w-64 rounded-none h-dvh"}
+			className={clsx("flex flex-col items-start justify-start py-4 px-3 w-64 rounded-none h-dvh sm:static fixed z-50")}
 		>
-			<div className="mb-6 relative w-full">
+			<div className="mb-6 relative w-full flex items-center">
 				<img
 					width={160}
 					height={64}
@@ -56,6 +61,14 @@ function AdminDrawer(props: IAdminDrawerProps) {
 					className="cursor-pointer"
 					onClick={() => router.push(ADMIN_URLS.BASE_ADMIN_URL)}
 				/>
+        {match && (
+          <div
+            onClick={disableDrawer}
+            className="absolute p-2 rounded right-1 cursor-pointer hover:bg-black/5 transition-colors duration-500"
+          >
+            <MdClose className="text-2xl"/>
+          </div>
+        )}
 			</div>
 			<div className={"flex flex-col w-full gap-y-2"}>
         {DATA.map(({data, title, icon}, index) => (
