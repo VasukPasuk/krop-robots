@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -24,6 +24,7 @@ import {MdExpandMore} from "react-icons/md";
 import {toast} from "react-toastify";
 import {useMutation} from "@tanstack/react-query";
 import {OrderService} from "@/services/order.service";
+import {CustomerCartContext} from "@/context/CustomerCartContext";
 
 const schema = z.object({
   phone_number: z
@@ -70,7 +71,7 @@ export interface IOrderRequestData {
 }
 
 function OrderPage() {
-  const [cartItems, setCartItems] = useState<{ [key: string]: UserCartItemType }>({})
+  const {cartItems, deleteItem} = useContext(CustomerCartContext)
   const [expanded, setExpanded] = React.useState<"NEW_POST_MAIL" | "URK_MAIL" | false>(false);
   const handleChange =
     (panel: "NEW_POST_MAIL" | "URK_MAIL") => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -142,12 +143,10 @@ function OrderPage() {
       })
     }
 
-    orderMutation.mutate(() => OrderService.create(preparedData))
-  }
+    console.log(preparedData)
 
-  useEffect(() => {
-    setCartItems(getAllCartItems());
-  }, []);
+    // orderMutation.mutate(() => OrderService.create(preparedData))
+  }
 
   const totalPrice = Object.entries(cartItems).reduce((prev, [key, data]) => prev + (data.variant.price * data.amount), 0)
   const totalItems = Object.keys(cartItems).length
@@ -462,7 +461,7 @@ function OrderPage() {
           )}
           {
             Object.entries(cartItems).map(([hashKey, data]) => (
-              <CheckoutCartItem key={hashKey} hashKey={hashKey} updateCartStateFn={setCartItems} data={data}/>
+              <CheckoutCartItem key={hashKey} hashKey={hashKey} deleteFn={deleteItem} data={data}/>
             ))
           }
         </div>

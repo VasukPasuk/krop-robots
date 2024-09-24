@@ -1,18 +1,18 @@
 import {IconButton, Paper, Typography} from '@mui/material';
-import React from 'react';
+import React, {useContext} from 'react';
 import {deleteProduct, deleteProductAndReturn, UserCartItemType} from "@/features/localStorageFunctions";
 import {IoMdTrash} from "react-icons/io";
+import {CustomerCartContext, ICustomerCartData} from "@/context/CustomerCartContext";
 
 interface ICheckoutCartItem {
-  data: UserCartItemType
+  data: ICustomerCartData
   hashKey: string
-  updateCartStateFn: (state: any) => void
+  deleteFn: (key: string) => void
 }
 
-function CheckoutCartItem({data, hashKey, updateCartStateFn}: ICheckoutCartItem) {
-
+function CheckoutCartItem({data, hashKey, deleteFn}: ICheckoutCartItem) {
   const deleteFromCartHandler = () => {
-    updateCartStateFn(deleteProductAndReturn(hashKey))
+    deleteFn(hashKey)
   }
 
   return (

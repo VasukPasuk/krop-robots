@@ -1,37 +1,29 @@
-import React, {useState} from 'react';
-import {Button, Card, CardActions, CardContent, IconButton, Input, Typography} from "@mui/material";
-import {MdHorizontalRule, MdPlusOne} from "react-icons/md";
+"use client"
+import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
+import { Card, CardActions, CardContent, IconButton, Input, Typography} from "@mui/material";
+import {MdHorizontalRule} from "react-icons/md";
 import {FaPlus} from "react-icons/fa6";
 import {BiSolidTrash} from "react-icons/bi";
 import {toast} from "react-toastify";
-import {
-  decrementProduct,
-  deleteProduct,
-  incrementProduct,
-  setProductToCart,
-  UserCartItemType
-} from "@/features/localStorageFunctions";
+import {CustomerCartContext, ICustomerCartData} from "@/context/CustomerCartContext";
 
 
 interface ICartItemProps {
-  data: UserCartItemType
+  data: ICustomerCartData
   propertyHash: string
-  refreshFn: () => void
 }
 
-function CartItem({data, propertyHash, refreshFn}: ICartItemProps) {
+function CartItem({data, propertyHash}: ICartItemProps) {
+  const {deleteItem, setAmount} = useContext(CustomerCartContext)
   const increaseAmountHandler = () => {
-    incrementProduct(propertyHash)
-    refreshFn()
+    setAmount(propertyHash, data.amount + 1)
   }
   const decreaseAmountHandler = () => {
-    decrementProduct(propertyHash)
-    refreshFn()
+    setAmount(propertyHash, data.amount > 1 ? data.amount - 1 : 1)
   }
 
   const deleteCartItemHandler = () => {
-    deleteProduct(propertyHash)
-    refreshFn()
+    deleteItem(propertyHash)
     toast.success(`Товар " ${data.product.name} " було видалено з кошику`)
   }
 
@@ -43,6 +35,7 @@ function CartItem({data, propertyHash, refreshFn}: ICartItemProps) {
             <img
               src={`${process.env.NEXT_PUBLIC_API_URL}/static/${data.photo}`}
               alt={"Cart product item"}
+              className="h-full w-full object-cover"
             />
           </div>
           <div>

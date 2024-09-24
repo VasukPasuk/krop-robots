@@ -7,10 +7,11 @@ import {BiHeart} from "react-icons/bi";
 import {MdAddShoppingCart, MdShoppingCart} from "react-icons/md";
 import {useQueries, useQuery} from "@tanstack/react-query";
 import ProductFetcher from "@/services/fetchers/ProductFetcher";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import ColorFetcher from "@/services/fetchers/ColorFetcher";
 import {setProductToCart} from "@/features/localStorageFunctions";
 import {IColor} from "@/interfaces";
+import {CustomerCartContext} from "@/context/CustomerCartContext";
 
 type TypePlastic = "PLA" | "CoPET"
 
@@ -21,6 +22,9 @@ function ProductAbout({productName}: { productName: string }) {
   const [currentVariant, setCurrentVariant] = useState<string>("Стандарт")
   const [plastic, setPlastic] = useState<TypePlastic>("PLA")
   const [currentColor, setCurrentColor] = useState<string>("Чорний")
+
+  const {setItemToCart} = useContext(CustomerCartContext)
+
   const [productData, colorsData] = useQueries({
     queries: [
       {
@@ -57,47 +61,52 @@ function ProductAbout({productName}: { productName: string }) {
   const colorsObject: IColor = colorsData.data.items.find((color) => color.name === currentColor);
 
   const addToCartHandler = () => {
-    setProductToCart({
-      product: product,
+    setItemToCart({
+      variant: variantObject,
       plastic: plastic,
       color: colorsObject,
-      variant: variantObject,
-      amount: 1,
-      photo: photos[0].source
+      product: product,
+      photo: photos[0].source,
+      amount: 1
     })
   }
 
   return (
     <div className="flex lg:flex-row flex-col gap-y-4 lg:gap-x-4 mb-16">
-      <div className="flex flex-col gap-y-4 flex-1">
-        <Paper elevation={1} className="sm:p-6 py-8 flex flex-col items-center justify-center">
+      <div className="flex flex-col gap-y-4 flex-1 w-1/2">
+        <Paper elevation={1} className="sm:p-6 py-8 flex flex-col items-center justify-center flex-1">
           <Paper
-            className="relative w-[20rem] h-[16rem] sm:w-[28rem] sm:h-[20rem]  lg:w-[34rem] lg:h-[26rem] overflow-hidden rounded">
+            className="relative w-full h-[16rem]] sm:h-[20rem] lg:h-[26rem] overflow-hidden rounded">
             <img
-              className="hover:scale-110 transition-transform duration-700 w-full h-full"
+              className="hover:scale-110 transition-transform duration-700 w-full h-full object-cover"
               alt="Фото продукта"
+              loading="lazy"
               src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photos[currentPhoto].source}`}
             />
           </Paper>
-          <div className="flex flex-row gap-x-4 mt-4 justify-start w-full px-5 overflow-x-auto">
-            {photos.length > 2 && (
-              <>
-                {photos.map((photo, i) => (
-                  <Paper
-                    onClick={() => setCurrentPhoto(i)}
-                    className={clsx("relative h-24 w-24 hover:scale-105 transition-transform duration-700 rounded cursor-pointer overflow-hidden", {
-                      "border-solid border-2 border-amber-950": i === currentPhoto
-                    })}
-                  >
-                    <img
-                      key={photo.source}
-                      src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photo.source}`}
-                      className="w-full h-full"
-                      alt="Фото продукта"/>
-                  </Paper>
-                ))}
-              </>
-            )}
+          <div className="flex overflow-x-scroll overflow-y-hidden w-full">
+            <div className="flex flex-row gap-x-4 mt-4 justify-start py-2 scroll">
+              {photos.length > 2 && (
+                <>
+                  {photos.map((photo, i) => (
+                    <Paper
+                      onClick={() => setCurrentPhoto(i)}
+                      className={clsx("relative h-24 w-24 hover:scale-105 transition-transform duration-700 rounded cursor-pointer overflow-hidden", {
+                        "border-solid border-2 border-amber-950": i === currentPhoto
+                      })}
+                    >
+                      <img
+                        key={photo.source}
+                        src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photo.source}`}
+                        className="w-full h-full"
+                        alt="Фото продукта"
+                        loading="lazy"
+                      />
+                    </Paper>
+                  ))}
+                </>
+              )}
+            </div>
           </div>
         </Paper>
         <Paper elevation={1} className="p-6 col-span-6 flex flex-col gap-y-2">
@@ -140,7 +149,7 @@ function ProductAbout({productName}: { productName: string }) {
           </div>
         </Paper>
       </div>
-      <div className="flex flex-col gap-y-4 flex-1">
+      <div className="flex flex-col gap-y-4 flex-1 w-1/2">
         <div className="p-4 shadow flex flex-col gap-y-2">
           <div className={"text-neutral-800 text-3xl text-bold"}>
             {product.name}

@@ -35,7 +35,7 @@ export default function AdminProductsList() {
   if (!data && isFetched) return <p>No data available</p>;
 
 
-  if (data.items.length === 0) return <NoDataBlock children={"Продуктів в наявності немає"}/>
+  if (data.items.length === 0) return <NoDataBlock children={"Товарів в наявності немає"}/>
 
 
   return (

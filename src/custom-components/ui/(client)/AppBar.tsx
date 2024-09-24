@@ -18,14 +18,13 @@ function AppBar() {
 
   return (
     <div className="w-full h-16 mt-16 flex justify-between items-center px-4 gap-x-4 rounded-none shadow">
-      {!!id && <div>
+      {!!id ? <div>
 				<Link href={"/shop/products"}>
 					<Button variant="text" className="normal-case text-base" color="primary">
 						Повернутися до товарів
           </Button>
 				</Link>
-			</div>}
-
+			</div> : <div/>}
       {
         (pathname && mq) && (
           <>
@@ -46,27 +45,29 @@ function AppBar() {
       }
 
       <div className="flex gap-x-2">
-        <Tooltip title="Кабінет">
-          <div
-            className="cursor-pointer text-neutral-700 transition-colors duration-700 ease-out hover:bg-black/15 rounded p-2">
-            <FaUser className="text-2xl"/>
-          </div>
-        </Tooltip>
+        {/*<Tooltip title="Кабінет">*/}
+        {/*  <div*/}
+        {/*    className="cursor-pointer text-neutral-700 transition-colors duration-700 ease-out hover:bg-black/15 rounded p-2">*/}
+        {/*    <FaUser className="text-2xl"/>*/}
+        {/*  </div>*/}
+        {/*</Tooltip>*/}
 
-        <Tooltip title="Повідомлення">
-          <div
-            className="cursor-pointer text-neutral-700 transition-colors duration-700 ease-out hover:bg-black/15 rounded p-2">
-            <MdNotifications className="text-2xl"/>
-          </div>
-        </Tooltip>
+        {/*<Tooltip title="Повідомлення">*/}
+        {/*  <div*/}
+        {/*    className="cursor-pointer text-neutral-700 transition-colors duration-700 ease-out hover:bg-black/15 rounded p-2">*/}
+        {/*    <MdNotifications className="text-2xl"/>*/}
+        {/*  </div>*/}
+        {/*</Tooltip>*/}
 
-        <Tooltip title="Кошик">
-          <div
+        <Tooltip title="Кошик користувача">
+          <Button
+            variant="outlined"
             onClick={() => setActiveCardDrawer(true)}
-            className="cursor-pointer text-neutral-700 transition-colors duration-700 ease-out hover:bg-black/15 rounded p-2"
+            className="cursor-pointer transition-colors duration-700 ease-out hover:bg-black/15 rounded p-2"
+            endIcon={<MdShoppingCart className="text-2xl"/>}
           >
-            <MdShoppingCart className="text-2xl"/>
-          </div>
+            Кошик
+          </Button>
         </Tooltip>
 
         <CartDrawer handleClose={() => setActiveCardDrawer(false)} open={activeCardDrawer}/>

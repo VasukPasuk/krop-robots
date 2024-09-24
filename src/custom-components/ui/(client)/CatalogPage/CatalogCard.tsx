@@ -16,9 +16,7 @@ function CatalogCard(props: ICatalogCardProps) {
   const {popular, name, discount, description, category_name, updated_at, id, created_at, photos, variants} = props.data
 
   const router = useRouter();
-  const moveToProductPage = () => router.push(`${location.pathname}/${name}`);
-
-  const addToFavouritesClick = () => {};
+  const moveToProductPage = () => router.push(`${location.pathname}/products/${name}`);
 
   const onCardClick = () => {
     moveToProductPage()
@@ -33,6 +31,7 @@ function CatalogCard(props: ICatalogCardProps) {
         <img
           className="hover:scale-110 transition-transform duration-1000 ease-out w-full h-full"
           alt={"photo"}
+          loading="lazy"
           src={process.env.NEXT_PUBLIC_API_URL + `/static/${photos[0].source}`}
         />
       </div>

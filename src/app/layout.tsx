@@ -9,6 +9,7 @@ import "react-toastify/scss/main.scss"
 import {TanStackProvider} from "@/app/TanstackWrapper";
 import {Analytics} from "@vercel/analytics/react"
 import {AuthProvider} from "@/context/AuthContext";
+import {CustomerCartProvider} from "@/context/CustomerCartContext";
 
 const inter = Inter({
   weight: ["100", "200", "300", "400", "500", "700", "800", "900"],
@@ -37,12 +38,14 @@ export default function RootLayout({children}: PROPS) {
       <StyledEngineProvider injectFirst>
         <TanStackProvider>
           <ThemeProvider>
-            <AuthProvider>
-              <CssBaseline/>
-              <body className={inter.className}>
-              {children}
-              </body>
-            </AuthProvider>
+            <CustomerCartProvider>
+              <AuthProvider>
+                <CssBaseline/>
+                <body className={inter.className}>
+                {children}
+                </body>
+              </AuthProvider>
+            </CustomerCartProvider>
           </ThemeProvider>
         </TanStackProvider>
       </StyledEngineProvider>

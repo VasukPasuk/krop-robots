@@ -2,19 +2,15 @@
 
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import queryString from 'query-string';
-import {useRouter} from "next/navigation";
-import {CircularProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow}
+import {CircularProgress, Pagination}
   from "@mui/material";
 import React, {useContext} from "react";
-import NoDataBlock from "@/custom-components/ui/(shared)/NoDataBlock";
 import CategoryFetcher from "@/services/fetchers/CategoryFetcher";
 import {useSpecialQueries} from "@/hooks/useSpecialQueries";
-import {CategoryTableRow} from "@/custom-components/ui/(admin)/CategoriesTablePage/CategoriesTableRow";
 import {CategoriesTableForm} from "@/custom-components/ui/(admin)/CategoriesTablePage/CategoriesTableForm";
 import {AdminLayoutContext} from "@/context/AdminLayoutContext";
 import {AxiosResponse} from "axios";
 import {toast} from "react-toastify";
-import ColorFetcher from "@/services/fetchers/ColorFetcher";
 import {DataGrid, GridActionsCellItem, GridColDef} from "@mui/x-data-grid";
 import {ICategory, IColor} from "@/interfaces";
 import {IoTrashBin} from "react-icons/io5";
@@ -148,7 +144,7 @@ export default function CategoryTable() {
     if (JSON.stringify(newRow) === JSON.stringify(oldRow)) {
       return newRow
     }
-    categoriesMutation.mutate(() => ColorFetcher.update(newRow.id, newRow))
+    categoriesMutation.mutate(() => CategoryFetcher.update(newRow.name, newRow))
     return newRow
   }
 
