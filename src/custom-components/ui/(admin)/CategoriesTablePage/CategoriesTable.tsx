@@ -53,7 +53,7 @@ export default function CategoryTable() {
   })
 
   const {isError, error, isFetched, isLoading, data} = useQuery({
-    queryKey: ["colors", page],
+    queryKey: ["categories", page],
     queryFn: async () => {
       return CategoryFetcher.getMany(queryString.stringify({page: page, limit: 10}));
     },
