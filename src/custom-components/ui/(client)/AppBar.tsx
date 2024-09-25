@@ -1,9 +1,9 @@
 "use client"
 import {Button, Drawer, Paper, Tooltip} from "@mui/material";
-import {MdNotifications, MdShoppingCart} from "react-icons/md";
+import {MdClose, MdNotifications, MdShoppingCart} from "react-icons/md";
 import {FaUser} from "react-icons/fa6";
 import CartDrawer from "@/custom-components/ui/(client)/CartDrawer";
-import {useState} from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import {useParams, usePathname} from "next/navigation";
 import {useMediaQuery} from "@mui/system";
@@ -13,20 +13,20 @@ function AppBar() {
   const [activeCardDrawer, setActiveCardDrawer] = useState<boolean>(false)
   const [activeFilterDrawer, setActiveFilterDrawer] = useState<boolean>(false)
   const {id} = useParams()
-  const pathname = (usePathname() === "/shop/products")
+  const pathname = (usePathname() === "/shop")
   const mq = useMediaQuery("(max-width:1024px)")
 
   return (
     <div className="w-full h-16 mt-16 flex justify-between items-center px-4 gap-x-4 rounded-none shadow">
-      {!!id ? <div>
+      {!!id && <div>
 				<Link href={"/shop/products"}>
 					<Button variant="text" className="normal-case text-base" color="primary">
 						Повернутися до товарів
           </Button>
 				</Link>
-			</div> : <div/>}
+			</div>}
       {
-        (pathname && mq) && (
+        (pathname && mq) ? (
           <>
             <Button variant="outlined" onClick={() => setActiveFilterDrawer(true)}>
               Фільтри
@@ -36,12 +36,21 @@ function AppBar() {
               onClose={() => setActiveFilterDrawer(false)}
               disableScrollLock
             >
-              <div className="w-dvw s420:w-[360px] h-dvh">
+              <div className="w-[260px] flex flex-col flex-1 h-fit">
+                <div className="flex justify-end py-2 mr-2">
+                  <div
+                    onClick={() => setActiveFilterDrawer(false)}
+                    className="p-1 hover:bg-black/5 transition-colors duration-500 rounded"
+
+                  >
+                    <MdClose size={24}/>
+                  </div>
+                </div>
                 <CatalogFilter/>
               </div>
             </Drawer>
           </>
-        )
+        ) : <div/>
       }
 
       <div className="flex gap-x-2">

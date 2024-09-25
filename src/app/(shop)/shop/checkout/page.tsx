@@ -37,12 +37,13 @@ const schema = z.object({
   name: z.string().min(1, {message: "Поле імені не повинно бути пустим."}).trim(),
   first_surname: z.string().min(1, {message: "Поле прізвище не повинно бути пустим."}).trim(),
   second_surname: z.string().min(1, {message: "Поле по-батькові не повинно бути пустим."}).trim(),
-  payment_type: z.string(),
-  commentary: z.string().default(""),
+  payment_type: z.string().min(1, {message: "Спосіб оплати обов'язковий!"}),
+  commentary: z.string().default("").optional(),
   mail_index: z.string().optional(),
   department_index: z.string().optional(),
   delivery_type: z.string().min(1).default("У відділення"),
-  locality: z.string().min(1),
+
+  locality: z.string(),
   house: z.string().optional(),
   floor: z.string().optional(),
   street: z.string().optional(),
@@ -71,7 +72,7 @@ export interface IOrderRequestData {
 }
 
 function OrderPage() {
-  const {cartItems, deleteItem} = useContext(CustomerCartContext)
+  const {cartItems, deleteItem, clearCart} = useContext(CustomerCartContext)
   const [expanded, setExpanded] = React.useState<"NEW_POST_MAIL" | "URK_MAIL" | false>(false);
   const handleChange =
     (panel: "NEW_POST_MAIL" | "URK_MAIL") => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -89,10 +90,12 @@ function OrderPage() {
   const orderMutation = useMutation({
     mutationFn: (foo: Function) => foo(),
     onSuccess: () => {
-      toast.success("Всьо чотко")
+      router.push("/shop")
+      clearCart()
+      toast.success("Дякуємо за замовлення!")
     },
     onError: () => {
-      toast.error("Всьо погано")
+      toast.error("Не вдалося створити замовлення.")
     }
   })
 
@@ -120,8 +123,8 @@ function OrderPage() {
         amount: cartItem.amount,
         variantId: cartItem.variant.id,
         colorName: cartItem.color.name,
-        plastic:cartItem.plastic,
-        productName:cartItem.product.name,
+        plastic: cartItem.plastic,
+        productName: cartItem.product.name,
         price: cartItem.amount * cartItem.variant.price
       })),
       phone_number: data.phone_number,
@@ -142,20 +145,23 @@ function OrderPage() {
         mail_index: Number(data.mail_index) || 1,
       })
     }
-
-    console.log(preparedData)
-
-    // orderMutation.mutate(() => OrderService.create(preparedData))
+    orderMutation.mutate(() => OrderService.create(preparedData))
   }
 
   const totalPrice = Object.entries(cartItems).reduce((prev, [key, data]) => prev + (data.variant.price * data.amount), 0)
   const totalItems = Object.keys(cartItems).length
-
   const generalTotal = Object.entries(cartItems).reduce((prev, [key, data]) => prev + data.amount, 0)
+
+
+  // useEffect(() => {
+  //   Object.values(errors).forEach((value) => {
+  //     toast.warn(value.message)
+  //   })
+  // }, [errors])
 
   return (
     <form
-      className="container min-h-dvh mx-auto mt-16 md:p-8 grid grid-cols-12 auto-rows-min gap-8"
+      className="container min-h-dvh mx-auto mt-16 md:p-8 grid grid-cols-12 auto-rows-min gap-8 p-1"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="col-span-full">
@@ -251,8 +257,13 @@ function OrderPage() {
               <Typography variant="h5">{totalPrice} грн.</Typography>
             </Paper>
             <div>
-              <Button fullWidth type="submit" variant="contained" size="large" color="success"
-                      disabled={totalPrice < 300}>
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                size="large"
+                color="success"
+                disabled={totalPrice < 300}>
                 Підтвердити замовлення
               </Button>
             </div>
@@ -264,9 +275,11 @@ function OrderPage() {
       <Typography variant="h5" className={"col-span-full lg:col-start-1 lg:col-end-9"}>Доставка</Typography>
 
 
-      <Accordion expanded={expanded === "NEW_POST_MAIL"} variant={"outlined"}
-                 onChange={handleChange("NEW_POST_MAIL")}
-                 className="rounded overflow-hidden col-span-full lg:col-start-1 lg:col-end-9">
+      <Accordion
+        expanded={expanded === "NEW_POST_MAIL"}
+        variant={"outlined"}
+        onChange={handleChange("NEW_POST_MAIL")}
+        className="rounded overflow-hidden col-span-full lg:col-start-1 lg:col-end-9">
         <AccordionSummary
           expandIcon={<MdExpandMore/>}
           aria-controls="panel1-content"
@@ -324,8 +337,6 @@ function OrderPage() {
                   control={control}
                   render={({field: controllerField}) => (
                     <TextField
-                      // helperText={errors[field as keyof FormData]?.message}
-                      // error={!!errors[field as keyof FormData]}
                       {...controllerField}
                       variant="outlined"
                       className={"w-full"}
@@ -396,8 +407,6 @@ function OrderPage() {
                   control={control}
                   render={({field: controllerField}) => (
                     <TextField
-                      // helperText={errors[field as keyof FormData]?.message}
-                      // error={!!errors[field as keyof FormData]}
                       {...controllerField}
                       variant="outlined"
                       className={"w-full"}
@@ -448,7 +457,7 @@ function OrderPage() {
       </Paper>
 
 
-      <Paper className="col-span-full min-[1000px]:col-start-1 mix-[1000px]:col-end-9 p-4 flex flex-col"
+      <Paper className="col-span-full min-[1000px]:col-start-1 p-4 flex flex-col"
              variant="outlined">
         <Typography variant="h6">Товари для замовлення</Typography>
         <div className={"flex flex-col gap-y-4"}>

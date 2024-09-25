@@ -73,8 +73,8 @@ const HEADER_LINK = [
     content: "Новини"
   },
   {
-    href: "/" || "/directions",
-    content: "Напрями"
+    href: "/" || "/study",
+    content: "Навчання"
   },
   {
     href: "/" || "/about",

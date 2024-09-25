@@ -72,9 +72,9 @@ function ProductAbout({productName}: { productName: string }) {
   }
 
   return (
-    <div className="flex lg:flex-row flex-col gap-y-4 lg:gap-x-4 mb-16">
-      <div className="flex flex-col gap-y-4 flex-1 w-1/2">
-        <Paper elevation={1} className="sm:p-6 py-8 flex flex-col items-center justify-center flex-1">
+    <div className="flex lg:flex-row flex-col gap-y-4 lg:gap-x-4 mb-16 mx-auto container p-2">
+      <div className="flex flex-col gap-y-4 flex-1 w-full lg:w-1/2">
+        <Paper elevation={1} className="sm:p-6 py-8 px-4 flex flex-col items-center justify-center flex-1">
           <Paper
             className="relative w-full h-[16rem]] sm:h-[20rem] lg:h-[26rem] overflow-hidden rounded">
             <img
@@ -149,7 +149,7 @@ function ProductAbout({productName}: { productName: string }) {
           </div>
         </Paper>
       </div>
-      <div className="flex flex-col gap-y-4 flex-1 w-1/2">
+      <div className="flex flex-col gap-y-4 flex-1 w-full lg:w-1/2">
         <div className="p-4 shadow flex flex-col gap-y-2">
           <div className={"text-neutral-800 text-3xl text-bold"}>
             {product.name}
@@ -201,6 +201,7 @@ function ProductAbout({productName}: { productName: string }) {
                 onClick={() => setCurrentVariant(_ => variant.size_label)}
                 variant="contained"
                 color={variant.size_label === currentVariant ? "secondary" : "primary"}
+                className="normal-case"
               >
                 {variant.size_label}
               </Button>

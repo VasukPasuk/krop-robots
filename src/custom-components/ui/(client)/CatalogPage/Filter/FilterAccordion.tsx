@@ -25,7 +25,7 @@ interface IAccordionItemProps {
 }
 
 function AccordionItem({body, title}: IAccordionItemProps) {
-  const [active, setActive] = useState<boolean>(false)
+  const [active, setActive] = useState<boolean>(true) // true - по дефолту акордеон відкритий
   return (
     <div className="flex flex-col flex-1">
       <span onClick={() => setActive(prev => !prev)}>

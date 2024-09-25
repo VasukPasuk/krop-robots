@@ -7,7 +7,7 @@ import CatalogSearch from "@/custom-components/ui/(client)/CatalogPage/CatalogSe
 function Page() {
   return (
     <div className="container mt-4 mx-auto flex gap-x-4">
-      <div className="hidden lg:block md:w-[260px]">
+      <div className="hidden lg:block lg:w-[260px]">
         <CatalogFilter/>
       </div>
       <div className="flex flex-col flex-1 gap-y-4 relative">

@@ -27,7 +27,7 @@ function ProductReviews() {
   if (productQuery.isLoading) {
     return  (
       <>
-        Loading
+        Loading...
       </>
     )
   }
@@ -43,8 +43,8 @@ function ProductReviews() {
 
   return (
     <>
-      <div className="flex flex-row gap-x-12 mb-8">
-        <div className="md:w-3/5 flex flex-col gap-y-4">
+      <div className="flex lg:flex-row flex-col gap-x-12 mb-8 p-2 md:p-6">
+        <div className="lg:w-3/5 w-full flex flex-col gap-y-4">
           <div className="flex justify-between items-center">
             <div className="text-3xl">
               {productQuery.data.count} відгуків

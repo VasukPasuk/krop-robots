@@ -1,6 +1,8 @@
 'use client'
-import React, {createContext, FC, useState, ReactNode, ChangeEvent} from "react";
+import React, {createContext, FC, useState, ReactNode, ChangeEvent, useEffect} from "react";
 import useCatalogFilters from "@/hooks/useQueryFilters";
+import {toast} from "react-toastify";
+import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 
 type TypeFilterConfig = {
   maxPrice: number
@@ -35,6 +37,8 @@ export const FilterProvider: FC<FilterProviderProps> = ({children}) => {
   })
 
   const {resetSearchQuery, setSearchQuery} = useCatalogFilters()
+  const {maxPrice, minPrice} = useSpecialQueries()
+
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const category_name = event.target.name;
@@ -78,6 +82,22 @@ export const FilterProvider: FC<FilterProviderProps> = ({children}) => {
   const resetFilterHandler = () => {
     resetSearchQuery()
   }
+
+  useEffect(() => {
+    if (minPrice > maxPrice) {
+      toast.warn("Мінімальна ціна не може бути вищою за максимальну!")
+      setSearchQuery({
+        maxPrice: null,
+        minPrice: null,
+      })
+      setFilterConfig(prev => ({
+        ...prev,
+        maxPrice: 0,
+        minPrice: 0,
+      }))
+    }
+  }, [maxPrice, minPrice]);
+
 
   return (
     <FilterContext.Provider value={{
