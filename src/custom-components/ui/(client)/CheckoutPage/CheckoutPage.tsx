@@ -100,7 +100,12 @@ function CheckoutPage() {
   })
 
   const onSubmit: SubmitHandler<Required<CheckoutSchema>> = (formData) => {
-    console.log(formData)
+
+    if (formData.delivery_type === "Кур'єром з Нової Пошти" && (!formData.street || !formData.house)) {
+      toast.warn("При доставці кур'єром з Нової Пошти потрібно внести дані мінімум про Вашу вулицю та будинок.")
+      return
+    }
+
     orderMutation.mutate({
       ...formData,
       items: Object.values(cartItems).map(item => ({
