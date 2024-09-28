@@ -1,4 +1,3 @@
-import {IOrderRequestData} from "@/app/(shop)/shop/checkout/_page";
 import {axiosBasic} from "@/services/axios/axios.interceptors";
 import {IOrder} from "@/interfaces";
 
