@@ -90,12 +90,9 @@ function CheckoutPage() {
   const orderMutation = useMutation({
     mutationFn: (data: CreateOrderDTO) => OrderService.create(data),
     onSuccess: () => {
-      toast.success("Замовлення створено")
-      // Редірект
-      // router.replace("/shop")
-
-      // Очистити кошик
-      // clearCart()
+      toast.success("Дякуємо за замовлення!")
+      router.replace("/shop")
+      clearCart()
     },
     onError: () => {
       toast.error("Щось сталося не так!")
