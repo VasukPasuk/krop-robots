@@ -11,6 +11,8 @@ type OrderRuleUnion = "desc" | "asc"
 //   setLimit: (limit: number) => void;
 // }
 
+type TypeSort = "expensive_cheap" | "cheap_expensive"
+
 export function useSpecialQueries(defaultPage: number = 1, defaultLimit: number = 10, defaultOrderRule: OrderRuleUnion = "desc") {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -22,11 +24,14 @@ export function useSpecialQueries(defaultPage: number = 1, defaultLimit: number 
   const searchValue = searchParams.get('searchValue') || ""
   const searchField = searchParams.get('searchField') || ""
 
-  const minPrice = searchParams.get('minPrice')
-  const maxPrice = searchParams.get('maxPrice')
+  const minPrice = Number(searchParams.get('minPrice')) || null
+  const maxPrice = Number(searchParams.get('maxPrice')) || null
 
   const filterCategories = searchParams.get('filterCategories')
   const filterTags = searchParams.get('filterTags')
+
+  const typeSort = searchParams.get('typeSort') as TypeSort
+
 
   const flag = (searchParams.get("flag") || "newest") as "newest" | "latest"
 
@@ -57,5 +62,6 @@ export function useSpecialQueries(defaultPage: number = 1, defaultLimit: number 
     filterCategories,
     filterTags,
     flag,
+    typeSort
   };
 }

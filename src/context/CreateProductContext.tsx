@@ -47,8 +47,6 @@ export const CreateProductProvider: FC<CreateProductProviderProps> = ({children}
     }))
   }
 
-  console.log(productData)
-
   const productMutation = useMutation({
     mutationFn:  async () =>  {
       return await ProductService.create(productData)

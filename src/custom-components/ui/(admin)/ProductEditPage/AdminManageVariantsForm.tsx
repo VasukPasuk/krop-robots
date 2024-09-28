@@ -54,9 +54,11 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
 
   const variants = q_variants.data.items
 
-  const processRowUpdate = (newRow: GridRowModel) => {
+  const processRowUpdate = (newRow: GridRowModel, oldRow: GridRowModel) => {
     const {id, created_at, updated_at, ...rest} = (newRow as IVariant);
-    variantsMutation.mutate(() => VariantService.update(id, rest))
+    if (JSON.stringify(newRow) !== JSON.stringify(oldRow)) {
+      variantsMutation.mutate(() => VariantService.update(id, rest))
+    }
     return newRow;
   };
 
@@ -66,8 +68,7 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       field: 'id',
       type: "number",
       headerName: 'ID',
-      width: 120,
-      flex: 1
+      width: 60,
     },
     {
       field: 'height',
@@ -75,7 +76,7 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       type: 'number',
       width: 120,
       editable: true,
-      flex: 1
+
     },
     {
       field: 'width',
@@ -83,7 +84,7 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       type: 'number',
       width: 120,
       editable: true,
-      flex: 1
+
     },
     {
       field: 'length',
@@ -91,7 +92,7 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       type: 'number',
       width: 120,
       editable: true,
-      flex: 1
+
     },
     {
       field: 'weight',
@@ -100,13 +101,21 @@ function AdminManageVariantsForm({productName}: { productName: string }) {
       sortable: true,
       width: 120,
       editable: true,
-      flex: 1
+    },
+    {
+      field: 'price',
+      headerName: 'Ціна',
+      type: "number",
+      sortable: true,
+      width: 120,
+      editable: true,
     },
     {
       field: 'size_label',
       headerName: 'Назва',
       type: "string",
       align: "right",
+      headerAlign: "right",
       sortable: true,
       width: 150,
       editable: true,

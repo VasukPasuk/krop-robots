@@ -17,7 +17,7 @@ function ProductReviews() {
   const {appendSearchQuery} = useQueryFilters();
   const {flag, page} = useSpecialQueries()
   const productQuery = useQuery({
-    queryKey: [productName, flag, page],
+    queryKey: ["reviews", productName, flag, page],
     queryFn: async () => await ReviewService.getMany(productName, queryString.stringify({flag, page})),
     select: ({data}) => {
       return data
@@ -25,7 +25,7 @@ function ProductReviews() {
   })
 
   if (productQuery.isLoading) {
-    return  (
+    return (
       <>
         Loading...
       </>

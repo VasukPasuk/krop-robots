@@ -7,6 +7,7 @@ function Layout({children}:{children: Readonly<React.ReactNode>}) {
     <>
       <Header/>
       {children}
+      <Footer/>
     </>
   )
 }

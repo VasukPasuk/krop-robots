@@ -140,12 +140,24 @@ export interface IReview {
 
 export interface IOrder {
   id: number;
-  customer_id?: number;
-  customer_contacts?: any;
-  delivery: any;
-  payment: any;
-  total_price: number;
-  total_items: number;
+  phone: string
+  email: string
+  name: string
+  surname: string
+  region: string
+  locality: string
+  comment: string | null
+  EDRPOY_CODE: string
+  legal_entity: string
+  street: string
+  floor: string
+  house: string
+  appartment: string
+  delivery_type: string
+  payment_type: string
+  department_address: string
+  total_price: number
+  total_items: number
   created_at: string;
   updated_at: string;
 }

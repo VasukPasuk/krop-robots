@@ -110,7 +110,7 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
           name="description"
           control={control}
           render={({field}) => (
-            <TextField className="col-span-full" multiline rows={5} required label="Опис" {...field} />
+            <TextField className="col-span-full" multiline minRows={4} maxRows={18} required label="Опис" {...field} />
           )}
         />
         <Controller

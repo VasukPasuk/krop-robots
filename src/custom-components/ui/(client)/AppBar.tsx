@@ -19,7 +19,7 @@ function AppBar() {
   return (
     <div className="w-full h-16 mt-16 flex justify-between items-center px-4 gap-x-4 rounded-none shadow">
       {!!id && <div>
-				<Link href={"/shop/products"}>
+				<Link href={"/shop"}>
 					<Button variant="text" className="normal-case text-base" color="primary">
 						Повернутися до товарів
           </Button>

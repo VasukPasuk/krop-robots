@@ -21,7 +21,8 @@ function Catalog() {
     minPrice,
     maxPrice,
     filterCategories,
-    filterTags
+    filterTags,
+    typeSort
   } = useSpecialQueries(1, 15)
   const searchParams = useSearchParams()
   const {isLoading, data, refetch} = useQuery({
@@ -35,6 +36,7 @@ function Catalog() {
       maxPrice: maxPrice,
       filterCategories: filterCategories,
       filterTags: filterTags,
+      typeSort: typeSort
     }, {arrayFormat: "comma", skipNull: true, skipEmptyString: true})),
   })
 

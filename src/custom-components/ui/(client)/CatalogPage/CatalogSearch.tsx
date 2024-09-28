@@ -65,8 +65,8 @@ function CatalogSearch() {
             onChange={e => setTypeSort(e.target.value as TypeSort)}
             MenuProps={{disableScrollLock: true}}
           >
-            <MenuItem value={'new'}>Новинки</MenuItem>
-            <MenuItem value={'rating'}>Рейтинг</MenuItem>
+            {/*<MenuItem value={'new'}>Новинки</MenuItem>*/}
+            {/*<MenuItem value={'rating'}>Рейтинг</MenuItem>*/}
             <MenuItem value={'expensive_cheap'}>Від дорогих до дешевих</MenuItem>
             <MenuItem value={'cheap_expensive'}>Від дешевих до дорогих</MenuItem>
           </Select>

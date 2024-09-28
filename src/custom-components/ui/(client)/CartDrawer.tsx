@@ -23,6 +23,7 @@ function CartModal(props: ICartModalProps) {
     toast.success("Кошик з Вашими товарами очищено")
   }
   const purchaseCartHandler = () => {
+    handleClose(false)
     router.push("/shop/checkout")
   }
 

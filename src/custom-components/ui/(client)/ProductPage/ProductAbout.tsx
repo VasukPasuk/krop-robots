@@ -1,6 +1,6 @@
 "use client"
 
-import {Button, Divider, Paper, Rating, Tooltip} from "@mui/material";
+import {Button, Chip, Divider, Paper, Rating, Tooltip} from "@mui/material";
 import Image from "next/image";
 import clsx from "clsx";
 import {BiHeart} from "react-icons/bi";
@@ -12,6 +12,7 @@ import ColorFetcher from "@/services/fetchers/ColorFetcher";
 import {setProductToCart} from "@/features/localStorageFunctions";
 import {IColor} from "@/interfaces";
 import {CustomerCartContext} from "@/context/CustomerCartContext";
+import {toast} from "react-toastify";
 
 type TypePlastic = "PLA" | "CoPET"
 
@@ -69,6 +70,7 @@ function ProductAbout({productName}: { productName: string }) {
       photo: photos[0].source,
       amount: 1
     })
+    toast.success("Товар додано до Вашого кошика!")
   }
 
   return (
@@ -84,8 +86,8 @@ function ProductAbout({productName}: { productName: string }) {
               src={`${process.env.NEXT_PUBLIC_API_URL}/static/${photos[currentPhoto].source}`}
             />
           </Paper>
-          <div className="flex overflow-x-scroll overflow-y-hidden w-full">
-            <div className="flex flex-row gap-x-4 mt-4 justify-start py-2 scroll">
+          <div className="flex overflow-x-auto overflow-y-hidden w-full">
+            <div className="flex flex-row gap-x-4 mt-4 justify-start py-2">
               {photos.length > 2 && (
                 <>
                   {photos.map((photo, i) => (
@@ -160,6 +162,11 @@ function ProductAbout({productName}: { productName: string }) {
           <div className={"text-neutral-800"}>
             {product.description}
           </div>
+          <ul className="flex gap-2 flex-wrap">
+            {ProductHaveTag.map((relatedTag) => (
+              <Chip label={relatedTag.tag.name}/>
+            ))}
+          </ul>
         </div>
         <div className="p-4 shadow flex flex-col gap-y-2">
           <div>
