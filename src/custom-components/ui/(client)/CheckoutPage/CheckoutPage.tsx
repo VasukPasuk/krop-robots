@@ -106,6 +106,11 @@ function CheckoutPage() {
       return
     }
 
+    if (formData.payment_type === "Рахунок для юридичних осіб" && (!formData.EDRPOY_CODE || !formData.legal_entity)) {
+      toast.warn("При виборі Рахунок для юридичних осіб потрібно внести Код ЄРДПОУ та Повну назву юридичної особи.")
+      return
+    }
+
     orderMutation.mutate({
       ...formData,
       items: Object.values(cartItems).map(item => ({

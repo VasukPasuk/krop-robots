@@ -8,7 +8,6 @@ const config:CreateAxiosDefaults = {
   withCredentials: true,
 }
 
-console.log(API_URL)
 
 const axiosWithAuth = axios.create(config);
 

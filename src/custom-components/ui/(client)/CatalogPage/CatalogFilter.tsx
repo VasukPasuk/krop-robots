@@ -30,9 +30,6 @@ function CatalogFilter() {
     selectedCategories: [],
   })
 
-  // DEBUG:
-  console.log(filterConfig)
-
 
   const [categories, tags] = useQueries({
     queries: [

@@ -19,8 +19,6 @@ function PaymentSelect() {
       setPaymentType(_isExpanded || isOpened ? _paymentType : false);
     };
 
-  // DEBUG: check
-  console.log(paymentType)
 
   const isExpanded = (_paymentType: PAYMENT_TYPE) => _paymentType === paymentType
 
