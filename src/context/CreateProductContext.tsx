@@ -1,7 +1,7 @@
 'use client';
 import React, {createContext, FC, useState, ReactNode, SetStateAction, Dispatch} from "react";
 import {IVariant} from "@/interfaces";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import ProductService from "@/services/product.service";
 import {toast} from "react-toastify";
 import {AxiosError} from "axios";
@@ -48,6 +48,8 @@ export const CreateProductProvider: FC<CreateProductProviderProps> = ({children}
     }))
   }
 
+  const client = useQueryClient()
+
   const productMutation = useMutation({
     mutationFn: async () => {
       if (!productData.name.trim()) {
@@ -66,7 +68,10 @@ export const CreateProductProvider: FC<CreateProductProviderProps> = ({children}
         return await ProductService.create(productData);
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await client.invalidateQueries({
+        queryKey: ["products"]
+      })
       toast.success("Продукт успішно створено!");
       setProductData(initialState);
     },

@@ -20,12 +20,20 @@ import clsx from "clsx";
 import {AdminLayoutContext} from "@/context/AdminLayoutContext";
 import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 import {AxiosResponse} from "axios";
+import CustomSnackbar from "@/custom-components/ui/(shared)/CustomSnackbar/CustomSnackBar";
+import useSnackBar from "@/hooks/useSnackBar";
 
 export default function ColorsTable() {
   const {drawerState, match} = useContext(AdminLayoutContext)
   const {page} = useSpecialQueries()
   const router = useRouter();
 
+  const {close, active, open} = useSnackBar()
+  const [colorToDelete, setColorToDelete] = useState<string | null>(null)
+
+  const onYesHandler = () => {
+    colorsMutation.mutate(() => ColorFetcher.delete(colorToDelete))
+  }
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
     router.push(location.pathname + "?" + queryString.stringify({page: newPage}), {scroll: false}
@@ -36,7 +44,7 @@ export default function ColorsTable() {
 
   const colorsMutation = useMutation({
     mutationFn: (func: any) => func(),
-    onSuccess: ({config}:AxiosResponse) => {
+    onSuccess: ({config}: AxiosResponse) => {
       queryClient.invalidateQueries({queryKey: ["colors"]})
       const method = config.method;
       switch (method) {
@@ -140,7 +148,10 @@ export default function ColorsTable() {
           <GridActionsCellItem
             icon={<IoTrashBin/>}
             label="Видалити"
-            onClick={() => colorsMutation.mutate(() => ColorFetcher.delete(row.name))}
+            onClick={() => {
+              setColorToDelete(row.name)
+              open()
+            }}
             color="inherit"
           />,
         ]
@@ -184,15 +195,20 @@ export default function ColorsTable() {
         </div>
       </div>
       <CreateColorForm/>
-    </div>
 
+
+      <CustomSnackbar title={"Ви точно хочете видалити колір?"} active={active} onYes={onYesHandler} closeFn={close}/>
+    </div>
   )
 }
 
 
+
+
+
 function CreateColorForm() {
   const queryClient = useQueryClient()
-  const [hex, setHex] = useState<string>("")
+  const [hex, setHex] = useState<string>("#000")
   const [name, setName] = useState<string>("")
 
 
@@ -215,6 +231,12 @@ function CreateColorForm() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    if (!name.trim()) {
+      toast.warn("Назва не повинна бути пустою!")
+      return
+    }
+
     mutation.mutate(() => ColorFetcher.create({hex, name}))
   }
 

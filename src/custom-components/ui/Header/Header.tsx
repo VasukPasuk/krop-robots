@@ -23,7 +23,7 @@ function Header({srcLogo,...rest}: IHeaderProps) {
         {...rest}
       >
         <Link
-          href={`/${!srcLogo ? "" : "shop/products"}`}
+          href={`/${!srcLogo ? "" : "shop"}`}
           className={`logo-container w-[160px] h-[64px] relative`}
 
         >

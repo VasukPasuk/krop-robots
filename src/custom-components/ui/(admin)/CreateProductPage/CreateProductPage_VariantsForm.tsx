@@ -66,6 +66,19 @@ export default function CreateProductPage_VariantsForm() {
       sortable: true,
       width: 120,
       editable: true,
+      align: "right",
+      headerAlign: "right",
+      flex: 1
+    },
+    {
+      field: 'price',
+      headerName: 'Ціна',
+      type: "number",
+      sortable: true,
+      width: 120,
+      editable: true,
+      align: "right",
+      headerAlign: "right",
       flex: 1
     },
     {
@@ -73,6 +86,7 @@ export default function CreateProductPage_VariantsForm() {
       headerName: 'Назва',
       type: "string",
       align: "right",
+      headerAlign: "right",
       sortable: true,
       width: 150,
       editable: true,
@@ -135,7 +149,7 @@ export default function CreateProductPage_VariantsForm() {
           rows={productData.variants.map((value: {}, index) => ({id: ++index, ...value}))}
           columns={columns}
           hideFooterPagination
-          checkboxSelection
+          checkboxSelection={false}
           disableRowSelectionOnClick
           processRowUpdate={processRowUpdate}
           className="w-full max-w-full"

@@ -27,10 +27,10 @@ interface IAdminCreateVariantPopoverProps {
 
 
 const schema = zod.object({
-  height: zod.number({coerce: true}).positive().min(1),
-  width: zod.number({coerce: true}).positive().min(1),
-  length: zod.number({coerce: true}).positive().min(1),
-  weight: zod.number({coerce: true}).positive().min(1),
+  height: zod.number({coerce: true}).positive(),
+  width: zod.number({coerce: true}).positive(),
+  length: zod.number({coerce: true}).positive(),
+  weight: zod.number({coerce: true}).positive(),
   price: zod.number({coerce: true}).positive().min(1),
   size_label: zod.string(),
 })
@@ -39,23 +39,27 @@ type FormDataSchema = zod.infer<typeof schema>
 
 
 const InputsMap: { label: string, name: keyof FormDataSchema, auto?: boolean }[] = [
-  {label: "Висота", name: "height"},
-  {label: "Ширина", name: "width"}, {label: "Довжина", name: "length"},
-  {label: "Вага", name: "weight"}, {label: "Ціна", name: "price"},
+  // {label: "Висота", name: "height"},
+  // {label: "Ширина", name: "width"}, {label: "Довжина", name: "length"},
+  // {label: "Вага", name: "weight"},
+  {label: "Ціна", name: "price"},
   {label: "Назва", name: "size_label", auto: true}
 ]
 
-export default function CreateProductPage_VariantsAddPopover({
-                                                               anchorRef,
-                                                               setAnchorRef,
-                                                               productName
-                                                             }: IAdminCreateVariantPopoverProps) {
+export default function CreateProductPage_VariantsAddPopover(
+  {
+    anchorRef, setAnchorRef, productName
+  }: IAdminCreateVariantPopoverProps) {
   const {productData, stateFn, setProductData} = useContext(CreateProductContext)
 
   const {control, handleSubmit} = useForm<FormDataSchema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      size_label: "Стандарт"
+      size_label: "Стандарт",
+      height: 1,
+      length: 1,
+      width: 1,
+      weight: 1,
     }
   })
 
@@ -91,7 +95,7 @@ export default function CreateProductPage_VariantsAddPopover({
             name={name}
             control={control}
             render={({field}) => !auto ? (
-                <TextField required className={"w-[10ch]"} label={label} {...field} />)
+                <TextField type="number" required className={"w-[10ch]"} label={label} {...field} />)
               :
               (
                 <FormControl className={"w-[15ch]"}>
