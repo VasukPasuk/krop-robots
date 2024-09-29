@@ -4,20 +4,27 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {axiosWithAuth} from "@/services/axios/axios.interceptors";
 import {Button, Paper, TextField} from "@mui/material";
-import React from "react";
+import React, {useEffect} from "react";
+import {toast} from "react-toastify";
+import minOneMessage from "@/features/minOneMessage";
 
 const CategoryCreateSchema = zod.object({
-  name: zod.string().min(1).trim(),
-  description: zod.string().min(1).trim()
+  name: zod.string().trim().min(1, {
+    message: minOneMessage("Назва")
+  }),
+  description: zod.string().trim().min(1, {
+    message: minOneMessage("Опис")
+  })
 })
 
 type TypeCategoryCreateSchema = zod.infer<typeof CategoryCreateSchema>
 
 
 export function CategoriesTableForm() {
-  const {handleSubmit, control, reset} = useForm({
+  const {handleSubmit, control, reset, formState: {errors}} = useForm({
     resolver: zodResolver(CategoryCreateSchema)
   })
+
 
   const queryClient = useQueryClient()
 
@@ -36,6 +43,11 @@ export function CategoriesTableForm() {
   const onSubmit: SubmitHandler<TypeCategoryCreateSchema> = (data) => {
     mutation.mutate(data as Required<TypeCategoryCreateSchema>)
   }
+
+
+  useEffect(() => {
+    Object.values(errors).forEach(error => toast.error(error.message.toString()))
+  }, [errors])
 
   return (
     <div className="lg:w-1/3 sm:w-1/2 w-full">

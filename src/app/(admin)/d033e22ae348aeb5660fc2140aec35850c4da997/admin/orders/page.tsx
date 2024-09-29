@@ -1,4 +1,5 @@
 import React from 'react';
+import OrdersPage from "@/custom-components/ui/(admin)/OrdersPage/OrdersPage";
 
 interface IPageProps {
 
@@ -7,7 +8,7 @@ interface IPageProps {
 function Page(props: IPageProps) {
   return (
     <>
-      1
+      <OrdersPage/>
     </>
   )
 }

@@ -4,7 +4,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import queryString from 'query-string';
 import {CircularProgress, Pagination}
   from "@mui/material";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import CategoryFetcher from "@/services/fetchers/CategoryFetcher";
 import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 import {CategoriesTableForm} from "@/custom-components/ui/(admin)/CategoriesTablePage/CategoriesTableForm";
@@ -16,6 +16,8 @@ import {ICategory, IColor} from "@/interfaces";
 import {IoTrashBin} from "react-icons/io5";
 import clsx from "clsx";
 import useQueryFilters from "@/hooks/useQueryFilters";
+import useSnackBar from "@/hooks/useSnackBar";
+import CustomSnackbar from "@/custom-components/ui/(shared)/CustomSnackbar/CustomSnackBar";
 
 
 
@@ -24,6 +26,8 @@ export default function CategoryTable() {
   const {drawerState, match} = useContext(AdminLayoutContext)
   const {appendSearchQuery} = useQueryFilters()
   const {page} = useSpecialQueries()
+  const {active, close, open} = useSnackBar()
+  const [categoryToDelete, setCategoryToDelete] = useState<string | null>()
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
     appendSearchQuery({page: newPage})
@@ -63,6 +67,8 @@ export default function CategoryTable() {
   if (isError) return <p>Error: {error.message}</p>;
   if (!data || !data.items) return <p>No data available</p>;
 
+
+  const deleteCategory = (name: string) => categoriesMutation.mutate(() => CategoryFetcher.delete(name))
 
   const columns: GridColDef<ICategory>[] = [
     {
@@ -131,7 +137,10 @@ export default function CategoryTable() {
           <GridActionsCellItem
             icon={<IoTrashBin/>}
             label="Видалити"
-            onClick={() => categoriesMutation.mutate(() => CategoryFetcher.delete(row.name))}
+            onClick={() => {
+              open()
+              setCategoryToDelete(row.name)
+            }}
             color="inherit"
           />,
         ]
@@ -175,6 +184,13 @@ export default function CategoryTable() {
         </div>
       </div>
       <CategoriesTableForm/>
+      <CustomSnackbar
+        onYes={() => deleteCategory(categoryToDelete)}
+        onClose={() => setCategoryToDelete(null)}
+        active={active}
+        title={"Ви точно хочете видалити категорію?"}
+        closeFn={close}
+      />
     </div>
   )
 }

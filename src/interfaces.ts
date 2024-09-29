@@ -147,17 +147,24 @@ export interface IOrder {
   region: string
   locality: string
   comment: string | null
+
   EDRPOY_CODE: string
   legal_entity: string
+
+  house: string
   street: string
   floor: string
-  house: string
   appartment: string
+
   delivery_type: string
   payment_type: string
   department_address: string
+
   total_price: number
   total_items: number
+
+  status?: "PROCESSING" | "FULFILLED"
+
   created_at: string;
   updated_at: string;
 }

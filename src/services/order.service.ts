@@ -1,4 +1,4 @@
-import {axiosBasic} from "@/services/axios/axios.interceptors";
+import {axiosBasic, axiosWithAuth} from "@/services/axios/axios.interceptors";
 import {IOrder} from "@/interfaces";
 
 
@@ -20,5 +20,13 @@ export class OrderService {
 
   static create(data: CreateOrderDTO) {
     return axiosBasic.post("/orders", data)
+  }
+
+  static async getMany(query?: string) {
+    return await axiosWithAuth.get<{items: IOrder[], count: number}>(this.URL + (query ? `?${query}`: "" ))
+  }
+
+  static async changeOrderStatus(id: number, status: "PROCESSING" | "FULFILLED") {
+    return await axiosWithAuth.patch(`${this.URL}/status/${id}`, {status})
   }
 }

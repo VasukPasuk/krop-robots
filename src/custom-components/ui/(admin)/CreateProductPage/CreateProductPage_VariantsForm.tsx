@@ -1,6 +1,6 @@
 "use client"
 import React, {useContext, useState} from "react";
-import {CreateProductContext, ICreateProductDTO} from "@/context/CreateProductContext";
+import {CreateProductContext} from "@/context/CreateProductContext";
 import clsx from "clsx";
 import {Button, Tooltip} from "@mui/material";
 import {MdAdd} from "react-icons/md";
@@ -26,7 +26,7 @@ export default function CreateProductPage_VariantsForm() {
   };
 
 
-  const columns: GridColDef<Pick<ICreateProductDTO, "variants">>[] = [
+  const columns: GridColDef<Omit<IVariant, "updated_at" | "created_at" | "id">>[] = [
     {
       field: 'id',
       headerName: 'ID',
@@ -88,7 +88,7 @@ export default function CreateProductPage_VariantsForm() {
           <GridActionsCellItem
             icon={<IoTrashBin />}
             label="Видалити"
-            onClick={undefined}
+            onClick={() => stateFn(prev => ({...prev, variants: prev.variants.filter(variant => variant.size_label !== row.size_label)}))}
             color="inherit"
           />,
         ]
@@ -132,7 +132,7 @@ export default function CreateProductPage_VariantsForm() {
       </div>
       <div className="flex flex-col p-4">
         <DataGrid
-          rows={productData.variants.map((value, index) => ({id: ++index, ...value}))}
+          rows={productData.variants.map((value: {}, index) => ({id: ++index, ...value}))}
           columns={columns}
           hideFooterPagination
           checkboxSelection

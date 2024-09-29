@@ -4,6 +4,7 @@ import {IVariant} from "@/interfaces";
 import {useMutation} from "@tanstack/react-query";
 import ProductService from "@/services/product.service";
 import {toast} from "react-toastify";
+import {AxiosError} from "axios";
 
 
 interface ICreateProductContextValue {
@@ -48,19 +49,37 @@ export const CreateProductProvider: FC<CreateProductProviderProps> = ({children}
   }
 
   const productMutation = useMutation({
-    mutationFn:  async () =>  {
-      return await ProductService.create(productData)
+    mutationFn: async () => {
+      if (!productData.name.trim()) {
+        toast.warn("І'мя товару не може бути пустим!");
+        return Promise.reject()
+      } else if (!productData.photos.length) {
+        toast.warn("Для створення товару потрібне хоча б одне фото.");
+        return Promise.reject()
+      } else if (!productData.description.trim()) {
+        toast.warn("Опис товару не повинен бути пустим.");
+        return Promise.reject()
+      } else if (!productData.description.trim()) {
+        toast.warn("Опис товару не повинен бути пустим.");
+        return Promise.reject()
+      } else {
+        return await ProductService.create(productData);
+      }
     },
     onSuccess: () => {
-      toast.success("Продукт успішно створено!")
+      toast.success("Продукт успішно створено!");
+      setProductData(initialState);
     },
-    onError: err => {
-      toast.error(err.message)
+    onError: (err: AxiosError) => {
+      // @ts-ignore
+      toast.error(err.response.data.message);
     }
-  })
+  });
+
 
   return (
-    <CreateProductContext.Provider value={{productData, setProductData: setData, stateFn: setProductData, post: () => productMutation.mutate()}}>
+    <CreateProductContext.Provider
+      value={{productData, setProductData: setData, stateFn: setProductData, post: () => productMutation.mutate()}}>
       {children}
     </CreateProductContext.Provider>
   );

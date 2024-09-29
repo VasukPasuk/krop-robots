@@ -17,7 +17,7 @@ type TypeCreateTagSchema = zod.infer<typeof CreateTagSchema>
 
 
 function TagsTableForm() {
-  const {control, handleSubmit, formState} = useForm({
+  const {control, handleSubmit} = useForm({
     resolver: zodResolver(CreateTagSchema)
   })
 

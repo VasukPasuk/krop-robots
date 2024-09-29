@@ -1,17 +1,12 @@
 import * as React from 'react';
 import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import * as zod from "zod";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {axiosWithAuth} from "@/services/axios/axios.interceptors";
-import {toast} from "react-toastify";
+
 import {
   ButtonGroup,
-  IconButton,
-  Input,
   Select,
   MenuItem,
   TextField,
@@ -19,7 +14,6 @@ import {
   InputLabel,
   FormControl
 } from "@mui/material";
-import {FaPlus} from "react-icons/fa6";
 import {MdAdd, MdCancel} from "react-icons/md";
 import {useContext} from "react";
 import {CreateProductContext} from "@/context/CreateProductContext";
@@ -44,14 +38,18 @@ const schema = zod.object({
 type FormDataSchema = zod.infer<typeof schema>
 
 
-const InputsMap:{label: string, name: keyof FormDataSchema, auto?: boolean}[] = [
+const InputsMap: { label: string, name: keyof FormDataSchema, auto?: boolean }[] = [
   {label: "Висота", name: "height"},
   {label: "Ширина", name: "width"}, {label: "Довжина", name: "length"},
   {label: "Вага", name: "weight"}, {label: "Ціна", name: "price"},
   {label: "Назва", name: "size_label", auto: true}
 ]
 
-export default function CreateProductPage_VariantsAddPopover({anchorRef, setAnchorRef, productName}:IAdminCreateVariantPopoverProps) {
+export default function CreateProductPage_VariantsAddPopover({
+                                                               anchorRef,
+                                                               setAnchorRef,
+                                                               productName
+                                                             }: IAdminCreateVariantPopoverProps) {
   const {productData, stateFn, setProductData} = useContext(CreateProductContext)
 
   const {control, handleSubmit} = useForm<FormDataSchema>({

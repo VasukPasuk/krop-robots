@@ -39,6 +39,9 @@ type FormDataSchema = zod.infer<typeof schema>
 function AdminEditProductForm({productName}: AdminEditProductFormProps) {
   const {control, reset, handleSubmit, formState: {errors}} = useForm<FormDataSchema>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      category_name: ""
+    }
   })
 
   const client = useQueryClient()
@@ -133,6 +136,9 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
                 id="demo-simple-select"
                 {...field}
                 label={"Категорія"}
+                MenuProps={{
+                  disableScrollLock: true
+                }}
               >
                 {q_categories.data.items.map((item) => (
                   <MenuItem key={item.id} value={item.name}>{item.name}</MenuItem>
@@ -145,14 +151,13 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
         </Controller>
 
 
-        
         <div className="col-span-full">
           <Controller
             name="popular"
             control={control}
             render={({field}) => (
               <FormControlLabel
-                control={<Switch {...field} checked={field.value}/> }
+                control={<Switch {...field} checked={field.value}/>}
                 label="Популярний"
               />
             )}
@@ -165,7 +170,7 @@ function AdminEditProductForm({productName}: AdminEditProductFormProps) {
             control={control}
             render={({field}) => (
               <FormControlLabel
-                control={<Switch {...field} checked={field.value}/> }
+                control={<Switch {...field} checked={field.value}/>}
                 label="Опублікований"
               />
             )}
