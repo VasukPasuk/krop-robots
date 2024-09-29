@@ -4,7 +4,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import queryString from 'query-string';
 import {CircularProgress, Pagination}
   from "@mui/material";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import TagFetcher from "@/services/fetchers/TagFetcher";
 import {useSpecialQueries} from "@/hooks/useSpecialQueries";
 import {AdminLayoutContext} from "@/context/AdminLayoutContext";
@@ -16,14 +16,21 @@ import {IoTrashBin} from "react-icons/io5";
 import clsx from "clsx";
 import useQueryFilters from "@/hooks/useQueryFilters";
 import TagsTableForm from "@/custom-components/ui/(admin)/TagsTablePage/TagsTableForm";
-
-
+import {createPortal} from "react-dom";
+import CustomSnackbar from "@/custom-components/ui/(shared)/CustomSnackbar/CustomSnackBar";
+import useSnackBar from "@/hooks/useSnackBar";
 
 
 export default function CategoryTable() {
   const {drawerState, match} = useContext(AdminLayoutContext)
   const {appendSearchQuery} = useQueryFilters()
   const {page} = useSpecialQueries()
+
+  const [tagToDelete, setTagToDelete] = useState<string | null>(null)
+  const {active, open, close} = useSnackBar()
+  const onYesHandler = () => {
+    tagsMutation.mutate(() => TagFetcher.deleteOneByName(tagToDelete))
+  }
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
     appendSearchQuery({page: newPage})
@@ -33,7 +40,7 @@ export default function CategoryTable() {
 
   const tagsMutation = useMutation({
     mutationFn: (func: any) => func(),
-    onSuccess: ({config}:AxiosResponse) => {
+    onSuccess: ({config}: AxiosResponse) => {
       queryClient.invalidateQueries({queryKey: ["tags"]})
       const method = config.method;
       switch (method) {
@@ -129,10 +136,13 @@ export default function CategoryTable() {
       getActions: ({row}) => {
         return [
           <GridActionsCellItem
-            icon={<IoTrashBin/>}
+            icon={(<IoTrashBin/>)}
             label="Видалити"
-            onClick={() => tagsMutation.mutate(() => TagFetcher.deleteOneByName(row.name))}
             color="inherit"
+            onClick={() => {
+              setTagToDelete(row.name)
+              open()
+            }}
           />,
         ]
       },
@@ -150,7 +160,7 @@ export default function CategoryTable() {
 
 
   return (
-    <div className="w-full flex min-[900px]:flex-row p-4 min-[900px]:gap-x-4 flex-col gap-y-4">
+    <div id="testmest" className="w-full flex min-[900px]:flex-row p-4 min-[900px]:gap-x-4 flex-col gap-y-4">
       <div className={clsx("flex flex-col flex-1 border-solid border-neutral-200 border-[1px] rounded p-4", {
         "w-[85%]": drawerState && !match,
         "w-[100%]": !drawerState && match
@@ -175,6 +185,13 @@ export default function CategoryTable() {
         </div>
       </div>
       <TagsTableForm/>
+
+      <CustomSnackbar
+        title={"Ви точно хочете видалити тег?"}
+        active={active}
+        onYes={onYesHandler}
+        closeFn={close}
+      />
     </div>
   )
 }
