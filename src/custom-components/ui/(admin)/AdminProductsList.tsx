@@ -100,27 +100,22 @@ function AdminProductsListCard({data}: IAdminProductsListCardProps) {
   const ActionMenuConfig = {
     edit: {
       label: "Редагувати",
-      func: () => {
-        closeMenu(editHandler)
-      }
+      func: closeMenu(editHandler)
+
     },
     delete: {
       label: "Видалити",
-      func: () => {
-        closeMenu(deleteHandler)
-      }
+      func: closeMenu(deleteHandler)
+
     },
     archivate: {
       label: "Архівувати",
-      func: () => {
-        closeMenu(productStatusHandler(false))
-      }
+      func: closeMenu(productStatusHandler(false))
+
     },
     publish: {
       label: "Опублікувати",
-      func: () => {
-        closeMenu(productStatusHandler(true))
-      }
+      func: closeMenu(productStatusHandler(true))
     },
   }
 
